@@ -1,7 +1,8 @@
 import 'package:api_learning/globall/utilities.dart';
 import 'package:equatable/equatable.dart';
 
-import '../data/models.dart';
+import '../../models/auth_model.dart';
+import '../../models/models.dart';
 
 class AuthState extends Equatable {
   final LoginModel? loginModel;
@@ -18,3 +19,5 @@ class AuthState extends Equatable {
   @override
   List<Object?> get props => [status, loginModel];
 }
+
+

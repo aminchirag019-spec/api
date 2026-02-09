@@ -1,8 +1,11 @@
-import 'package:api_learning/bloc/bloc.dart';
+import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/data/repository.dart';
+import 'package:api_learning/router/app_router.dart';
 import 'package:api_learning/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'Bloc/Authbloc/auth_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,18 +14,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(AuthRepository()),
-      child: MaterialApp(
+      create: (context) => AuthBloc(AuthRepository(ApiClient())),
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Api_learning',
         theme: ThemeData(
           colorScheme: .fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: LoginScreen(),
+        routerConfig: approuter,
       ),
     );
   }

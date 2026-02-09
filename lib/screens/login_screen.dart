@@ -1,13 +1,15 @@
 import 'dart:math';
-
-import 'package:api_learning/bloc/bloc.dart';
-import 'package:api_learning/bloc/event.dart';
-import 'package:api_learning/bloc/state.dart';
-import 'package:api_learning/data/models.dart';
+import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities.dart';
 import 'package:api_learning/screens/dashboard.dart';
+import 'package:api_learning/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../Bloc/Authbloc/auth_bloc.dart';
+import '../Bloc/Authbloc/auth_event.dart';
+import '../Bloc/Authbloc/auth_state.dart';
+import '../session/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -21,24 +23,40 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<AuthBloc,AuthState>(
       listener: (context, state) {
         if(state.status == ApiStatus.success){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(),));
+          context.go('/Dashboard');
         }
         if (state.status == ApiStatus.failure){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error")));
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: Text("LoginScreen")),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 30
+                  ),
+                  child: Row(
+                    children: [
+                      Text("Log into\nyour account",
+                        style: TextStyle(
+                            fontSize: 25,
+                          height: 2,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 50,
                   width: 300,
                   child: CoustomTextFormField(
-                    hintText: "Enter your Username",
+                    hintText: "Email address",
                     lableText: "Username" ,
                     controller: usernameController,
                   ),
@@ -48,21 +66,30 @@ class LoginScreen extends StatelessWidget {
                   height: 50,
                   width: 300,
                   child: CoustomTextFormField(
-                    hintText: "Enter your password",
+                    hintText: "Password",
                     lableText: "Password",
                     controller: emailController,
                   ),
                 ),
-                SizedBox(height: 10,),
-                ElevatedButton(onPressed: () {
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("forgot password?"),
+                  ],
+                ),
+                SizedBox(height: 60,),
+                ElevatedButton(onPressed: () async{
                   context.read<AuthBloc>().add(Login({
                       'username':usernameController.text.trim(),
                       'password':emailController.text.trim(),
                     }
                   ));
-                },
-                    child: Text("Log in")
-                )
+                },style:ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                ),
+                    child: Text("Log in",style: TextStyle(color: Colors.white),)
+                ),
               ],
             ),
           ),
@@ -79,13 +106,15 @@ Widget CoustomTextFormField({
   Key? key,
 }) {
   return TextFormField(
+    style: TextStyle(
+      fontSize: 15,
+      color: Colors.black,
+      fontWeight: FontWeight.bold
+    ),
     controller: controller,
     key: key,
     decoration: InputDecoration(
       hintText: hintText,
-      labelText: lableText,
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
     ),
   );
 }

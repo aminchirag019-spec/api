@@ -1,0 +1,79 @@
+
+
+import 'dart:developer';
+import 'package:api_learning/models/models.dart';
+import 'package:api_learning/data/repository.dart';
+import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/screens/dashboard.dart';
+import 'package:api_learning/session/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/auth_model.dart';
+import 'auth_event.dart';
+import 'auth_state.dart';
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final AuthRepository repository;
+
+  AuthBloc(this.repository) : super(AuthState()) {
+    on<Login>(_requestLogin);
+    on<CheckLogin>(_checkLogin);
+    on<Logout>(_onLogout);
+  }
+
+  void _requestLogin(
+      Login event,
+      Emitter<AuthState> emit,
+      ) async {
+    emit(state.copyWith(status: ApiStatus.loading));
+
+    try {
+      LoginModel loginModel = await repository.login(body: event.body);
+      SharedPref.saveLoginModel(loginModel);
+      SharedPref.getAccessToken();
+      print("Your access token is:${loginModel.accessToken}");
+      emit(
+          state.copyWith(
+              status: ApiStatus.success, loginModel: loginModel)
+      );
+    }catch (e,stackTrace) {
+      log("LOGIN ERROR: $e");
+      log("STACKTRACE: $stackTrace");
+      emit(state.copyWith(
+        status: ApiStatus.failure,
+      ));
+   print("this");
+    }
+    }
+  void _checkLogin(CheckLogin event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: ApiStatus.loading));
+
+    try {
+      final token = await SharedPref.getAccessToken();
+
+      if (token != null && token.isNotEmpty) {
+        final loginModel = await SharedPref.getLoginModel();
+
+        emit(state.copyWith(
+          status: ApiStatus.success,
+          loginModel: loginModel,
+        ));
+      } else {
+        emit(state.copyWith(status: ApiStatus.failure));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: ApiStatus.failure));
+    }
+  }
+
+    void _onLogout (
+        Logout event,
+        Emitter<AuthState> emit
+        ) async {
+    await SharedPref.clearLogin();
+    emit(state.copyWith(
+      status: ApiStatus.failure,
+      loginModel: null
+    ));
+    }
+
+  }

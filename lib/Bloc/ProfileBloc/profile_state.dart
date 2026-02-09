@@ -1,0 +1,27 @@
+
+import 'package:api_learning/models/models.dart';
+import 'package:api_learning/globall/utilities.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../models/models.dart';
+
+class ProfileState {
+  final ApiStatus status;
+  final ProfileModel? profileModel;
+
+
+  ProfileState({
+    this.status = ApiStatus.initial,
+    this.profileModel,
+  });
+
+  ProfileState copyWith({
+    ApiStatus? status,
+    ProfileModel? profileModel,
+  }) {
+    return ProfileState(
+      status: status ?? this.status,
+      profileModel: profileModel ?? this.profileModel,
+    );
+  }
+}
