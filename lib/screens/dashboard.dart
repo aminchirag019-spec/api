@@ -37,183 +37,205 @@ class Dashboard extends StatelessWidget {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              context.go('/ProfileScreen');
-                            },
-                            child: CircleAvatar(
-                              radius: 22,
-                              backgroundColor: Colors.grey.shade200,
-                              backgroundImage:
-                              (imageUrl != null && imageUrl.isNotEmpty)
-                                  ? NetworkImage(imageUrl)
-                                  : null,
-                              child: (imageUrl == null || imageUrl.isEmpty)
-                                  ? const Icon(Icons.person, color: Colors.grey)
-                                  : null,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.go('/ProfileScreen');
+                              },
+                              child: CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.grey.shade200,
+                                backgroundImage:
+                                (imageUrl != null && imageUrl.isNotEmpty)
+                                    ? NetworkImage(imageUrl)
+                                    : null,
+                                child: (imageUrl == null || imageUrl.isEmpty)
+                                    ? const Icon(Icons.person, color: Colors.grey)
+                                    : null,
+                              ),
+                            ),
+
+                             SizedBox(width: 12),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    firstName ?? "Not fetched",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    lastName ?? "Not fetched",
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            IconButton(
+                              onPressed: () {
+                                context.go('/LoginScreen');
+                              },
+                              icon: const Icon(Icons.logout),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        BlocBuilder<DashboardBloc, DashboardState>(
+                          builder: (context, state) {
+                            return Row(
+                              children: List.generate(4, (index) {
+                                bool selected = state.selectedIndex == index;
+                                return GestureDetector(
+                                  onTap: () {
+                                    context.read<DashboardBloc>().add(
+                                      Selection(index),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 15,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 15,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: selected
+                                                ? Colors.brown
+                                                : Color(0xffF3F3F3),
+                                            borderRadius: BorderRadius.circular(30),
+                                            border: selected
+                                              ? BoxBorder.all(color: Colors.white)
+                                                : null
+                                          ),
+                                          child: Image.asset(topRow[index].image,
+                                            color:selected
+                                            ? Colors.white
+                                            : Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 3,),
+                                        Text(topRow[index].tag,style: TextStyle(fontSize: 12),)
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 10,),
+                         SizedBox(
+                          width: 330,
+                          child: Image(
+                            image: AssetImage("assets/images/slider_image.png"),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          height: 45,
+                          width: double.infinity,
+                          child: TextFormField(
+                            readOnly: false,
+                            decoration: InputDecoration(
+                              hintText: "Search products...",
+                              hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                              filled: true,
+                              fillColor: const Color(0xffF3F3F3),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                           ),
-
-                          const SizedBox(width: 12),
-
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  firstName ?? "Not fetched",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  lastName ?? "Not fetched",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                        ),
+                        SizedBox(height: 5,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Feature Products",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-
-                          IconButton(
-                            onPressed: () {
-                              context.go('/LoginScreen');
-                            },
-                            icon: const Icon(Icons.logout),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      BlocBuilder<DashboardBloc, DashboardState>(
-                        builder: (context, state) {
-                          return Row(
-                            children: List.generate(4, (index) {
-                              bool selected = state.selectedIndex == index;
-                              return GestureDetector(
-                                onTap: () {
-                                  context.read<DashboardBloc>().add(
-                                    Selection(index),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 25,
-                                  ),
+                            GestureDetector(
+                                onTap: () async {
+                                  final repo = AuthRepository(ApiClient());
+                                  final data = await repo.products();
+                                }, child: const Text(
+                                "Show all",
+                                style: TextStyle(fontSize: 15, color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                        BlocBuilder<DashboardBloc, DashboardState>(
+                          builder: (context, state) {
+                            if (state.status == ApiStatus.loading) {
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                            if (state.status == ApiStatus.failure) {
+                              return Text("Error");
+                            }
+                            return GridView.builder(
+                              itemCount:state.product!.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,childAspectRatio: 0.7,),
+                              itemBuilder: (context, index) {
+                                final products =state.product![index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        margin: const EdgeInsets.symmetric(
-                                          horizontal: 15,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          color: selected
-                                              ? Colors.brown
-                                              : Color(0xffF3F3F3),
-                                          borderRadius: BorderRadius.circular(30),
-                                          border: selected
-                                            ? BoxBorder.all(color: Colors.white)
-                                              : null
-                                        ),
-                                        child: Image.asset(topRow[index].image,
-                                          color:selected
-                                          ? Colors.white
-                                          : Colors.grey,
+                                      GestureDetector(onTap: () {
+                                        final id = state.product![index].id!;
+                                        context.go('/ProductDetails/$id');
+                                      },
+                                        child: Container(
+                                          height: 170,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(30),
+                                            image: DecorationImage(image: NetworkImage(products.images!.first)),
+                                            border: Border.all(
+                                              color: Colors.black
+                                            )
+                                          ),
                                         ),
                                       ),
-                                      SizedBox(height: 3,),
-                                      Text(topRow[index].tag,style: TextStyle(fontSize: 12),)
+                                      Text(state.product![index].title.toString(),overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text(state.product![index].price.toString()),
                                     ],
                                   ),
-                                ),
-                              );
-                            }),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 10,),
-                       SizedBox(
-                        width: 330,
-                        child: Image(
-                          image: AssetImage("assets/images/slider_image.png"),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Feature Products",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                              onTap: () async {
-                                final repo = AuthRepository(ApiClient());
-                                final data = await repo.products();
-                                print("TOTAL PRODUCTS => ${data.products.length}");
-                                print("FIRST PRODUCT => ${data.products.first.title}");
-                              }, child: const Text(
-                              "Show all",
-                              style: TextStyle(fontSize: 15, color: Colors.grey),
-                            ),
-                          ),
-                        ],
-                      ),
-                      BlocBuilder<DashboardBloc, DashboardState>(
-                        builder: (context, state) {
-                          if (state.status == ApiStatus.loading) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
-
-                          if (state.status == ApiStatus.failure) {
-                            return Text("Error");
-                          }
-                          return Expanded(child: GridView.builder(
-                            itemCount:state.product!.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,childAspectRatio: 0.7,),
-                            itemBuilder: (context, index) {
-                              final products =state.product![index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(onTap: () {
-                                      final id = state.product![index].id!;
-                                      context.go('/ProductDetails/$id');
-                                    },
-                                      child: Container(
-                                        height: 170,
-                                        width: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(30),
-                                          image: DecorationImage(image: NetworkImage(products.images!.first)),
-                                          border: Border.all(
-                                            color: Colors.black
-                                          )
-                                        ),
-                                      ),
-                                    ),
-                                    Text(state.product![index].title.toString(),overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.bold),),
-                                    Text(state.product![index].price.toString()),
-                                  ],
-                                ),
-                              );
-                            },));
-                        },
-                      )
-                    ],
+                                );
+                              },);
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

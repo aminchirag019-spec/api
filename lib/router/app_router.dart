@@ -11,7 +11,7 @@ import '../screens/profile_screen.dart';
 import '../screens/splash_screen.dart';
 
 final GoRouter approuter = GoRouter(
-  initialLocation: '/IntroOnboarding',
+  initialLocation: '/SplashScreen',
   routes: [
     GoRoute(
       path: '/SplashScreen',
@@ -37,7 +37,7 @@ final GoRouter approuter = GoRouter(
       },
     ),
     GoRoute(path: '/IntroOnboarding',
-    builder: (context, state) => IntroOnboarding(),
+    builder: (context, state) => OnboardingCarouselScreen(),
     )
 
   ],

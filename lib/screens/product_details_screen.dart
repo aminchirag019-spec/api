@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../Bloc/DashboardBloc/dashboard_bloc.dart';
 import '../Bloc/DashboardBloc/dashboard_event.dart';
 import '../Bloc/DashboardBloc/dashboard_state.dart';
@@ -12,16 +11,15 @@ import '../globall/utilities.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final int id;
-
   const ProductDetailsScreen({super.key, required this.id});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardBloc(AuthRepository(ApiClient()))
-        ..add(GetProductDetails(id)),
+      create: (context) =>
+          DashboardBloc(AuthRepository(ApiClient()))
+            ..add(GetProductDetails(id)),
       child: WillPopScope(
-        onWillPop: ()async {
+        onWillPop: () async {
           context.go('/Dashboard');
           return false;
         },
@@ -40,7 +38,8 @@ class ProductDetailsScreen extends StatelessWidget {
               final product = state.selectedProduct;
               if (product == null) return const SizedBox();
 
-              final imageUrl = product.thumbnail ??
+              final imageUrl =
+                  product.thumbnail ??
                   (product.images != null && product.images!.isNotEmpty
                       ? product.images!.first
                       : "");
