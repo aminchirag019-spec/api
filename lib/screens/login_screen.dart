@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<AuthBloc,AuthState>(
       listener: (context, state) {
         if(state.status == ApiStatus.success){
-          context.go('/Dashboard');
+          context.go('/OtpScreen');
         }
         if (state.status == ApiStatus.failure){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error")));

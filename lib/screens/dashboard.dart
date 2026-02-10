@@ -181,8 +181,7 @@ class Dashboard extends StatelessWidget {
                             ),
                             GestureDetector(
                                 onTap: () async {
-                                  final repo = AuthRepository(ApiClient());
-                                  final data = await repo.products();
+                                  context.go('/OtpScreen');
                                 }, child: const Text(
                                 "Show all",
                                 style: TextStyle(fontSize: 15, color: Colors.grey),

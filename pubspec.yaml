@@ -48,6 +48,8 @@ dependencies:
   go_router: ^17.1.0
   # for carausel Slider
   carousel_slider: ^5.1.2
+  # Pin put
+  pinput: ^6.0.2
 
 dev_dependencies:
   flutter_test:

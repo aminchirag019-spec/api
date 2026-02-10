@@ -1,4 +1,5 @@
 import 'package:api_learning/screens/intro_screen.dart';
+import 'package:api_learning/screens/otp_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,6 +39,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: '/IntroOnboarding',
     builder: (context, state) => OnboardingCarouselScreen(),
+    ),
+    GoRoute(path: '/OtpScreen',
+    builder: (context, state) => OtpScreen(),
     )
 
   ],
