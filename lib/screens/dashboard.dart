@@ -198,39 +198,84 @@ class Dashboard extends StatelessWidget {
                               return Text("Error");
                             }
                             return GridView.builder(
-                              itemCount:state.product!.length,
-                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: state.product!.length,
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,childAspectRatio: 0.7,),
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                                childAspectRatio: 0.72,
+                              ),
                               itemBuilder: (context, index) {
-                                final products =state.product![index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(onTap: () {
-                                        final id = state.product![index].id!;
-                                        context.go('/ProductDetails/$id');
-                                      },
-                                        child: Container(
-                                          height: 170,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(30),
-                                            image: DecorationImage(image: NetworkImage(products.images!.first)),
-                                            border: Border.all(
-                                              color: Colors.black
-                                            )
+                                final product = state.product![index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    final id = product.id!;
+                                    context.go('/ProductDetails/$id');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(18),
+                                      border: Border.all(color: Colors.black.withOpacity(0.08)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.06),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        // Image (takes fixed ratio)
+                                        Expanded(
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.vertical(
+                                              top: Radius.circular(18),
+                                            ),
+                                            child: Image.network(
+                                              product.images!.first,
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Text(state.product![index].title.toString(),overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.bold),),
-                                      Text(state.product![index].price.toString()),
-                                    ],
+
+                                        // Text area
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product.title.toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 6),
+                                              Text(
+                                                "\$ ${product.price}",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
-                              },);
+                              },
+                            );
                           },
                         )
                       ],

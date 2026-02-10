@@ -9,6 +9,7 @@ import '../screens/dashboard.dart';
 import '../screens/login_screen.dart';
 import '../screens/product_details_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/signup_screen.dart';
 import '../screens/splash_screen.dart';
 
 final GoRouter approuter = GoRouter(
@@ -42,6 +43,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: '/OtpScreen',
     builder: (context, state) => OtpScreen(),
+    ),
+    GoRoute(path: '/SignupScreen',
+    builder: (context, state) => SignupScreen(),
     )
 
   ],

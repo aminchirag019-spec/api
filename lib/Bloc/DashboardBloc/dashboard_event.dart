@@ -12,3 +12,7 @@ class GetProductDetails extends DashboardEvent{
   final int id;
   GetProductDetails(this.id);
 }
+class RatingChange extends DashboardEvent{
+  final double rating;
+  RatingChange(this.rating);
+}

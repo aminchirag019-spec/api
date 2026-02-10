@@ -95,7 +95,7 @@ class _OnboardingCarouselScreenState extends State<OnboardingCarouselScreen> {
         ),
 
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:70),
+          padding: const EdgeInsets.symmetric(horizontal:90),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -132,7 +132,6 @@ class _OnboardingCarouselScreenState extends State<OnboardingCarouselScreen> {
     );
   }
 
-  // ================= OTHER PAGES =================
   Widget _normalPage(Map data, int index) {
     return Column(
       children: [
@@ -156,7 +155,6 @@ class _OnboardingCarouselScreenState extends State<OnboardingCarouselScreen> {
 
         const SizedBox(height: 30),
 
-        // image card
         Container(
           height: 320,
           width: 230,
@@ -175,7 +173,7 @@ class _OnboardingCarouselScreenState extends State<OnboardingCarouselScreen> {
 
         const SizedBox(height: 25),
 
-        // bottom dark area
+
         Expanded(
           child: Container(
             width: double.infinity,

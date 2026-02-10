@@ -13,7 +13,16 @@ DashboardBloc(this.repository) : super(DashboardState()) {
    on<Selection>(_iconSelection);
   on<GetProduct>(_getProducts);
   on<GetProductDetails>(_getProductDetail);
+  on<RatingChange>(_onRatingChange);
 }
+
+void _onRatingChange(
+    RatingChange event,
+    Emitter<DashboardState> emit
+    ) async{
+  emit(state.copyWith(rating: event.rating));
+}
+
 
 void _iconSelection (
     Selection event,
@@ -65,5 +74,12 @@ void _getProductDetail(
   }
 }
 
+double calculateAverage(List<Reviews> reviews){
 
+  double total = 0.0;
+  for(final r in reviews){
+    total +=(r.rating ?? 0).toDouble();
+  }
+  return total / reviews.length;
+}
  }
