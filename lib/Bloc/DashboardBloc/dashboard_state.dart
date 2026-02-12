@@ -7,22 +7,23 @@ import '../../models/models.dart';
 
 class DashboardState {
   final int? selectedIndex;
-  final ApiStatus? status;
+  final ApiStatus status;
    final List<Products>? product;
    final Products? selectedProduct;
    final double? rating;
    final List<Reviews> reviews;
    final double averageRating;
-
-
+   final List<Products>allProducts;
+   final List<Products>filteredProducts;
 
   DashboardState({this.selectedIndex,this.status=ApiStatus.initial,this.product= const [],
   this.selectedProduct,
     this.rating,
     this.reviews =const[],
-    this.averageRating = 0.0
+    this.averageRating = 0.0,
+    this.allProducts = const [],
+    this.filteredProducts = const [],
   });
-
   DashboardState copyWith ({
     int ? selectedIndex,
     ApiStatus? status,
@@ -31,6 +32,8 @@ class DashboardState {
     double? rating,
     List<Reviews>? reviews,
     double? averageRating,
+    List<Products> ?allProducts,
+    List<Products> ?filteredProducts,
   }) {
     return  DashboardState(
       status: status ?? this.status,
@@ -38,7 +41,9 @@ class DashboardState {
         product: product ?? this.product,
     selectedProduct: selectedProduct ?? this.selectedProduct,
       rating: rating ?? this.rating,
-      averageRating: averageRating ?? this.averageRating
+      averageRating: averageRating ?? this.averageRating,
+      allProducts:  allProducts ?? this.allProducts,
+      filteredProducts: filteredProducts ?? this.filteredProducts
     );
   }
 }

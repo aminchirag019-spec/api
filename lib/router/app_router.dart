@@ -7,6 +7,7 @@ import '../Bloc/Authbloc/auth_bloc.dart';
 import '../globall/utilities.dart';
 import '../screens/dashboard.dart';
 import '../screens/login_screen.dart';
+import '../screens/payment_checkout_screen.dart';
 import '../screens/product_details_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/signup_screen.dart';
@@ -46,6 +47,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: '/SignupScreen',
     builder: (context, state) => SignupScreen(),
+    ),
+    GoRoute(path: '/PaymentCheckoutScreen',
+    builder: (context, state) => CheckoutShippingScreen(),
     )
 
   ],

@@ -20,91 +20,123 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<DashboardBloc>().add(GetProductDetails(widget.id));
+  }
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      DashboardBloc(AuthRepository(ApiClient()))
-        ..add(GetProductDetails(widget.id)),
-      child: WillPopScope(
-        onWillPop: () async {
-          context.go('/Dashboard');
-          return false;
-        },
-        child: Scaffold(
-          appBar: AppBar(title: const Text("Product Details")),
-          body: BlocBuilder<DashboardBloc, DashboardState>(
+    return WillPopScope(
+      onWillPop: () async {
+        context.go('/Dashboard');
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: BlocBuilder<DashboardBloc, DashboardState>(
             builder: (context, state) {
               if (state.status == ApiStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
-
+          
               if (state.status == ApiStatus.failure) {
-                return const Center(child: Text("Error"));
+                return Center(child: Text("Error"));
               }
-
+          
               final product = state.selectedProduct;
               if (product == null) return const SizedBox();
-
               final imageUrl =
                   product.thumbnail ??
-                      (product.images != null && product.images!.isNotEmpty
-                          ? product.images!.first
-                          : "");
-
+                  (product.images != null && product.images!.isNotEmpty
+                      ? product.images!.first
+                      : "");
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 280,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: Colors.black.withOpacity(
-                            0.08)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 10,
-                            offset:  Offset(0, 6),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white.withOpacity(0.15),
+                                      blurRadius: 8,
+                                      offset:  Offset(0, 3),
+                                    ),
+                                  ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 6.5),
+                                    child: Icon(Icons.arrow_back_ios),
+                                  )),
+                              Icon(Icons.monitor_heart)
+                            ],
                           ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Image.network(
-                          imageUrl,
-                          fit: BoxFit.contain,
                         ),
-                      ),
+                        Container(
+                          height: 280,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(
+                              color: Colors.black.withOpacity(0.08),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.06),
+                                blurRadius: 10,
+                                offset: Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Image.network(imageUrl, fit: BoxFit.contain),
+                          ),
+                        ),
+                      ],
                     ),
-                     SizedBox(height: 18),
+                    SizedBox(height: 18),
                     Text(
                       product.title ?? "",
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                     SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       "₹ ${product.price}",
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                     SizedBox(height: 18),
-                     Text(
+                    SizedBox(height: 18),
+                    Text(
                       "Description",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                     SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       product.description ?? "",
                       style: TextStyle(
@@ -113,8 +145,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         color: Colors.black.withOpacity(0.7),
                       ),
                     ),
-                     SizedBox(height: 22),
-                     Text(
+                    SizedBox(height: 22),
+                    Text(
                       "Top Review",
                       style: TextStyle(
                         fontSize: 16,
@@ -122,24 +154,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.black.withOpacity(
-                            0.08)),
-                      ),
-                      child: Text(
-                        product.reviews?.isNotEmpty == true
-                            ? (product.reviews!.first.comment ?? "")
-                            : "No reviews yet",
-                        style: TextStyle(fontSize: 14, height: 1.5),
+                    GestureDetector(
+                      onTap: () {
+                        context.go('/PaymentCheckoutScreen');
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: Colors.pink.shade50,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.black.withOpacity(0.08),
+                          ),
+                        ),
+                        child: Text(
+                          product.reviews?.isNotEmpty == true
+                              ? (product.reviews!.first.comment ?? "")
+                              : "No reviews yet",
+                          style: TextStyle(fontSize: 14, height: 1.5),
+                        ),
                       ),
                     ),
-
                     SizedBox(height: 25),
                   ],
                 ),
@@ -151,4 +187,3 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 }
-

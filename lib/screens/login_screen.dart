@@ -157,7 +157,6 @@ class LoginScreen extends StatelessWidget {
                         height: 35,
                         width: 35,
                         decoration: BoxDecoration(
-                          //  image: DecorationImage(image: AssetImage("assets/images/Apple2.png")),
                             borderRadius: BorderRadius.circular(30)
                         ),
                         child: Image(image: AssetImage("assets/images/Apple.png")),

@@ -16,3 +16,8 @@ class RatingChange extends DashboardEvent{
   final double rating;
   RatingChange(this.rating);
 }
+class SearchProduct extends DashboardEvent{
+  final String search;
+
+  SearchProduct(this.search);
+}
