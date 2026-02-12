@@ -1,17 +1,17 @@
 import 'package:api_learning/screens/intro_screen.dart';
-import 'package:api_learning/screens/otp_screen.dart';
+import 'package:api_learning/AuthScreens/otp_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../Bloc/Authbloc/auth_bloc.dart';
 import '../globall/utilities.dart';
 import '../screens/dashboard.dart';
-import '../screens/login_screen.dart';
+import '../AuthScreens/login_screen.dart';
 import '../screens/payment_checkout_screen.dart';
 import '../screens/product_details_screen.dart';
-import '../screens/profile_screen.dart';
+import '../AuthScreens/profile_screen.dart';
 import '../screens/signup_screen.dart';
-import '../screens/splash_screen.dart';
+import '../AuthScreens/splash_screen.dart';
 
 final GoRouter approuter = GoRouter(
   initialLocation: '/SplashScreen',

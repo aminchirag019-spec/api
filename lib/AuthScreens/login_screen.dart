@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities.dart';
 import 'package:api_learning/screens/dashboard.dart';
-import 'package:api_learning/screens/profile_screen.dart';
+import 'package:api_learning/AuthScreens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

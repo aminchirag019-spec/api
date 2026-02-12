@@ -60,31 +60,58 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
+                              GestureDetector(
+                                onTap: () {
+                                  context.go('/Dashboard');
+                                },
+                                child: Container(
                                   height: 40,
                                   width: 40,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                      border: Border.all(
-                                        color: Colors.black.withOpacity(0.5),
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.12),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
                                       ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.white.withOpacity(0.15),
-                                      blurRadius: 8,
-                                      offset:  Offset(0, 3),
-                                    ),
-                                  ],
+                                    ],
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 6.5),
-                                    child: Icon(Icons.arrow_back_ios),
-                                  )),
-                              Icon(Icons.monitor_heart)
+                                  child:  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Icon(Icons.arrow_back_ios_new, size: 20),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  context.go('/Dashboard');
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.12),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child:  Padding(
+                                    padding: const EdgeInsets.only(right: 0),
+                                    child: Icon(Icons.heart_broken_sharp, size: 20),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
