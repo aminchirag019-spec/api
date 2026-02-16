@@ -14,6 +14,26 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<GetProductDetails>(_getProductDetail);
     on<RatingChange>(_onRatingChange);
     on<SearchProduct>(_onSearchProduct);
+    on<ShippingMethodChanged>(_onShippingMethodChanged);
+    on<CopyAddress>(_onCopyAddress);
+  }
+
+  void _onCopyAddress(
+      CopyAddress event,
+      Emitter<DashboardState> emit
+      ) async {
+    emit(state.copyWith(
+      copyAddress: event.value
+    ));
+  }
+
+  void _onShippingMethodChanged(
+      ShippingMethodChanged event,
+      Emitter<DashboardState> emit
+      ) async {
+    emit(state.copyWith(
+      selectedShipping: event.value
+    ));
   }
 
   void _onSearchProduct(

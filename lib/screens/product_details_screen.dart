@@ -25,6 +25,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     super.initState();
     context.read<DashboardBloc>().add(GetProductDetails(widget.id));
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -40,11 +41,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               if (state.status == ApiStatus.loading) {
                 return Center(child: CircularProgressIndicator());
               }
-          
+
               if (state.status == ApiStatus.failure) {
                 return Center(child: Text("Error"));
               }
-          
+
               final product = state.selectedProduct;
               if (product == null) return const SizedBox();
               final imageUrl =
@@ -52,6 +53,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   (product.images != null && product.images!.isNotEmpty
                       ? product.images!.first
                       : "");
+              final double avgRating = (product.rating ?? 0).toDouble();
+              final int totalReviews = (product.reviews?.length ?? 0);
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -60,7 +63,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 10,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -82,9 +88,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ),
                                     ],
                                   ),
-                                  child:  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.only(right: 5),
-                                    child: Icon(Icons.arrow_back_ios_new, size: 20),
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -106,9 +115,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ),
                                     ],
                                   ),
-                                  child:  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.only(right: 0),
-                                    child: Icon(Icons.heart_broken_sharp, size: 20),
+                                    child: Icon(
+                                      Icons.heart_broken_sharp,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -204,6 +216,96 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ),
                     SizedBox(height: 25),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Colors.grey.shade100,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                avgRating.toStringAsFixed(1),
+                                style:  TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              SizedBox(height: 6),
+                              RatingBarIndicator(
+                                rating: avgRating,
+                                itemBuilder: (context, index) =>
+                                     Icon(Icons.star, color: Colors.amber),
+                                itemCount: 5,
+                                itemSize: 20,
+                                direction: Axis.horizontal,
+                              ),
+                               SizedBox(height: 6),
+                              Text(
+                                "$totalReviews reviews",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                           SizedBox(width: 18),
+                          Expanded(
+                            child: Column(
+                              children: List.generate(5, (index) {
+                                final star = 5 - index;
+                                double percent;
+                                if (avgRating >= star) {
+                                  percent = 1;
+                                } else if (avgRating < star - 1) {
+                                  percent = 0.1;
+                                } else {
+                                  percent = 0.6;
+                                }
+
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "$star",
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: LinearProgressIndicator(
+                                            value: percent,
+                                            minHeight: 8,
+                                            backgroundColor:
+                                                Colors.grey.shade300,
+                                            valueColor:
+                                                const AlwaysStoppedAnimation(
+                                                  Colors.amber,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               );

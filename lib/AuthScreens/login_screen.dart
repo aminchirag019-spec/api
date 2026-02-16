@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities.dart';
-import 'package:api_learning/screens/dashboard.dart';
+import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/AuthScreens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +14,8 @@ import '../session/shared_preferences.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: "emilyspass");
+  TextEditingController usernameController = TextEditingController(text: "emilys");
   final formkey = GlobalKey<FormState>();
 
   @override
@@ -93,7 +93,11 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Forgot Password?"),
+                      GestureDetector(
+                          onTap: () {
+                            context.go('/ForgotPassScreen');
+                          },
+                          child: Text("Forgot Password?")),
                     ],
                   ),
                   SizedBox(height: 60,),

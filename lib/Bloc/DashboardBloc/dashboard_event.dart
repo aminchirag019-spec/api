@@ -1,4 +1,3 @@
-
 abstract class DashboardEvent {}
 
 class Selection extends DashboardEvent {
@@ -8,16 +7,27 @@ class Selection extends DashboardEvent {
 }
 
 class GetProduct extends DashboardEvent {}
-class GetProductDetails extends DashboardEvent{
+
+class GetProductDetails extends DashboardEvent {
   final int id;
   GetProductDetails(this.id);
 }
-class RatingChange extends DashboardEvent{
+
+class RatingChange extends DashboardEvent {
   final double rating;
   RatingChange(this.rating);
 }
-class SearchProduct extends DashboardEvent{
+
+class SearchProduct extends DashboardEvent {
   final String search;
 
   SearchProduct(this.search);
+}
+class ShippingMethodChanged extends DashboardEvent{
+  final int value;
+  ShippingMethodChanged(this.value);
+}
+class CopyAddress extends DashboardEvent{
+  final bool value;
+  CopyAddress(this.value);
 }

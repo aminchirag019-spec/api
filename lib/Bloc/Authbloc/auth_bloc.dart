@@ -4,7 +4,7 @@ import 'package:api_learning/models/models.dart';
 import 'package:api_learning/data/repository.dart';
 import 'package:api_learning/globall/utilities.dart';
 import 'package:api_learning/models/otp_model.dart';
-import 'package:api_learning/screens/dashboard.dart';
+import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/session/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -25,12 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _routing() async {
     final prefs = await SharedPreferences.getInstance();
-
-    /// ✅ READ value (NOT set)
     final done = prefs.getBool("onboardingDone") ?? false;
-
     print("ONBOARDING DONE => $done");
-
     if (!done) {
       if (!mounted) return;
       context.go('/IntroOnboarding');

@@ -1,4 +1,8 @@
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CheckoutShippingScreen extends StatefulWidget {
@@ -9,9 +13,6 @@ class CheckoutShippingScreen extends StatefulWidget {
 }
 
 class _CheckoutShippingScreenState extends State<CheckoutShippingScreen> {
-  int selectedShipping = 0;
-  bool copyAddress = false;
-
   final _firstName = TextEditingController();
   final _lastName = TextEditingController();
   final _country = TextEditingController();
@@ -39,245 +40,253 @@ class _CheckoutShippingScreenState extends State<CheckoutShippingScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         context.go('/Dashboard');
         return false;
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 10, 18, 18),
-          child: SizedBox(
-            height: 54,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2B2B2B),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                elevation: 0,
-              ),
-              onPressed: () {
-              },
-              child: const Text(
-                "Continue to payment",
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+      child: BlocBuilder<DashboardBloc, DashboardState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 10, 18, 18),
+              child: SizedBox(
+                height: 54,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF2B2B2B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 0,
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    "Continue to payment",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
 
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Row
-                Row(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 14,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _CircleBackButton(
-                      onTap: () => context.pop(),
-                    ),
-                    const SizedBox(width: 12),
-                    const Expanded(
-                      child: Center(
-                        child: Text(
-                          "Check out",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                    // Header Row
+                    Row(
+                      children: [
+                        _CircleBackButton(onTap: () => context.pop()),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "Check out",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
+                        SizedBox(width: 40),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    _StepIndicator(),
+                    SizedBox(height: 16),
+                    Text(
+                      "STEP 1",
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(width: 40),
+                    SizedBox(height: 6),
+
+                    Text(
+                      "Shipping",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+
+                    SizedBox(height: 18),
+                    _TextFieldLabel(label: "First name", requiredField: true),
+                    _UnderlineField(controller: _firstName),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "Last name", requiredField: true),
+                    _UnderlineField(
+                      controller: _lastName,
+                      errorText: "Field is required",
+                    ),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "Country", requiredField: true),
+                    _UnderlineField(
+                      controller: _country,
+                      suffixIcon: Icon(Icons.keyboard_arrow_down),
+                      readOnly: true,
+                      onTap: () {},
+                    ),
+
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "Street name", requiredField: true),
+                    _UnderlineField(controller: _street),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "City", requiredField: true),
+                    _UnderlineField(controller: _city),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(
+                      label: "State / Province",
+                      requiredField: false,
+                    ),
+                    _UnderlineField(controller: _state),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "Zip-code", requiredField: true),
+                    _UnderlineField(controller: _zip),
+                    SizedBox(height: 14),
+                    _TextFieldLabel(label: "Phone number", requiredField: true),
+                    _UnderlineField(controller: _phone),
+                    SizedBox(height: 22),
+                    Text(
+                      "Shipping method",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    _ShippingRadioTile(
+                      value: 0,
+                      groupValue: state.selectedShipping,
+                      onChanged: (v) {
+                        context.read<DashboardBloc>().add(
+                          ShippingMethodChanged(v),
+                        );
+                      },
+                      title: "Free",
+                      subtitle: "Delivery to home",
+                      desc: "Delivery from 3 to 7 business days",
+                    ),
+
+                    _ShippingRadioTile(
+                      value: 1,
+                      groupValue: state.selectedShipping,
+                      onChanged: (v) {
+                        context.read<DashboardBloc>().add(
+                          ShippingMethodChanged(v),
+                        );
+                      },
+                      title: "\$9.90",
+                      subtitle: "Delivery to home",
+                      desc: "Delivery from 4 to 6 business days",
+                    ),
+
+                    _ShippingRadioTile(
+                      value: 2,
+                      groupValue: state.selectedShipping,
+                      onChanged: (v) {
+                        context.read<DashboardBloc>().add(
+                          ShippingMethodChanged(v),
+                        );
+                      },
+                      title: "\$9.90",
+                      subtitle: "Fast Delivery",
+                      desc: "Delivery from 2 to 3 business days",
+                    ),
+                    SizedBox(height: 22),
+                    Text(
+                      "Coupon Code",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F5F5),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _coupon,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Have a code? type it here...",
+                                hintStyle: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Validate",
+                              style: TextStyle(
+                                color: Color(0xFF4C7B72),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 22),
+
+                    Text(
+                      "Billing Address",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: state.copyAddress,
+                          onChanged: (v) {
+                            context.read<DashboardBloc>().add(
+                              CopyAddress(v ?? false),
+                            );
+                          },
+                        ),
+                        Text(
+                          "Copy address data from shipping",
+                          style: TextStyle(fontSize: 13),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 70),
                   ],
                 ),
-                 SizedBox(height: 16),
-                 _StepIndicator(),
-                 SizedBox(height: 16),
-                 Text(
-                  "STEP 1",
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
-
-                const Text(
-                  "Shipping",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                const SizedBox(height: 18),
-
-                // Form Fields
-                _TextFieldLabel(label: "First name", requiredField: true),
-                _UnderlineField(controller: _firstName),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "Last name", requiredField: true),
-                _UnderlineField(controller: _lastName, errorText: "Field is required"),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "Country", requiredField: true),
-                _UnderlineField(
-                  controller: _country,
-                  suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                  readOnly: true,
-                  onTap: () {
-                    // open dropdown bottom sheet
-                  },
-                ),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "Street name", requiredField: true),
-                _UnderlineField(controller: _street),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "City", requiredField: true),
-                _UnderlineField(controller: _city),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "State / Province", requiredField: false),
-                _UnderlineField(controller: _state),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "Zip-code", requiredField: true),
-                _UnderlineField(controller: _zip),
-
-                const SizedBox(height: 14),
-
-                _TextFieldLabel(label: "Phone number", requiredField: true),
-                _UnderlineField(controller: _phone),
-
-                const SizedBox(height: 22),
-
-                const Text(
-                  "Shipping method",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                _ShippingRadioTile(
-                  value: 0,
-                  groupValue: selectedShipping,
-                  onChanged: (v) => setState(() => selectedShipping = v),
-                  title: "Free",
-                  subtitle: "Delivery to home",
-                  desc: "Delivery from 3 to 7 business days",
-                ),
-
-                _ShippingRadioTile(
-                  value: 1,
-                  groupValue: selectedShipping,
-                  onChanged: (v) => setState(() => selectedShipping = v),
-                  title: "\$9.90",
-                  subtitle: "Delivery to home",
-                  desc: "Delivery from 4 to 6 business days",
-                ),
-
-                _ShippingRadioTile(
-                  value: 2,
-                  groupValue: selectedShipping,
-                  onChanged: (v) => setState(() => selectedShipping = v),
-                  title: "\$9.90",
-                  subtitle: "Fast Delivery",
-                  desc: "Delivery from 2 to 3 business days",
-                ),
-
-                const SizedBox(height: 22),
-
-                const Text(
-                  "Coupon Code",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 10),
-
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _coupon,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Have a code? type it here...",
-                            hintStyle: TextStyle(fontSize: 13, color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Validate",
-                          style: TextStyle(
-                            color: Color(0xFF4C7B72),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 22),
-
-                const Text(
-                  "Billing Address",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 10),
-
-                Row(
-                  children: [
-                    Checkbox(
-                      value: copyAddress,
-                      onChanged: (v) => setState(() => copyAddress = v ?? false),
-                    ),
-                    const Text(
-                      "Copy address data from shipping",
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 70),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -302,13 +311,11 @@ class _CircleBackButton extends StatelessWidget {
             BoxShadow(
               color: Colors.black.withOpacity(0.12),
               blurRadius: 10,
-              offset: const Offset(0, 4),
+              offset:  Offset(0, 4),
             ),
           ],
         ),
-        child: const Center(
-          child: Icon(Icons.arrow_back_ios_new, size: 18),
-        ),
+        child:  Center(child: Icon(Icons.arrow_back_ios_new, size: 18)),
       ),
     );
   }
@@ -321,8 +328,8 @@ class _StepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.location_on_outlined, size: 18, color: Colors.black),
-        const SizedBox(width: 8),
+         Icon(Icons.location_on_outlined, size: 18, color: Colors.black),
+         SizedBox(width: 8),
 
         Expanded(
           child: Row(
@@ -338,10 +345,10 @@ class _StepIndicator extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 8),
-        const Icon(Icons.credit_card, size: 18, color: Colors.grey),
-        const SizedBox(width: 8),
-        const Icon(Icons.check_circle_outline, size: 18, color: Colors.grey),
+         SizedBox(width: 8),
+         Icon(Icons.credit_card, size: 18, color: Colors.grey),
+         SizedBox(width: 8),
+         Icon(Icons.check_circle_outline, size: 18, color: Colors.grey),
       ],
     );
   }
@@ -366,10 +373,7 @@ class _TextFieldLabel extends StatelessWidget {
           ),
         ),
         if (requiredField)
-          const Text(
-            " *",
-            style: TextStyle(color: Colors.red, fontSize: 12),
-          ),
+           Text(" *", style: TextStyle(color: Colors.red, fontSize: 12)),
       ],
     );
   }
@@ -416,7 +420,7 @@ class _UnderlineField extends StatelessWidget {
           ),
         ),
         if (errorText != null) ...[
-          const SizedBox(height: 6),
+           SizedBox(height: 6),
           Text(
             errorText!,
             style: const TextStyle(color: Colors.red, fontSize: 11),
@@ -458,9 +462,9 @@ class _ShippingRadioTile extends StatelessWidget {
               value: value,
               groupValue: groupValue,
               onChanged: (v) => onChanged(v!),
-              activeColor: const Color(0xFF4C7B72),
+              activeColor:  Color(0xFF4C7B72),
             ),
-            const SizedBox(width: 6),
+             SizedBox(width: 6),
 
             Expanded(
               child: Column(
@@ -476,7 +480,7 @@ class _ShippingRadioTile extends StatelessWidget {
                           color: selected ? Colors.black : Colors.grey.shade800,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                       SizedBox(width: 10),
                       Text(
                         subtitle,
                         style: TextStyle(
@@ -486,13 +490,10 @@ class _ShippingRadioTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4),
                   Text(
                     desc,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.grey.shade500,
-                    ),
+                    style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
                   ),
                 ],
               ),

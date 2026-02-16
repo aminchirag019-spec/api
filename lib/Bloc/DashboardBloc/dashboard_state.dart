@@ -1,11 +1,12 @@
 
 
 import 'package:api_learning/globall/utilities.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../models/get_products.dart';
 import '../../models/models.dart';
 
-class DashboardState {
+class DashboardState extends Equatable {
   final int? selectedIndex;
   final ApiStatus status;
    final List<Products>? product;
@@ -15,7 +16,8 @@ class DashboardState {
    final double averageRating;
    final List<Products>allProducts;
    final List<Products>filteredProducts;
-
+   final int selectedShipping;
+   final bool copyAddress;
   DashboardState({this.selectedIndex,this.status=ApiStatus.initial,this.product= const [],
   this.selectedProduct,
     this.rating,
@@ -23,6 +25,8 @@ class DashboardState {
     this.averageRating = 0.0,
     this.allProducts = const [],
     this.filteredProducts = const [],
+    this.selectedShipping =0,
+    this.copyAddress= false,
   });
   DashboardState copyWith ({
     int ? selectedIndex,
@@ -34,6 +38,8 @@ class DashboardState {
     double? averageRating,
     List<Products> ?allProducts,
     List<Products> ?filteredProducts,
+    int ? selectedShipping,
+    bool ? copyAddress,
   }) {
     return  DashboardState(
       status: status ?? this.status,
@@ -43,7 +49,21 @@ class DashboardState {
       rating: rating ?? this.rating,
       averageRating: averageRating ?? this.averageRating,
       allProducts:  allProducts ?? this.allProducts,
-      filteredProducts: filteredProducts ?? this.filteredProducts
+      filteredProducts: filteredProducts ?? this.filteredProducts,
+      selectedShipping: selectedShipping ?? this.selectedShipping,
+
     );
   }
+  @override
+  List<Object?> get props => [
+    status,
+    selectedShipping,
+    selectedIndex,
+    selectedProduct,
+    rating,
+    averageRating,
+    filteredProducts,
+    allProducts,
+    product
+  ];
 }
