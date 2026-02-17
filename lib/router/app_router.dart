@@ -1,5 +1,6 @@
 
 import 'package:api_learning/screens/discoverScreen/discover_screen.dart';
+import 'package:api_learning/screens/discoverScreen/search_screen.dart';
 import 'package:api_learning/screens/intro_screen.dart';
 import 'package:api_learning/screens/orderScreens/order_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,6 +64,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: '/OrderScreen',
     builder: (context, state) => MyOrdersBlocUi(),
+    ),
+    GoRoute(path: '/SearchScreen',
+    builder: (context, state) => SearchScreen(),
     )
 
   ],

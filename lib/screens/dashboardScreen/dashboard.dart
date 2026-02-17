@@ -154,11 +154,16 @@ class Dashboard extends StatelessWidget {
                             SizedBox(height: 10),
                             SizedBox(
                               width: 330,
-                              child: Image(
-                                image: AssetImage(
-                                  "assets/images/slider_image.png",
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.go('/SearchScreen');
+                                },
+                                child: Image(
+                                  image: AssetImage(
+                                    "assets/images/slider_image.png",
+                                  ),
+                                  fit: BoxFit.contain,
                                 ),
-                                fit: BoxFit.contain,
                               ),
                             ),
                             SizedBox(height: 20),

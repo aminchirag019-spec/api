@@ -39,3 +39,7 @@ class OrderStatus extends DashboardEvent{
   final int index;
   OrderStatus(this.index);
 }
+class RecentText extends DashboardEvent {
+  final String text;
+  RecentText(this.text);
+}

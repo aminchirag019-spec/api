@@ -18,6 +18,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<CopyAddress>(_onCopyAddress);
     on<CategoryEvent>(_onCategory);
     on<OrderStatus>(_onOrderStatus);
+    on<RecentText>(_onRecentText);
+  }
+
+  void _onRecentText (
+      RecentText event,
+      Emitter<DashboardState>emit
+      ) async {
+  emit(state.copyWith(text: event.text));
   }
 
   void _onOrderStatus (
@@ -27,9 +35,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     emit(state.copyWith(
       orderStatus: event.index
     ));
-
   }
-
 
   void _onCategory (
       CategoryEvent event,
