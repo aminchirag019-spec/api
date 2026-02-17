@@ -16,6 +16,17 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<SearchProduct>(_onSearchProduct);
     on<ShippingMethodChanged>(_onShippingMethodChanged);
     on<CopyAddress>(_onCopyAddress);
+    on<CategoryEvent>(_onCategory);
+  }
+
+  void _onCategory (
+      CategoryEvent event,
+      Emitter<DashboardState> emit
+      ) async{
+    final isSame = state.selectedCategory == event.index;
+    emit(state.copyWith(
+      selectedCategory: isSame ? -1 : event.index
+    ));
   }
 
   void _onCopyAddress(

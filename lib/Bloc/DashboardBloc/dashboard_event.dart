@@ -31,3 +31,7 @@ class CopyAddress extends DashboardEvent{
   final bool value;
   CopyAddress(this.value);
 }
+class CategoryEvent extends DashboardEvent{
+  final int index;
+  CategoryEvent(this.index);
+}
