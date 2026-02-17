@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../Bloc/DashboardBloc/dashboard_state.dart';
+import '../../Bloc/DashboardBloc/dashboard_state.dart';
+import 'discover_widget.dart';
 
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
@@ -88,73 +89,83 @@ class DiscoverScreen extends StatelessWidget {
                           return Column(
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    context.read<DashboardBloc>().add(
-                                        CategoryEvent(index));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8),
-                                    child: Container(
-                                      height: 160,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: p.backgroundColor,
-                                        borderRadius: BorderRadius.circular(28),
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            top: 60,
-                                            left: 40,
-                                              child: Text(p.banner,
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white
-                                              ),
-                                              )),
-                                          Positioned(
-                                            top: 25,
-                                            right: -30,
-                                            child: Container(
-                                              height: 100,
-                                              width: 250,
-                                              decoration: BoxDecoration(
-                                                color: p.boxColor,
-                                                shape: BoxShape.circle,
+                                onTap: () {
+                                  context.read<DashboardBloc>().add(
+                                    CategoryEvent(index),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  child: Container(
+                                    height: 160,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: p.backgroundColor,
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 60,
+                                          left: 40,
+                                          child: Text(
+                                            p.banner,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 25,
+                                          right: -30,
+                                          child: Container(
+                                            height: 100,
+                                            width: 250,
+                                            decoration: BoxDecoration(
+                                              color: p.boxColor,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: -70,
+                                          top: 0,
+                                          left: 80,
+                                          child: Container(
+                                            height: 150,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white.withOpacity(
+                                                0.15,
                                               ),
                                             ),
                                           ),
-                                          Positioned(
-                                            right: -70,
-                                            top: 0,
-                                            left: 80,
-                                            child: Container(
-                                              height: 150,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white.withOpacity(
-                                                    0.15),
-                                              ),
-                                            ),
+                                        ),
+                                        Positioned(
+                                          right: p.right,
+                                          bottom: 0,
+                                          top: 0,
+                                          child: Image.asset(
+                                            p.image,
+                                            fit: BoxFit.cover,
                                           ),
-                                          Positioned(
-                                            right: p.right,
-                                            bottom: 0,
-                                            top: 0,
-                                            child: Image.asset(
-                                                p.image, fit: BoxFit.cover),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
+                                ),
                               ),
                               if (isOpen)
                                 Container(
                                   width: double.infinity,
-                                  margin: const EdgeInsets.only(top: 14, bottom: 22),
+                                  margin: const EdgeInsets.only(
+                                    top: 14,
+                                    bottom: 22,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(18),
@@ -162,7 +173,8 @@ class DiscoverScreen extends StatelessWidget {
                                   child: ListView.separated(
                                     itemCount: p.subCategories.length,
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     separatorBuilder: (_, __) => Divider(
                                       height: 1,
                                       color: Colors.grey.withOpacity(0.15),
@@ -184,7 +196,9 @@ class DiscoverScreen extends StatelessWidget {
                                               "${s.items} Items",
                                               style: TextStyle(
                                                 fontSize: 12,
-                                                color: Colors.grey.withOpacity(0.7),
+                                                color: Colors.grey.withOpacity(
+                                                  0.7,
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 10),
@@ -211,102 +225,3 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 }
-
-class SubCategoryModel {
-  final String name;
-  final int items;
-
-  const SubCategoryModel({ required this.name, required this.items});
-}
-
-
-class Products {
-  final String banner;
-  final String image;
-  final Color boxColor;
-  final Color backgroundColor;
-  final double? right;
-  final double? left;
-  final double? bottom;
-  final double? top;
-  final List<SubCategoryModel> subCategories;
-
-  Products({
-    required this.image,
-    required this.boxColor,
-    required this.backgroundColor,
-    this.right,
-    this.left,
-    this.bottom,
-    this.top,
-    required this.subCategories,
-    required this.banner,
-  });
-}
-
-List<Products> products = [
-  Products(
-    banner: "CLOTHING",
-    image: "assets/images/promotional_image.png",
-    backgroundColor: Color(0xffA3A798),
-    boxColor: Color(0xffC2C7B5),
-    right: -70,
-    subCategories: [
-      SubCategoryModel(name: "Jacket", items: 128),
-      SubCategoryModel(name: "Skirts", items: 40),
-      SubCategoryModel(name: "Dresses", items: 36),
-      SubCategoryModel(name: "Sweaters", items: 24),
-      SubCategoryModel(name: "Jeans", items: 14),
-      SubCategoryModel(name: "T-Shirts", items: 12),
-      SubCategoryModel(name: "Pants", items: 9),
-    ],
-  ),
-  Products(
-    image: "assets/images/promo_banner.png",
-    backgroundColor: Color(0xff898280),
-    boxColor: Color(0xff9C9492),
-    right: -30,
-    banner: "ACCESSORIES",
-    subCategories: [
-      SubCategoryModel(name: "Jacket", items: 128),
-      SubCategoryModel(name: "Skirts", items: 40),
-      SubCategoryModel(name: "Dresses", items: 36),
-      SubCategoryModel(name: "Sweaters", items: 24),
-      SubCategoryModel(name: "Jeans", items: 14),
-      SubCategoryModel(name: "T-Shirts", items: 12),
-      SubCategoryModel(name: "Pants", items: 9),
-    ],
-  ),
-  Products(
-    image: "assets/images/promo_banner_3.png",
-    backgroundColor: Color(0xff44565C),
-    boxColor: Color(0xff5B7178),
-    right: -40,
-    banner: "SHOES",
-    subCategories: [
-      SubCategoryModel(name: "Jacket", items: 128),
-      SubCategoryModel(name: "Skirts", items: 40),
-      SubCategoryModel(name: "Dresses", items: 36),
-      SubCategoryModel(name: "Sweaters", items: 24),
-      SubCategoryModel(name: "Jeans", items: 14),
-      SubCategoryModel(name: "T-Shirts", items: 12),
-      SubCategoryModel(name: "Pants", items: 9),
-    ],
-  ),
-  Products(
-    image: "assets/images/promo_banner_4.png",
-    boxColor: Color(0xffB9AEB2),
-    backgroundColor: Color(0xffD1CACD),
-    right: 30,
-    banner: "COLLECTION",
-    subCategories: [
-      SubCategoryModel(name: "Jacket", items: 128),
-      SubCategoryModel(name: "Skirts", items: 40),
-      SubCategoryModel(name: "Dresses", items: 36),
-      SubCategoryModel(name: "Sweaters", items: 24),
-      SubCategoryModel(name: "Jeans", items: 14),
-      SubCategoryModel(name: "T-Shirts", items: 12),
-      SubCategoryModel(name: "Pants", items: 9),
-    ],
-  ),
-];

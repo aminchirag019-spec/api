@@ -1,26 +1,28 @@
-import 'package:api_learning/AuthScreens/forgot_pass_screen.dart';
-import 'package:api_learning/screens/discover_screen.dart';
+
+import 'package:api_learning/screens/discoverScreen/discover_screen.dart';
 import 'package:api_learning/screens/intro_screen.dart';
-import 'package:api_learning/AuthScreens/otp_screen.dart';
+import 'package:api_learning/screens/orderScreens/order_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../Bloc/Authbloc/auth_bloc.dart';
 import '../globall/utilities.dart';
+import '../screens/AuthScreens/forgot_pass_screen.dart';
+import '../screens/AuthScreens/login_screen.dart';
+import '../screens/AuthScreens/otp_screen.dart';
+import '../screens/AuthScreens/profile_screen.dart';
+import '../screens/AuthScreens/signup_screen.dart';
+import '../screens/AuthScreens/splash_screen.dart';
 import '../screens/DashboardScreen/dashboard.dart';
-import '../AuthScreens/login_screen.dart';
-import '../screens/payment_checkout_screen.dart';
+import '../screens/paymentScreens/payment_checkout_screen.dart';
 import '../screens/product_details_screen.dart';
-import '../AuthScreens/profile_screen.dart';
-import '../screens/signup_screen.dart';
-import '../AuthScreens/splash_screen.dart';
+
 
 final GoRouter approuter = GoRouter(
   initialLocation: '/SplashScreen',
   routes: [
     GoRoute(
       path: '/SplashScreen',
-      builder: (context, state) => const SplashScreen(),
+      builder: (context, state) =>  SplashScreen(),
     ),
     GoRoute(
       path: '/LoginScreen',
@@ -28,11 +30,11 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(
       path: '/Dashboard',
-      builder: (context, state) => const Dashboard(),
+      builder: (context, state) =>  Dashboard(),
     ),
     GoRoute(
       path: '/ProfileScreen',
-      builder: (context, state) => const ProfileScreen(),
+      builder: (context, state) =>  ProfileScreen(),
     ),
     GoRoute(
       path: '/ProductDetails/:id',
@@ -58,6 +60,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: '/DiscoverScreen',
     builder: (context, state) => DiscoverScreen(),
+    ),
+    GoRoute(path: '/OrderScreen',
+    builder: (context, state) => MyOrdersBlocUi(),
     )
 
   ],

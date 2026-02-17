@@ -35,3 +35,7 @@ class CategoryEvent extends DashboardEvent{
   final int index;
   CategoryEvent(this.index);
 }
+class OrderStatus extends DashboardEvent{
+  final int index;
+  OrderStatus(this.index);
+}

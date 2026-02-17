@@ -5,9 +5,7 @@ import 'package:api_learning/globall/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Bloc/ProfileBloc/profile_bloc.dart';
-import '../models/models.dart';
-
+import '../../models/models.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 

@@ -434,7 +434,9 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {},
+                                  onTap: () async {
+                                    context.go('/OrderScreen');
+                                  },
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(

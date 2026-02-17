@@ -17,6 +17,7 @@ class DashboardState extends Equatable {
   final int selectedShipping;
   final bool copyAddress;
   final int selectedCategory;
+  final int orderStatus;
 
   DashboardState({
     this.selectedIndex,
@@ -31,6 +32,7 @@ class DashboardState extends Equatable {
     this.selectedShipping = 0,
     this.copyAddress = false,
     this.selectedCategory = -1,
+    this.orderStatus =0,
   });
   DashboardState copyWith({
     int? selectedIndex,
@@ -45,6 +47,7 @@ class DashboardState extends Equatable {
     int? selectedShipping,
     bool? copyAddress,
     int ? selectedCategory,
+    int ? orderStatus,
   }) {
     return DashboardState(
       status: status ?? this.status,
@@ -56,7 +59,9 @@ class DashboardState extends Equatable {
       allProducts: allProducts ?? this.allProducts,
       filteredProducts: filteredProducts ?? this.filteredProducts,
       selectedShipping: selectedShipping ?? this.selectedShipping,
-      selectedCategory: selectedCategory ?? this.selectedCategory
+      selectedCategory: selectedCategory ?? this.selectedCategory,
+      orderStatus: orderStatus ?? this.orderStatus,
+
     );
   }
 
@@ -71,6 +76,7 @@ class DashboardState extends Equatable {
     filteredProducts,
     allProducts,
     product,
-    selectedCategory
+    selectedCategory ,
+    orderStatus
   ];
 }
