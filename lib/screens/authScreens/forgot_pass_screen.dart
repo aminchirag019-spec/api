@@ -1,3 +1,4 @@
+import 'package:api_learning/router/router_class.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,7 +9,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async{
-        context.go('/LoginScreen');
+        context.go(RouterName.loginScreen.path);
         return false;
       },
       child: Scaffold(
@@ -22,7 +23,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                  SizedBox(height: 20),
                 InkWell(
                   onTap: () {
-                    context.go('/LoginScreen');
+                    context.go(RouterName.loginScreen.path);
                   },
                   borderRadius: BorderRadius.circular(30),
                   child: Container(

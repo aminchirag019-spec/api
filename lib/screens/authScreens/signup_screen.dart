@@ -1,3 +1,4 @@
+import 'package:api_learning/router/router_class.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -146,7 +147,7 @@ class SignupScreen extends StatelessWidget {
 
                 GestureDetector(
                   onTap: () {
-                    context.go('/LoginScreen');
+                    context.go(RouterName.loginScreen.path);
                   },
                   child: Center(
                     child: RichText(

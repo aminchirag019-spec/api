@@ -21,12 +21,21 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<RecentText>(_onRecentText);
   }
 
-  void _onRecentText (
+  void _onRecentText(
       RecentText event,
-      Emitter<DashboardState>emit
+      Emitter<DashboardState> emit,
       ) async {
-  emit(state.copyWith(text: event.text));
+    final text = event.text.trim();
+    if (text.isEmpty) return;
+
+    final list = List<String>.from(state.recentSearches);
+
+    list.remove(text);
+    list.insert(0, text);
+
+    emit(state.copyWith(recentSearches: list));
   }
+
 
   void _onOrderStatus (
       OrderStatus event,

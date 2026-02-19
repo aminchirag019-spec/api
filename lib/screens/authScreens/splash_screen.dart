@@ -1,3 +1,4 @@
+import 'package:api_learning/router/router_class.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     print("ONBOARDING DONE => $done");
     if (!done) {
       if (!mounted) return;
-      context.go('/IntroOnboarding');
+      context.go(RouterName.onBoardingScreen.path);
       return;
     }
 
@@ -41,9 +42,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.status == ApiStatus.success) {
-          context.go('/Dashboard');
+          context.go(RouterName.dashboardScreen.path);
         } else if (state.status == ApiStatus.failure) {
-          context.go('/LoginScreen');
+          context.go(RouterName.loginScreen.path);
         }
       },
       child: const Scaffold(

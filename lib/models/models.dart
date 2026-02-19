@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter/animation.dart';
 
 ///-----------------------------------------------Profile-Model---------------------------------------------------------------///
 
@@ -61,6 +64,68 @@ class ProfileModel {
     this.crypto,
     this.role,
   });
+
+  ProfileModel copyWith({
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? maidenName,
+    int? age,
+    String? gender,
+    String? email,
+    String? phone,
+    String? username,
+    String? password,
+    String? birthDate,
+    String? image,
+    String? bloodGroup,
+    double? height,
+    double? weight,
+    String? eyeColor,
+    Hair? hair,
+    String? ip,
+    Address? address,
+    String? macAddress,
+    String? university,
+    Bank? bank,
+    Company? company,
+    String? ein,
+    String? ssn,
+    String? userAgent,
+    Crypto? crypto,
+    String? role,
+  }) {
+    return ProfileModel(
+      image: image ?? this.image,
+      phone: phone ?? this.phone,
+      address: address ?? this.address,
+      age: age ?? this.age,
+      bank: bank ?? this.bank,
+      birthDate: birthDate ?? this.birthDate,
+      bloodGroup: bloodGroup ?? this.bloodGroup,
+      company: company ?? this.company,
+      crypto: crypto ?? this.crypto,
+      ein: ein ?? this.ein,
+      email: email ?? this.email,
+      eyeColor: eyeColor ?? this.eyeColor,
+      firstName: firstName ?? this.firstName,
+      gender: gender ?? this.gender,
+      hair: hair ?? this.hair,
+      height: height ?? this.height,
+      id: id ?? this.id,
+      ip: ip ?? this.ip,
+      lastName: lastName ?? this.lastName,
+      macAddress: macAddress ?? this.macAddress,
+      maidenName: maidenName ?? this.maidenName,
+      password: password ?? this.password,
+      role: role ?? this.role,
+      ssn: ssn ?? this.ssn,
+      university: university ?? this.university,
+      userAgent: userAgent ?? this.userAgent,
+      username: username ?? this.username,
+      weight: weight ?? this.weight,
+    );
+  }
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -379,21 +444,16 @@ class Hair {
 
 ///--------------------------------------------------------------------Get Product Details------------------------------------------------------///
 
-
-
-
-
 class UpperRow {
- final String image;
- final String tag;
+  final String image;
+  final String tag;
 
-  UpperRow({ required this.image,required this.tag});
+  UpperRow({required this.image, required this.tag});
 }
 
-
-List<UpperRow> topRow= [
-  UpperRow(image: "assets/images/women_filter.png",tag: "Women"),
-UpperRow(image: "assets/images/men_filter.png",tag: "Men"),
-  UpperRow(image: "assets/images/accesories_filter.png",tag: "Accessories"),
-  UpperRow(image: "assets/images/beauty_filter.png",tag: "Beauty"),
+List<UpperRow> topRow = [
+  UpperRow(image: "assets/images/women_filter.png", tag: "Women"),
+  UpperRow(image: "assets/images/men_filter.png", tag: "Men"),
+  UpperRow(image: "assets/images/accesories_filter.png", tag: "Accessories"),
+  UpperRow(image: "assets/images/beauty_filter.png", tag: "Beauty"),
 ];

@@ -1,3 +1,4 @@
+import 'package:api_learning/router/router_class.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -193,7 +194,7 @@ class _OnboardingCarouselScreenState extends State<OnboardingCarouselScreen> {
                       await prefs.setBool("onboardingDone", true);
                       final done = prefs.getBool("onboardingDone");
                       print("AFTER SAVE onboardingDone => $done");
-                      context.go('/LoginScreen');
+                      context.go(RouterName.loginScreen.path);
                     } else {
                       _controller.nextPage();
                     }

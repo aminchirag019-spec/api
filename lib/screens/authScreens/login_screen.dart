@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<AuthBloc,AuthState>(
       listener: (context, state) {
         if(state.status == ApiStatus.success){
-          context.go('/OtpScreen');
+          context.go(RouterName.otpScreen.path);
         }
         if (state.status == ApiStatus.failure){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error")));
@@ -48,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         child: GestureDetector(
                           onTap: () {
-                            context.go('/IntroOnboarding');
+                            context.go(RouterName.onBoardingScreen.path);
                           },
                           child: Icon(Icons.arrow_back_ios,size: 22,),
                         ),
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            context.go('/ForgotPassScreen');
+                            context.go(RouterName.forgotPassScreen.path);
                           },
                           child: Text("Forgot Password?")),
                     ],
@@ -187,7 +188,7 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 40,),
                   GestureDetector(
                     onTap: () {
-                      context.go('/SignupScreen');
+                      context.go(RouterName.signupScreen.path);
                     },
                     child: Center(
                       child: RichText(

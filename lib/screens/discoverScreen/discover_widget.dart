@@ -7,7 +7,7 @@ class SubCategoryModel {
   const SubCategoryModel({required this.name, required this.items});
 }
 
-class Products {
+class ManualProducts {
   final String banner;
   final String image;
   final Color boxColor;
@@ -18,7 +18,7 @@ class Products {
   final double? top;
   final List<SubCategoryModel> subCategories;
 
-  Products({
+  ManualProducts({
     required this.image,
     required this.boxColor,
     required this.backgroundColor,
@@ -31,8 +31,8 @@ class Products {
   });
 }
 
-List<Products> products = [
-  Products(
+List<ManualProducts> products = [
+  ManualProducts(
     banner: "CLOTHING",
     image: "assets/images/promotional_image.png",
     backgroundColor: Color(0xffA3A798),
@@ -48,7 +48,7 @@ List<Products> products = [
       SubCategoryModel(name: "Pants", items: 9),
     ],
   ),
-  Products(
+  ManualProducts(
     image: "assets/images/promo_banner.png",
     backgroundColor: Color(0xff898280),
     boxColor: Color(0xff9C9492),
@@ -64,7 +64,7 @@ List<Products> products = [
       SubCategoryModel(name: "Pants", items: 9),
     ],
   ),
-  Products(
+  ManualProducts(
     image: "assets/images/promo_banner_3.png",
     backgroundColor: Color(0xff44565C),
     boxColor: Color(0xff5B7178),
@@ -80,7 +80,7 @@ List<Products> products = [
       SubCategoryModel(name: "Pants", items: 9),
     ],
   ),
-  Products(
+  ManualProducts(
     image: "assets/images/promo_banner_4.png",
     boxColor: Color(0xffB9AEB2),
     backgroundColor: Color(0xffD1CACD),
@@ -97,3 +97,48 @@ List<Products> products = [
     ],
   ),
 ];
+///------------------------------------------ItemModel ------------------------------------------------------------///
+
+class ItemModel {
+  final String image;
+  final String title;
+  final String price;
+  final double? rating;
+
+  const ItemModel({
+    required this.title,
+    required this.price,
+    required this.image,
+    this.rating,
+  });
+}
+
+List<ItemModel> itemModel = [
+  ItemModel(title: "Lihua Tunic White", price: "\$ 53.00" , image: "assets/images/popular_week_image_1.png",rating: 43),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 43),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 43),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+  ItemModel(title: "Skirt Dress", price: "\$ 34.00" , image: "assets/images/popular_week_dress_2.png",rating: 45),
+];
+

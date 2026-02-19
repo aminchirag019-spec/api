@@ -18,9 +18,8 @@ class DashboardState extends Equatable {
   final bool copyAddress;
   final int selectedCategory;
   final int orderStatus;
-  final List<String> recentSearch;
-  final String text;
-  DashboardState({
+  final List<String> recentSearches;
+  const DashboardState({
     this.selectedIndex,
     this.status = ApiStatus.initial,
     this.product = const [],
@@ -34,8 +33,7 @@ class DashboardState extends Equatable {
     this.copyAddress = false,
     this.selectedCategory = -1,
     this.orderStatus =0,
-    this.recentSearch= const [],
-    this.text ="",
+    this.recentSearches= const [],
   });
   DashboardState copyWith({
     int? selectedIndex,
@@ -51,7 +49,6 @@ class DashboardState extends Equatable {
     bool? copyAddress,
     int ? selectedCategory,
     int ? orderStatus,
-    String ? text,
 List<String> ? recentSearches,
   }) {
     return DashboardState(
@@ -66,8 +63,7 @@ List<String> ? recentSearches,
       selectedShipping: selectedShipping ?? this.selectedShipping,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       orderStatus: orderStatus ?? this.orderStatus,
-      recentSearch: recentSearch ?? this.recentSearch,
-        text: text ?? this.text
+      recentSearches: recentSearches ?? this.recentSearches,
     );
   }
 
@@ -84,7 +80,6 @@ List<String> ? recentSearches,
     product,
     selectedCategory ,
     orderStatus,
-    recentSearch,
-    text
+    recentSearches,
   ];
 }

@@ -53,7 +53,6 @@ class ApiClient {
   async {
     String  getUrl = "$baseUrl$endPoint";
     print("PRODUCT URL => $getUrl");
-    print("PRODUCT URL => $getUrl");
     try {
       final response = await httpClient?.get(Uri.parse(getUrl),
         headers: {

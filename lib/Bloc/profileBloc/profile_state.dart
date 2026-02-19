@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../models/models.dart';
 
-class ProfileState {
+class ProfileState extends Equatable{
   final ApiStatus status;
   final ProfileModel? profileModel;
 
@@ -23,5 +23,11 @@ class ProfileState {
       status: status ?? this.status,
       profileModel: profileModel ?? this.profileModel,
     );
+
   }
+  @override
+  List<Object?> get props => [
+    status,
+    profileModel,
+  ];
 }

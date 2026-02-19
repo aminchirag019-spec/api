@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../Bloc/DashboardBloc/dashboard_state.dart';
+import '../../router/router_class.dart';
 import 'discover_widget.dart';
 
 class DiscoverScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.go('/Dashboard');
+        context.go(RouterName.dashboardScreen.path);
         return false;
       },
       child: Scaffold(

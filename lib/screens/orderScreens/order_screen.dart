@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../router/router_class.dart';
+
 class MyOrdersBlocUi extends StatelessWidget {
   const MyOrdersBlocUi({super.key});
 
@@ -12,7 +14,7 @@ class MyOrdersBlocUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async{
-        context.go('/Dashboard');
+        context.go(RouterName.dashboardScreen.path);
         return false;
       },
       child: Scaffold(

@@ -1,14 +1,15 @@
+import 'package:api_learning/router/router_class.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
-import '../Bloc/DashboardBloc/dashboard_bloc.dart';
-import '../Bloc/DashboardBloc/dashboard_event.dart';
-import '../Bloc/DashboardBloc/dashboard_state.dart';
-import '../data/api_client.dart';
-import '../data/repository.dart';
-import '../globall/utilities.dart';
+import '../../Bloc/DashboardBloc/dashboard_bloc.dart';
+import '../../Bloc/DashboardBloc/dashboard_event.dart';
+import '../../Bloc/DashboardBloc/dashboard_state.dart';
+import '../../data/api_client.dart';
+import '../../data/repository.dart';
+import '../../globall/utilities.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int id;
@@ -30,7 +31,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.go('/Dashboard');
+        context.go(RouterName.dashboardScreen.path);
         return false;
       },
       child: Scaffold(
@@ -72,7 +73,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  context.go('/Dashboard');
+                                  context.go(RouterName.dashboardScreen.path);
                                 },
                                 child: Container(
                                   height: 40,
@@ -99,7 +100,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  context.go('/Dashboard');
+                                  context.go(RouterName.dashboardScreen.path);
                                 },
                                 child: Container(
                                   height: 40,
@@ -167,6 +168,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Row(
+                      children: [
+                        RatingBarIndicator(
+                          rating: avgRating,
+                          itemBuilder: (context, index) =>
+                              Icon(Icons.star, color: Color(0xff508A7B)),
+                          itemCount: 5,
+                          itemSize: 22,
+                          direction: Axis.horizontal,
+                        ),
+                        SizedBox(width: 10,),
+                        Text("(${totalReviews.toString()})")
+                      ],
+                    ),
                     SizedBox(height: 18),
                     Text(
                       "Description",
@@ -195,7 +210,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
-                        context.go('/PaymentCheckoutScreen');
+                        context.go(RouterName.paymentCheckoutScreen.path);
                       },
                       child: Container(
                         width: double.infinity,
@@ -222,87 +237,81 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         borderRadius: BorderRadius.circular(14),
                         color: Colors.grey.shade100,
                       ),
-                      child: Row(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                avgRating.toStringAsFixed(1),
+                                "${avgRating.toStringAsFixed(1)}",
                                 style:  TextStyle(
                                   fontSize: 34,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              SizedBox(height: 6),
-                              RatingBarIndicator(
-                                rating: avgRating,
-                                itemBuilder: (context, index) =>
-                                     Icon(Icons.star, color: Colors.amber),
-                                itemCount: 5,
-                                itemSize: 20,
-                                direction: Axis.horizontal,
-                              ),
-                               SizedBox(height: 6),
-                              Text(
-                                "$totalReviews reviews",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey.shade700,
-                                ),
+                              Text("OUT OF 5"),
+                              SizedBox(width: 9),
+                              Column(
+                                children: [
+                                  RatingBarIndicator(
+                                    rating: avgRating,
+                                    itemBuilder: (context, index) =>
+                                         Icon(Icons.star, color: Color(0xff508A7B)),
+                                    itemCount: 5,
+                                    itemSize: 20,
+                                    direction: Axis.horizontal,
+                                  ),
+                                  Text("${totalReviews.toString()} Ratings"),
+                                ],
                               ),
                             ],
                           ),
-
                            SizedBox(width: 18),
-                          Expanded(
-                            child: Column(
-                              children: List.generate(5, (index) {
-                                final star = 5 - index;
-                                double percent;
-                                if (avgRating >= star) {
-                                  percent = 1;
-                                } else if (avgRating < star - 1) {
-                                  percent = 0.1;
-                                } else {
-                                  percent = 0.6;
-                                }
-
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "$star",
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
-                                          child: LinearProgressIndicator(
-                                            value: percent,
-                                            minHeight: 8,
-                                            backgroundColor:
-                                                Colors.grey.shade300,
-                                            valueColor:
-                                                const AlwaysStoppedAnimation(
-                                                  Colors.amber,
-                                                ),
-                                          ),
+                          Column(
+                            children: List.generate(5, (index) {
+                              final star = 5 - index;
+                              double percent;
+                              if (avgRating >= star) {
+                                percent = 1;
+                              } else if (avgRating < star - 1) {
+                                percent = 0.1;
+                              } else {
+                                percent = 0.6;
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "$star ☆",
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          10,
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          value: percent,
+                                          minHeight: 8,
+                                          backgroundColor:
+                                              Colors.grey.shade300,
+                                          valueColor:
+                                              const AlwaysStoppedAnimation(
+                                                Color(0xff508A7B),
+                                              ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          )
                         ],
                       ),
                     ),
@@ -312,7 +321,40 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             },
           ),
         ),
+        bottomNavigationBar: Container(
+          height: 60,
+          width: double.infinity,
+          child: ElevatedButton(onPressed: () {
+            context.go(RouterName.cartScreen.path);
+          },style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(),
+            backgroundColor: Color(0xff343434)
+          ),child: Center(child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.shopping_bag,size: 30,color: Colors.white,),
+              SizedBox(width: 10,),
+              Text("Add To Cart",style: TextStyle(color: Colors.white),)
+            ],
+          ),)),
+        ),
       ),
     );
   }
 }
+
+
+enum ProductSource {api ,manual}
+
+class ProductDetailsArgs {
+  final ProductSource source;
+  final Object product;
+
+  ProductDetailsArgs(
+      this.source,
+      this.product
+      );
+}
+
+

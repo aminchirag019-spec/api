@@ -4,8 +4,12 @@ import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
 import 'package:api_learning/data/api_client.dart';
+import 'package:api_learning/models/get_products.dart';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/data/repository.dart';
+import 'package:api_learning/router/router_class.dart';
+import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
+import 'package:api_learning/screens/widgets/user_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +18,9 @@ import '../../Bloc/Authbloc/auth_state.dart';
 import '../../globall/utilities.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+   Dashboard({super.key});
+
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +31,12 @@ class Dashboard extends StatelessWidget {
         final lastName = authState.loginModel?.lastName;
         return WillPopScope(
           onWillPop: () async {
-            context.go('/Dashboard');
+            context.go(RouterName.dashboardScreen.path);
             return false;
           },
           child: Scaffold(
+            key: _drawerKey,
+            drawer: AppDrawer(),
             backgroundColor: Colors.white,
             body: SafeArea(
               bottom: false,
@@ -42,8 +50,14 @@ class Dashboard extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
+                            onTap: () {
+                              _drawerKey.currentState?.openDrawer();
+                            },
+                            child: Icon(Icons.menu)),
+                        SizedBox(width:  10,),
+                        GestureDetector(
                           onTap: () {
-                            context.go('/ProfileScreen');
+                            context.go(RouterName.searchScreen.path);
                           },
                           child: CircleAvatar(
                             radius: 22,
@@ -77,7 +91,7 @@ class Dashboard extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {
-                            context.go('/LoginScreen');
+                            context.go(RouterName.loginScreen.path);
                           },
                           icon: Icon(Icons.logout),
                         ),
@@ -91,6 +105,7 @@ class Dashboard extends StatelessWidget {
                             SizedBox(height: 10),
                             BlocBuilder<DashboardBloc, DashboardState>(
                               builder: (context, state) {
+
                                 return Row(
                                   children: List.generate(4, (index) {
                                     bool selected =
@@ -156,7 +171,7 @@ class Dashboard extends StatelessWidget {
                               width: 330,
                               child: GestureDetector(
                                 onTap: () {
-                                  context.go('/SearchScreen');
+                                  context.go(RouterName.cartScreen.path);
                                 },
                                 child: Image(
                                   image: AssetImage(
@@ -211,7 +226,9 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {},
+                                  onTap: () async {
+                                    context.go(RouterName.showAllProducts.path);
+                                  },
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(
@@ -244,7 +261,7 @@ class Dashboard extends StatelessWidget {
                                   height: 200,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: state.filteredProducts.length,
+                                    itemCount: 5,
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       final product =
@@ -252,7 +269,7 @@ class Dashboard extends StatelessWidget {
                                       return GestureDetector(
                                         onTap: () {
                                           final id = product.id;
-                                          context.go('/ProductDetails/$id');
+                                          context.go(RouterName.productDetailScreen.path.replaceFirst(':id', id.toString()));
                                         },
                                         child: Container(
                                           width: 150,
@@ -370,7 +387,7 @@ class Dashboard extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: 10,
                                             letterSpacing: 2,
-                                            color: Color(0xfffffff),
+                                            color: Color(0xff777E90),
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
@@ -439,9 +456,7 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {
-                                    context.go('/OrderScreen');
-                                  },
+                                  onTap: () async {},
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(
@@ -516,7 +531,7 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    context.go('/DiscoverScreen');
+                                    context.go(RouterName.discoverScreen.path);
                                   },
                                   child: Text(
                                     "Show all",
