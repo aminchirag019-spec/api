@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
-import 'package:api_learning/screens/widgets/filter_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../router/router_class.dart';
+import '../../widgets/filter_drawer.dart';
 import 'discover_widget.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

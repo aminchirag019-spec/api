@@ -3,10 +3,10 @@ import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/cartScreen/cart_screen.dart';
 import 'package:api_learning/screens/dashboardScreen/show_all_products.dart';
 import 'package:api_learning/screens/discoverScreen/discover_screen.dart';
+import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
 import 'package:api_learning/screens/discoverScreen/search_screen.dart';
 import 'package:api_learning/screens/AuthScreens/intro_screen.dart';
 import 'package:api_learning/screens/orderScreens/order_screen.dart';
-import 'package:api_learning/screens/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,8 +20,11 @@ import '../screens/AuthScreens/signup_screen.dart';
 import '../screens/AuthScreens/splash_screen.dart';
 import '../screens/DashboardScreen/dashboard.dart';
 import '../screens/discoverScreen/dresses_screen_alll.dart';
+import '../screens/discoverScreen/dummy_product _details.dart';
 import '../screens/paymentScreens/payment_checkout_screen.dart';
 import '../screens/dashboardScreen/product_details_screen.dart';
+import '../screens/setting_screen.dart';
+import '../widgets/bottom_navigation_bar.dart';
 
 
 final GoRouter approuter = GoRouter(
@@ -96,6 +99,15 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: RouterName.showAllProducts.path,
     builder: (context, state) => ShowAllProducts(),
+    ),
+    GoRoute(path: RouterName.manualProductDetail.path,
+    builder: (context, state) {
+      final item = state.extra as ItemModel;
+      return DummyProductDetails(item : item);
+    },
+    ),
+    GoRoute(path: RouterName.settingScreen.path,
+    builder: (context, state) => SettingsScreen(),
     )
 
   ],

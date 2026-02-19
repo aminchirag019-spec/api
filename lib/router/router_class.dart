@@ -24,7 +24,10 @@ enum RouterName{
   discoverScreen('/DiscoverScreen','DiscoverScreen'),
   paymentCheckoutScreen('/PaymentCheckoutScreen','PaymentCheckoutScreen'),
   onBoardingScreen('/IntroOnboarding','IntroOnboarding'),
+  manualProductDetail('/DummyProductDetails','DummyProductDetails'),
+ settingScreen('/SettingScreen','SettingScreen'),
   showAllProducts('/ShowallProducts','ShowAllProducts');
+
 
 
 

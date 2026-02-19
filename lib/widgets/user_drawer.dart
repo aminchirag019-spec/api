@@ -127,7 +127,9 @@ class AppDrawer extends StatelessWidget {
                   _DrawerTile(
                     title: "Setting",
                     icon: Icons.settings_outlined,
-                    onTap: () {},
+                    onTap: () {
+                      context.go(RouterName.settingScreen.path);
+                    },
                   ),
 
                   _DrawerTile(

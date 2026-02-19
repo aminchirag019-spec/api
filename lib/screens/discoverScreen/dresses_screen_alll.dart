@@ -83,19 +83,19 @@ class DressesScreenAlll extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 BlocBuilder<DashboardBloc, DashboardState>(
                   builder: (context, state) {
                     return Expanded(
                       child: GridView.builder(
                         itemCount: itemModel.length,
                         gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 14,
-                          crossAxisSpacing: 14,
-                          childAspectRatio: 0.58,
-                        ),
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 14,
+                              crossAxisSpacing: 14,
+                              childAspectRatio: 0.58,
+                            ),
                         itemBuilder: (context, index) {
                           final item = itemModel[index];
                           print(item.rating);
@@ -106,21 +106,27 @@ class DressesScreenAlll extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
+                                    final item = itemModel[index];
 
-                                  }
-                                  ,child: Container(
+                                    context.push(
+                                      RouterName.manualProductDetail.path,
+                                      extra: item, // ✅ THIS IS REQUIRED
+                                    );
+                                  },
+
+                                  child: Container(
                                     decoration: BoxDecoration(
-                                        color: const Color(0xffFAFAFA),
-                                        borderRadius: BorderRadius.circular(18),
-                                        image: DecorationImage(
-                                            image: AssetImage(item.image),
-                                            fit: BoxFit.cover
-                                        )
+                                      color: const Color(0xffFAFAFA),
+                                      borderRadius: BorderRadius.circular(18),
+                                      image: DecorationImage(
+                                        image: AssetImage(item.image),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(height: 5),
                               Text(item.title),
                               Text(item.price),
                               Row(
@@ -133,7 +139,7 @@ class DressesScreenAlll extends StatelessWidget {
                                     itemSize: 15,
                                     direction: Axis.horizontal,
                                   ),
-                                  Text("(${item.rating?.toInt()})")
+                                  Text("(${item.totalReview?.toInt()})"),
                                 ],
                               ),
                             ],

@@ -9,17 +9,16 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-  RangeValues priceRange = const RangeValues(10, 80);
 
+
+  RangeValues priceRange = const RangeValues(10, 80);
   int selectedColorIndex = 0;
   int selectedRating = 5;
-
   String selectedCategory = "Crop Tops";
-
   final List<Color> colors = const [
     Color(0xFFD28B2D),
     Color(0xFFE84C4C),
-    Color(0xFF0F172A),
+    Color(0xFF141F42),
     Color(0xFF3A4A4E),
     Color(0xFFE5E7EB),
     Color(0xFF6B4B3E),
@@ -178,10 +177,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           );
                         }),
                       ),
-
                       SizedBox(height: 26),
-
-                      // Category
                        Text(
                         "Category",
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),

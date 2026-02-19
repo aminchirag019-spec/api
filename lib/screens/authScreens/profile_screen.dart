@@ -12,9 +12,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repo = AuthRepository(ApiClient());
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile")),
+      backgroundColor: Colors.white,
       body: FutureBuilder<ProfileModel>(
         future: repo.profile(),
         builder: (context, snapshot) {
@@ -25,22 +24,136 @@ class ProfileScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
           }
-
           final profile = snapshot.data!;
-          return Column(
-            children: [
-              const SizedBox(height: 20),
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: NetworkImage(profile.image ?? ""),
-              ),
-              const SizedBox(height: 10),
-              Text(profile.firstName ?? ""),
-              Text(profile.lastName ?? ""),
-            ],
+          return SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 70),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xffF3D6D6),
+                        ),
+                        child: Image.network(profile.image ?? "")
+                      ),
+                       SizedBox(width: 14),
+                       Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              profile.firstName ?? "",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              profile.lastName ?? "",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade100,
+                        ),
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.settings, size: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        profileTile(
+                          icon: Icons.location_on_outlined,
+                          title: "Address",
+                          onTap: () {},
+                        ),
+                        profileTile(
+                          icon: Icons.credit_card,
+                          title: "Payment method",
+                          onTap: () {},
+                        ),
+                        profileTile(
+                          icon: Icons.card_giftcard,
+                          title: "Voucher",
+                          onTap: () {},
+                        ),
+                        profileTile(
+                          icon: Icons.favorite_border,
+                          title: "My Wishlist",
+                          onTap: () {},
+                        ),
+                        profileTile(
+                          icon: Icons.star_border,
+                          title: "Rate this app",
+                          onTap: () {},
+                        ),
+                        profileTile(
+                          icon: Icons.logout,
+                          title: "Log out",
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
     );
   }
+}
+
+
+Widget profileTile({
+  required IconData icon,
+  required String title,
+  required VoidCallback onTap,
+}) {
+  return Column(
+    children: [
+      ListTile(
+        onTap: onTap,
+        leading: Icon(icon, color: Colors.grey.shade500),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        trailing: Icon(Icons.chevron_right, color: Colors.grey.shade400),
+      ),
+    ],
+  );
 }
