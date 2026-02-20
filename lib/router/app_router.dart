@@ -21,7 +21,9 @@ import '../screens/AuthScreens/splash_screen.dart';
 import '../screens/DashboardScreen/dashboard.dart';
 import '../screens/discoverScreen/dresses_screen_alll.dart';
 import '../screens/discoverScreen/dummy_product _details.dart';
-import '../screens/paymentScreens/payment_checkout_screen.dart';
+import '../screens/my_wishlist_page.dart';
+import '../screens/notification_screen.dart';
+import '../screens/paymentScreens/payment_main_screen.dart';
 import '../screens/dashboardScreen/product_details_screen.dart';
 import '../screens/setting_screen.dart';
 import '../widgets/bottom_navigation_bar.dart';
@@ -83,7 +85,7 @@ final GoRouter approuter = GoRouter(
     builder: (context, state) => SignupScreen(),
     ),
     GoRoute(path: RouterName.paymentCheckoutScreen.path,
-    builder: (context, state) => CheckoutShippingScreen(),
+    builder: (context, state) => CheckoutScreen(),
     ),
     GoRoute(path: RouterName.forgotPassScreen.path,
     builder: (context, state) => ForgotPasswordScreen(),
@@ -108,6 +110,12 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: RouterName.settingScreen.path,
     builder: (context, state) => SettingsScreen(),
+    ),
+    GoRoute(path: RouterName.notificationScreen.path,
+    builder: (context, state) => NotificationScreen(),
+    ),
+    GoRoute(path: RouterName.wishlistScreen.path,
+    builder: (context, state) => WishlistScreen(),
     )
 
   ],

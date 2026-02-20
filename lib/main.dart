@@ -1,5 +1,6 @@
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
+import 'package:api_learning/Bloc/checkoutBloc/checkout_bloc.dart';
 import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/data/repository.dart';
 import 'package:api_learning/router/app_router.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<DashboardBloc>(
           create: (_) => DashboardBloc(authRepo)..add(GetProduct()),
         ),
+        BlocProvider<CheckoutBloc>(create: (_) => CheckoutBloc(),)
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

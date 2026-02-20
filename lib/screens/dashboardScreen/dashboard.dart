@@ -456,7 +456,9 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {},
+                                  onTap: () async {
+                                    context.go(RouterName.paymentCheckoutScreen.path);
+                                  },
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(

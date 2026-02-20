@@ -110,7 +110,7 @@ class DressesScreenAlll extends StatelessWidget {
 
                                     context.push(
                                       RouterName.manualProductDetail.path,
-                                      extra: item, // ✅ THIS IS REQUIRED
+                                      extra: item,
                                     );
                                   },
 

@@ -26,6 +26,8 @@ enum RouterName{
   onBoardingScreen('/IntroOnboarding','IntroOnboarding'),
   manualProductDetail('/DummyProductDetails','DummyProductDetails'),
  settingScreen('/SettingScreen','SettingScreen'),
+  notificationScreen('/NotificationScreen','NotificationScreen'),
+  wishlistScreen('/WishlistScreen','WishlistScreen'),
   showAllProducts('/ShowallProducts','ShowAllProducts');
 
 
