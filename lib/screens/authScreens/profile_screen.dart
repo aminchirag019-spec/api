@@ -100,17 +100,23 @@ class ProfileScreen extends StatelessWidget {
                           profileTile(
                             icon: Icons.location_on_outlined,
                             title: "Address",
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouterName.addressScreen.path);
+                            },
                           ),
                           profileTile(
                             icon: Icons.credit_card,
                             title: "Payment method",
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouterName.cardManagementScreen.path);
+                            },
                           ),
                           profileTile(
                             icon: Icons.card_giftcard,
                             title: "Voucher",
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouterName.voucherScreen.path);
+                            },
                           ),
                           profileTile(
                             icon: Icons.favorite_border,

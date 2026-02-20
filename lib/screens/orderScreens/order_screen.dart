@@ -232,7 +232,9 @@ class MyOrdersBlocUi extends StatelessWidget {
                                     height: 34,
                                     width: 95,
                                     child: OutlinedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        context.go(RouterName.orderInfo.path);
+                                      },
                                       style: OutlinedButton.styleFrom(
                                         side: BorderSide(
                                           color: Colors.grey.shade400,

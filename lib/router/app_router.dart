@@ -1,12 +1,15 @@
 
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/cartScreen/cart_screen.dart';
+import 'package:api_learning/screens/dashboardScreen/collection_screen.dart';
 import 'package:api_learning/screens/dashboardScreen/show_all_products.dart';
 import 'package:api_learning/screens/discoverScreen/discover_screen.dart';
 import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
 import 'package:api_learning/screens/discoverScreen/search_screen.dart';
 import 'package:api_learning/screens/AuthScreens/intro_screen.dart';
 import 'package:api_learning/screens/orderScreens/order_screen.dart';
+import 'package:api_learning/screens/paymentScreens/add_card.dart';
+import 'package:api_learning/screens/voucher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,10 +22,14 @@ import '../screens/AuthScreens/profile_screen.dart';
 import '../screens/AuthScreens/signup_screen.dart';
 import '../screens/AuthScreens/splash_screen.dart';
 import '../screens/DashboardScreen/dashboard.dart';
+import '../screens/address_screen.dart';
+import '../screens/card_management_screen.dart';
 import '../screens/discoverScreen/dresses_screen_alll.dart';
 import '../screens/discoverScreen/dummy_product _details.dart';
 import '../screens/my_wishlist_page.dart';
 import '../screens/notification_screen.dart';
+import '../screens/orderScreens/order_details_screen.dart';
+import '../screens/orderScreens/rate_product_screen.dart';
 import '../screens/paymentScreens/payment_main_screen.dart';
 import '../screens/dashboardScreen/product_details_screen.dart';
 import '../screens/setting_screen.dart';
@@ -116,6 +123,27 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: RouterName.wishlistScreen.path,
     builder: (context, state) => WishlistScreen(),
+    ),
+    GoRoute(path: RouterName.orderInfo.path,
+    builder: (context, state) => OrderDetailsScreen(),
+    ),
+    GoRoute(path: RouterName.rateProduct.path,
+    builder: (context, state) => RateProductScreen(),
+    ),
+    GoRoute(path: RouterName.collectionScreen.path,
+    builder: (context, state) => CollectionScreen(),
+    ),
+    GoRoute(path: RouterName.cardManagementScreen.path,
+    builder: (context, state) => CardManagementScreen(),
+    ),
+    GoRoute(path: RouterName.newCard.path,
+    builder: (context, state) => AddNewCardScreen(),
+    ),
+    GoRoute(path: RouterName.voucherScreen.path,
+    builder: (context, state) => VoucherScreen(),
+    ),
+    GoRoute(path: RouterName.addressScreen.path,
+    builder: (context, state) => DeliveryAddressScreen(),
     )
 
   ],

@@ -167,19 +167,33 @@ class Dashboard extends StatelessWidget {
                               },
                             ),
                             SizedBox(height: 10),
-                            SizedBox(
-                              width: 330,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.go(RouterName.cartScreen.path);
-                                },
-                                child: Image(
-                                  image: AssetImage(
-                                    "assets/images/slider_image.png",
+                            Stack(
+                              children: [
+                                SizedBox(
+                                  width: 330,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.go(RouterName.collectionScreen.path);
+                                    },
+                                    child: Image(
+                                      image: AssetImage(
+                                        "assets/images/slider_image.png",
+                                      ),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
-                                  fit: BoxFit.contain,
                                 ),
-                              ),
+                                Positioned(
+                                    left: 200,
+                                    top: 30,
+                                    child: Text("Autumn\nCollection\n2021",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:20
+                                    ),
+                                    ))
+                              ],
                             ),
                             SizedBox(height: 20),
                             SizedBox(

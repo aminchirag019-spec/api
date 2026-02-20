@@ -10,10 +10,8 @@ Widget paymentStep(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        const SizedBox(height: 10),
-
-        /// STEP LABEL
-        const Text(
+         SizedBox(height: 10),
+         Text(
           "STEP 2",
           style: TextStyle(
             color: Colors.grey,
@@ -21,9 +19,9 @@ Widget paymentStep(BuildContext context) {
           ),
         ),
 
-        const SizedBox(height: 5),
+         SizedBox(height: 5),
 
-        const Text(
+        Text(
           "Payment",
           style: TextStyle(
             fontSize: 24,
@@ -31,25 +29,22 @@ Widget paymentStep(BuildContext context) {
           ),
         ),
 
-        const SizedBox(height: 25),
-
-        /// PAYMENT TYPE BUTTONS
+         SizedBox(height: 25),
         Row(
           children: [
             _paymentTypeButton("Cash", false),
-            const SizedBox(width: 10),
+             SizedBox(width: 10),
             _paymentTypeButton("Credit Card", true),
-            const SizedBox(width: 10),
+             SizedBox(width: 10),
             _paymentTypeButton("...", false),
           ],
         ),
 
-        const SizedBox(height: 25),
+         SizedBox(height: 25),
 
-        /// CHOOSE CARD HEADER
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children:  [
             Text(
               "Choose your card",
               style: TextStyle(fontWeight: FontWeight.w600),
@@ -64,75 +59,82 @@ Widget paymentStep(BuildContext context) {
           ],
         ),
 
-        const SizedBox(height: 15),
-
-        /// CREDIT CARD UI
-        Container(
-          height: 180,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xff2DB6F5), Color(0xff0AA1DD)],
-            ),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  "VISA",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+         SizedBox(height: 15),
+        Stack(
+          children: [
+            Container(
+              height: 180,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xff2DB6F5), Color(0xff0AA1DD)],
+                ),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:  [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "VISA",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  Text(
+                    "4364 1345 8932 8378",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text("CARDHOLDER NAME",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                  Text(
+                    "Sunie Pham",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Spacer(),
-              Text(
-                "4364 1345 8932 8378",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  letterSpacing: 2,
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                "Sunie Pham",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+            ),
+            Positioned(child: Image.asset("assets/images/card_background.png"))
+          ],
         ),
 
-        const SizedBox(height: 20),
+         SizedBox(height: 20),
 
-        /// PAYMENT LOGOS ROW
-        const Text(
+         Text(
           "or check out with",
           style: TextStyle(color: Colors.grey, fontSize: 12),
         ),
 
-        const SizedBox(height: 10),
+         SizedBox(height: 10),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _smallPaymentBox("PayPal"),
-            _smallPaymentBox("Visa"),
-            _smallPaymentBox("Master"),
-            _smallPaymentBox("Alipay"),
-            _smallPaymentBox("Amex"),
+            smallPaymentBox(AssetImage("assets/images/PayPal.png")),
+            smallPaymentBox(AssetImage("assets/images/visa-logo.png")),
+            smallPaymentBox(AssetImage("assets/images/Method=Mastercard.png")),
+            smallPaymentBox(AssetImage("assets/images/Alipay.png")),
+            smallPaymentBox(AssetImage("assets/images/amex_method.png")),
           ],
         ),
 
-        const SizedBox(height: 30),
+        SizedBox(height: 30),
 
         /// PRICE SECTION
         Container(
@@ -142,7 +144,7 @@ Widget paymentStep(BuildContext context) {
             borderRadius: BorderRadius.circular(15),
           ),
           child: Column(
-            children: const [
+            children:  [
               _priceRow("Product price", "\$110"),
               SizedBox(height: 10),
               _priceRow("Shipping", "Freeship"),
@@ -152,11 +154,9 @@ Widget paymentStep(BuildContext context) {
           ),
         ),
 
-        const SizedBox(height: 20),
-
-        /// TERMS CHECKBOX
+         SizedBox(height: 20),
         Row(
-          children: const [
+          children:  [
             Icon(Icons.check_box, color: Colors.green, size: 20),
             SizedBox(width: 10),
             Expanded(
@@ -208,8 +208,7 @@ Widget _paymentTypeButton(String title, bool selected) {
     ),
   );
 }
-
-Widget _smallPaymentBox(String text) {
+Widget smallPaymentBox(ImageProvider image) {
   return Container(
     height: 40,
     width: 55,
@@ -218,13 +217,12 @@ Widget _smallPaymentBox(String text) {
       color: Colors.white,
       borderRadius: BorderRadius.circular(10),
     ),
-    child: Text(
-      text,
-      style: const TextStyle(fontSize: 10),
+    child: Image(
+      image: image,
+      fit: BoxFit.contain,
     ),
   );
 }
-
 class _priceRow extends StatelessWidget {
   final String title;
   final String value;

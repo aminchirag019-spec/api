@@ -12,10 +12,3 @@ class ApiEndpoints {
 class ApiBaseUrl {
   static const baseUrl = 'https://dummyjson.com';
 }
-
-
-final bannerList = [
-  "assets/images/slider_image.png",
-  "assets/images/new_product.png",
-  "https://yourbanner3.png",
-];

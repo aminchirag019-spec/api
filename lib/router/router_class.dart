@@ -28,6 +28,13 @@ enum RouterName{
  settingScreen('/SettingScreen','SettingScreen'),
   notificationScreen('/NotificationScreen','NotificationScreen'),
   wishlistScreen('/WishlistScreen','WishlistScreen'),
+  orderInfo('/OrderInfo','OrderInfo'),
+  rateProduct('/RateProduct','RateProduct'),
+  collectionScreen('/CollectionScreen','CollectionScreen'),
+  cardManagementScreen('/CardAddScreen','CardAddScreen'),
+  newCard('/NewCardScreen','NewCardScreen'),
+  voucherScreen('/VoucherScreen','VoucherScreen'),
+  addressScreen('/AddressScreen','AddressScreen'),
   showAllProducts('/ShowallProducts','ShowAllProducts');
 
 
