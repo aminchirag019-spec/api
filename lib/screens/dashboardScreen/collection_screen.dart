@@ -1,7 +1,8 @@
 import 'package:api_learning/router/router_class.dart';
+import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
+import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 
 class CollectionScreen extends StatelessWidget {
   const CollectionScreen({super.key});
@@ -14,15 +15,105 @@ class CollectionScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        body: Column(
+        body: Stack(
           children: [
-            Stack(
-              children: [
-                Image.asset("assets/images/slider_image.png"),
-                Positioned(child: Expanded(child: Container(
-                  color: Colors.black,
-                )))
-              ],
+            SizedBox(
+              height: 200,
+              child: Image.asset(
+                "assets/images/slider_image.png",
+                fit: BoxFit.cover,
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleBackButton(onTap: () => context.go(RouterName.dashboardScreen.path),),
+                     Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Autumn\nCollection\n2021",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 190,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: const BoxDecoration(
+                  color: Color(0xfff2f2f2),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: 4,
+                        gridDelegate:
+                         SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 0.75,
+                        ),
+                        itemBuilder: (context, index) {
+                          final item = itemModel[index];
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.asset(
+                              item.image,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        width: 150,
+                        height: 55,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () {
+                            context.go(RouterName.collectionAllScreen.path);
+                          },
+                          child:  Text(
+                            "VIEW ALL",
+                            style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             )
           ],
         ),

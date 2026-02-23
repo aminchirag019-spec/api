@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
+import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,6 @@ class SearchScreen extends StatefulWidget {
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
-
 class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,7 +29,6 @@ class _SearchScreenState extends State<SearchScreen>
     focusNode.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -43,35 +42,13 @@ class _SearchScreenState extends State<SearchScreen>
         endDrawer: FilterDrawer(),
         body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: BlocBuilder<DashboardBloc, DashboardState>(
                 builder: (context, state) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () => context.go(RouterName.dashboardScreen.path),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFAFAFA),
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.12),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.arrow_back_ios_new, size: 20),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
+                       SizedBox(height: 10),
                       Row(
                         children: [
                           SizedBox(
@@ -98,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen>
                               },
                             ),
                           ),
-                          const SizedBox(width: 10),
+                           SizedBox(width: 10),
                           GestureDetector(
                             onTap: () {
                               print("Drawer Button Presses---------------------------------------------------");
@@ -109,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen>
                               width: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: const Color(0xffFAFAFA),
+                                color:  Color(0xffFAFAFA),
                               ),
                               child: Image.asset("assets/images/filter.png"),
                             ),

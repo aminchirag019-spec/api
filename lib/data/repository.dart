@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/models/get_product_details.dart';
 import 'package:api_learning/models/models.dart';
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/session/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';

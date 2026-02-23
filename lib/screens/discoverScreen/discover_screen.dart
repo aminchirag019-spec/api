@@ -28,7 +28,7 @@ class DiscoverScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 15,
-                    vertical: 25,
+                    vertical: 5,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,10 +41,11 @@ class DiscoverScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      ImageIcon(AssetImage("assets/images/notification.png")),
+                      ImageIcon(AssetImage("assets/images/Bell_pin.png")),
                     ],
                   ),
                 ),
+                SizedBox(height: 15,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
@@ -66,14 +67,19 @@ class DiscoverScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xffFAFAFA),
+                      GestureDetector(
+                       onTap: () {
+
+                       },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xffFAFAFA),
+                          ),
+                          child: Image.asset("assets/images/filter.png"),
                         ),
-                        child: Image.asset("assets/images/filter.png"),
                       ),
                     ],
                   ),

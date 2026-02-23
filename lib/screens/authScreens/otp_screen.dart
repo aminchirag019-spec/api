@@ -1,13 +1,19 @@
-import 'dart:async';
-import 'package:api_learning/Bloc/Authbloc/auth_bloc.dart';
-import 'package:api_learning/Bloc/Authbloc/auth_event.dart';
-import 'package:api_learning/Bloc/Authbloc/auth_state.dart';
-import 'package:api_learning/globall/utilities.dart';
-import 'package:api_learning/router/router_class.dart';
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:pinput/pinput.dart';
+
+import '../../Bloc/Authbloc/auth_bloc.dart';
+import '../../Bloc/Authbloc/auth_event.dart';
+import '../../Bloc/Authbloc/auth_state.dart';
+import '../../globall/utilities/api_url.dart';
+import '../../router/router_class.dart';
+import '../paymentScreens/shipping_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -23,10 +29,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
+    context.read<AuthBloc>().add(StartOtpTimer());
   }
 
   @override
@@ -41,7 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
     final defaultPinTheme = PinTheme(
       width: 64,
       height: 64,
-      textStyle: const TextStyle(
+      textStyle:  TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w600,
         color: Colors.black,
@@ -55,14 +58,13 @@ class _OtpScreenState extends State<OtpScreen> {
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
       border: Border.all(color: Colors.black, width: 1.2),
     );
-
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state.status == ApiStatus.success){
+        if(state.status == ApiStatus.otpAuthenticated){
           context.go(RouterName.dashboardScreen.path);
         }
         if(state.status == ApiStatus.failure){
-          Center(child: CircularProgressIndicator(),);
+          Fluttertoast.showToast(msg: "Invalid Otp");
         }
       },
       child: Scaffold(
@@ -74,18 +76,11 @@ class _OtpScreenState extends State<OtpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-
-                InkWell(
-                  onTap: () {
-                    context.go(RouterName.loginScreen.path);
-                  },
-                  borderRadius: BorderRadius.circular(50),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    child: Icon(Icons.arrow_back_ios_new, size: 20),
-                  ),
+                Row(
+                  children: [
+                    CircleBackButton(onTap: () => context.go(RouterName.loginScreen.path),),
+                  ],
                 ),
-
                 SizedBox(height: 28),
 
                 Text(
@@ -109,7 +104,6 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
 
                 SizedBox(height: 45),
-
                 Center(
                   child: Pinput(
                     length: 4,
@@ -124,14 +118,68 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                 ),
                 SizedBox(height: 35),
-                Text("Resend in 00:10"),
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state.canResend) {
+                      return TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(ResendOtp());
+                        },
+                        child: const Text(
+                          "Resend OTP",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    }
 
+                    return Text(
+                      "Resend in 00:${state.seconds.toString().padLeft(2, '0')}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 20,),
                 Center(child:
-                ElevatedButton(onPressed: () {
-                  context.read<AuthBloc>().add(VerifyOtp(_pinController.text
-                      .trim()));
-                }, child: Text("Verify Otp"))
-                  ,)
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    final isLoading = state.status == ApiStatus.loading;
+                    return SizedBox(
+                      width: 150,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () {
+                          context.read<AuthBloc>().add(VerifyOtp(otp: _pinController.text
+                              .trim()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:Color(0xff2D201C),
+                        ),
+                        child: isLoading
+                            ?  SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                            :  Text(
+                          "Verify Otp",
+                          style: TextStyle(color: Colors.white,fontSize: 18),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                )
               ],
             ),
           ),

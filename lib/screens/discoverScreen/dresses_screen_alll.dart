@@ -1,4 +1,5 @@
 import 'package:api_learning/screens/discoverScreen/search_screen.dart';
+import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -28,36 +29,20 @@ class DressesScreenAlll extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () => context.go(RouterName.dashboardScreen.path),
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffFAFAFA),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.12),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 4),
-                          child: Icon(Icons.arrow_back_ios_new, size: 18),
-                        ),
-                      ),
-                    ),
+                    CircleBackButton(onTap: () => context.go(RouterName.searchScreen.path),),
                     SizedBox(width: 25),
-                    Text(
-                      "Dresses",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Dresses",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 40,)
                   ],
                 ),
                 SizedBox(height: 20),

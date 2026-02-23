@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Bloc/Authbloc/auth_bloc.dart';
 import '../../Bloc/Authbloc/auth_event.dart';
 import '../../Bloc/Authbloc/auth_state.dart';
-import '../../globall/utilities.dart';
+import '../../globall/utilities/api_url.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

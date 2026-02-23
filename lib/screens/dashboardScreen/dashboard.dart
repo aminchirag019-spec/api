@@ -9,18 +9,20 @@ import 'package:api_learning/models/models.dart';
 import 'package:api_learning/data/repository.dart';
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
+import 'package:api_learning/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:developer';
 import '../../Bloc/Authbloc/auth_state.dart';
-import '../../globall/utilities.dart';
+import '../../globall/utilities/api_url.dart';
+import '../../globall/utilities/colors.dart';
 import '../../widgets/user_drawer.dart';
 
 class Dashboard extends StatelessWidget {
    Dashboard({super.key});
 
-  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,74 +37,24 @@ class Dashboard extends StatelessWidget {
             return false;
           },
           child: Scaffold(
-            key: _drawerKey,
-            drawer: AppDrawer(),
             backgroundColor: Colors.white,
+            key: drawerKey,
+            appBar:buildGemStoreAppBar(),
+            drawer: AppDrawer(),
+            extendBody: true,
             body: SafeArea(
-              bottom: false,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 20,
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              _drawerKey.currentState?.openDrawer();
-                            },
-                            child: Icon(Icons.menu)),
-                        SizedBox(width:  10,),
-                        GestureDetector(
-                          onTap: () {
-                            context.go(RouterName.searchScreen.path);
-                          },
-                          child: CircleAvatar(
-                            radius: 22,
-                            backgroundColor: Colors.grey.shade200,
-                            backgroundImage:
-                                (imageUrl != null && imageUrl.isNotEmpty)
-                                ? NetworkImage(imageUrl)
-                                : null,
-                            child: (imageUrl == null || imageUrl.isEmpty)
-                                ? Icon(Icons.person, color: Colors.grey)
-                                : null,
-                          ),
-                        ),
-
-                        SizedBox(width: 12),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                firstName ?? "Not fetched",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                lastName ?? "Not fetched",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            context.go(RouterName.loginScreen.path);
-                          },
-                          icon: Icon(Icons.logout),
-                        ),
-                      ],
-                    ),
                     Expanded(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Column(
                           children: [
-                            SizedBox(height: 10),
+                            SizedBox(height: 0),
                             BlocBuilder<DashboardBloc, DashboardState>(
                               builder: (context, state) {
 
@@ -118,7 +70,7 @@ class Dashboard extends StatelessWidget {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                          vertical: 15,
+                                          vertical: 0,
                                         ),
                                         child: Column(
                                           children: [
@@ -136,21 +88,21 @@ class Dashboard extends StatelessWidget {
                                                   ),
                                               decoration: BoxDecoration(
                                                 color: selected
-                                                    ? Colors.brown
+                                                    ? AppColors.brown
                                                     : Color(0xffF3F3F3),
                                                 borderRadius:
                                                     BorderRadius.circular(30),
                                                 border: selected
                                                     ? BoxBorder.all(
-                                                        color: Colors.white,
+                                                        color: AppColors.white,
                                                       )
                                                     : null,
                                               ),
                                               child: Image.asset(
                                                 topRow[index].image,
                                                 color: selected
-                                                    ? Colors.white
-                                                    : Colors.grey,
+                                                    ? AppColors.white
+                                                    : AppColors.grey,
                                               ),
                                             ),
                                             SizedBox(height: 3),
@@ -170,7 +122,7 @@ class Dashboard extends StatelessWidget {
                             Stack(
                               children: [
                                 SizedBox(
-                                  width: 330,
+                                  width: 340,
                                   child: GestureDetector(
                                     onTap: () {
                                       context.go(RouterName.collectionScreen.path);
@@ -188,7 +140,7 @@ class Dashboard extends StatelessWidget {
                                     top: 30,
                                     child: Text("Autumn\nCollection\n2021",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize:20
                                     ),
@@ -210,7 +162,7 @@ class Dashboard extends StatelessWidget {
                                   hintText: "Search products...",
                                   hintStyle: const TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey,
+                                    color: AppColors.grey,
                                   ),
                                   prefixIcon: const Icon(
                                     Icons.search,
@@ -471,7 +423,6 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    context.go(RouterName.paymentCheckoutScreen.path);
                                   },
                                   child: Text(
                                     "Show all",
@@ -547,7 +498,6 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    context.go(RouterName.discoverScreen.path);
                                   },
                                   child: Text(
                                     "Show all",
@@ -737,4 +687,48 @@ class Dashboard extends StatelessWidget {
       },
     );
   }
+   PreferredSizeWidget buildGemStoreAppBar() {
+     return PreferredSize(
+       preferredSize: const Size.fromHeight(80),
+       child: Container(
+         padding: const EdgeInsets.symmetric(horizontal: 16),
+         decoration: const BoxDecoration(
+           color: AppColors.white
+         ),
+         child: SafeArea(
+           child: Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             children: [
+               IconButton(
+                 onPressed: () {
+                   drawerKey.currentState?.openDrawer();
+                 },
+                 icon:  ImageIcon(
+                   AssetImage("assets/images/drawer.png")
+                 ),
+               ),
+               Text(
+                 "GemStore",
+                 style: TextStyle(
+                   fontSize: 20,
+                   fontWeight: FontWeight.w600,
+                   color: Colors.black,
+                 ),
+               ),
+               SizedBox(
+                 height: 50,
+                 width: 50,
+                 child: IconButton(
+                   onPressed: () {},
+                   icon:  ImageIcon(
+                     AssetImage("assets/images/Bell_pin.png")
+                   ),
+                 ),
+               ),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
 }

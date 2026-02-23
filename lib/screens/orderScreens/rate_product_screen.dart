@@ -32,13 +32,18 @@ class _RateProductScreenState extends State<RateProductScreen> {
                   children: [
                      CircleBackButton(onTap: () => context.go(RouterName.orderInfo.path),),
                      SizedBox(width: 20),
-                     Text(
-                      "Rate Product",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                     Expanded(
+                       child: Center(
+                         child: Text(
+                          "Rate Product",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                                             ),
+                       ),
+                     ),
+                    SizedBox(width: 40,)
                   ],
                 ),
                 SizedBox(height: 25),

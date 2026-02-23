@@ -1,6 +1,6 @@
 
 
-enum ApiStatus {initial , loading , success , failure}
+enum ApiStatus {initial , loading , success , failure,otpSent,otpAuthenticated}
 
 class ApiEndpoints {
   static const login = '/auth/login';
@@ -12,3 +12,4 @@ class ApiEndpoints {
 class ApiBaseUrl {
   static const baseUrl = 'https://dummyjson.com';
 }
+

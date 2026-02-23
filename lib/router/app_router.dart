@@ -2,6 +2,7 @@
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/cartScreen/cart_screen.dart';
 import 'package:api_learning/screens/dashboardScreen/collection_screen.dart';
+import 'package:api_learning/screens/dashboardScreen/collection_view_all_screen.dart';
 import 'package:api_learning/screens/dashboardScreen/show_all_products.dart';
 import 'package:api_learning/screens/discoverScreen/discover_screen.dart';
 import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../Bloc/Authbloc/auth_bloc.dart';
-import '../globall/utilities.dart';
+import '../globall/utilities/api_url.dart';
 import '../screens/AuthScreens/forgot_pass_screen.dart';
 import '../screens/AuthScreens/login_screen.dart';
 import '../screens/AuthScreens/otp_screen.dart';
@@ -144,6 +145,9 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(path: RouterName.addressScreen.path,
     builder: (context, state) => DeliveryAddressScreen(),
+    ),
+    GoRoute(path: RouterName.collectionAllScreen.path,
+    builder: (context, state) => CollectionViewAllScreen(),
     )
 
   ],

@@ -1,4 +1,5 @@
 import 'package:api_learning/router/router_class.dart';
+import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,31 +22,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                  SizedBox(height: 20),
-                InkWell(
-                  onTap: () {
-                    context.go(RouterName.loginScreen.path);
-                  },
-                  borderRadius: BorderRadius.circular(30),
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.12),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child:  Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Icon(Icons.arrow_back_ios_new, size: 20),
-                    ),
-                  ),
-                ),
+                CircleBackButton(onTap: () => context.go(RouterName.loginScreen.path),),
                 SizedBox(height: 40),
                  Text(
                   "Forgot password?",

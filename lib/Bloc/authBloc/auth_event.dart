@@ -10,7 +10,12 @@ class Login extends AuthEvent {
 class CheckLogin extends AuthEvent{}
 class Logout extends AuthEvent{}
 class SendOtp extends AuthEvent{}
-class VerifyOtp extends AuthEvent{
+class VerifyOtp extends AuthEvent {
   final String? otp;
-  VerifyOtp(this.otp);
+  VerifyOtp({ this.otp});
 }
+class StartOtpTimer extends AuthEvent {}
+
+class TickOtpTimer extends AuthEvent {}
+
+class ResendOtp extends AuthEvent {}

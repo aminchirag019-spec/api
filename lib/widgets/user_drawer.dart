@@ -9,12 +9,11 @@ import '../../Bloc/Authbloc/auth_state.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.white,
-      width: 250,
+      width: 280,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(24),
@@ -34,11 +33,11 @@ class AppDrawer extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                       CircleAvatar(
+                      CircleAvatar(
                         radius: 22,
                         backgroundColor: Colors.grey.shade200,
                         backgroundImage:
-                        (imageUrl != null && imageUrl.isNotEmpty)
+                            (imageUrl != null && imageUrl.isNotEmpty)
                             ? NetworkImage(imageUrl)
                             : null,
                         child: (imageUrl == null || imageUrl.isEmpty)
@@ -51,14 +50,14 @@ class AppDrawer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                             firstName ?? "token Expired",
+                              firstName ?? "token Expired",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                             SizedBox(height: 2),
-                             Text(
+                            SizedBox(height: 2),
+                            Text(
                               lastName ?? "token expired",
                               style: TextStyle(
                                 fontSize: 13,
@@ -68,28 +67,20 @@ class AppDrawer extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon:  Icon(Icons.notifications_none_rounded),
-                      )
                     ],
                   ),
-
-                   SizedBox(height: 20),
-
-                  // ---------------- MAIN MENU ----------------
+                  SizedBox(height: 20),
                   _DrawerTile(
                     title: "Homepage",
-                    icon: Icons.home_outlined,
+                    image: AssetImage("assets/images/home_icon.png"),
                     isSelected: true,
                     onTap: () {
                       context.go(RouterName.dashboardScreen.path);
                     },
                   ),
-
                   _DrawerTile(
                     title: "Discover",
-                    icon: Icons.search_rounded,
+                    image: AssetImage("assets/images/search_icon.png"),
                     onTap: () {
                       context.go(RouterName.discoverScreen.path);
                     },
@@ -97,7 +88,7 @@ class AppDrawer extends StatelessWidget {
 
                   _DrawerTile(
                     title: "My Order",
-                    icon: Icons.shopping_bag_outlined,
+                    image: AssetImage("assets/images/shop_icon.png"),
                     onTap: () {
                       context.go(RouterName.orderScreen.path);
                     },
@@ -105,14 +96,14 @@ class AppDrawer extends StatelessWidget {
 
                   _DrawerTile(
                     title: "My profile",
-                    icon: Icons.person_outline,
+                    image: AssetImage("assets/images/profile_icon.png"),
                     onTap: () {
                       context.go(RouterName.profileScreen.path);
                     },
                   ),
 
-                   SizedBox(height: 18),
-                   Text(
+                  SizedBox(height: 18),
+                  Text(
                     "OTHER",
                     style: TextStyle(
                       fontSize: 12,
@@ -122,11 +113,11 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
 
-                   SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   _DrawerTile(
                     title: "Setting",
-                    icon: Icons.settings_outlined,
+                    image: AssetImage("assets/images/Setting.png"),
                     onTap: () {
                       context.go(RouterName.settingScreen.path);
                     },
@@ -134,17 +125,17 @@ class AppDrawer extends StatelessWidget {
 
                   _DrawerTile(
                     title: "Support",
-                    icon: Icons.mail_outline_rounded,
+                    image: AssetImage("assets/images/Star_icon.png"),
                     onTap: () {},
                   ),
 
                   _DrawerTile(
                     title: "About us",
-                    icon: Icons.info_outline_rounded,
+                    image: AssetImage("assets/images/Ticket.png"),
                     onTap: () {},
                   ),
-                   Spacer(),
-                   _ThemeToggle(),
+                  Spacer(),
+                  _ThemeToggle(),
                 ],
               ),
             ),
@@ -157,13 +148,13 @@ class AppDrawer extends StatelessWidget {
 
 class _DrawerTile extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final ImageProvider image;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _DrawerTile({
     required this.title,
-    required this.icon,
+    required this.image,
     required this.onTap,
     this.isSelected = false,
   });
@@ -182,12 +173,12 @@ class _DrawerTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
+            ImageIcon(
+              image,
               size: 22,
               color: isSelected ? Colors.black : Colors.grey[700],
             ),
-             SizedBox(width: 12),
+            SizedBox(width: 12),
             Text(
               title,
               style: TextStyle(
@@ -202,7 +193,6 @@ class _DrawerTile extends StatelessWidget {
     );
   }
 }
-
 
 class _ThemeToggle extends StatefulWidget {
   const _ThemeToggle();
@@ -245,8 +235,7 @@ class _ThemeToggleState extends State<_ThemeToggle> {
                     Text(
                       "Light",
                       style: TextStyle(
-                        fontWeight:
-                        isLight ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: isLight ? FontWeight.w600 : FontWeight.w500,
                       ),
                     ),
                   ],
@@ -269,13 +258,14 @@ class _ThemeToggleState extends State<_ThemeToggle> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     Icon(Icons.nights_stay_outlined, size: 18),
-                     SizedBox(width: 6),
+                    Icon(Icons.nights_stay_outlined, size: 18),
+                    SizedBox(width: 6),
                     Text(
                       "Dark",
                       style: TextStyle(
-                        fontWeight:
-                        !isLight ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: !isLight
+                            ? FontWeight.w600
+                            : FontWeight.w500,
                       ),
                     ),
                   ],

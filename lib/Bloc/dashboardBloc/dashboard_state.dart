@@ -1,4 +1,4 @@
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/get_products.dart';
@@ -32,8 +32,8 @@ class DashboardState extends Equatable {
     this.selectedShipping = 0,
     this.copyAddress = false,
     this.selectedCategory = -1,
-    this.orderStatus =0,
-    this.recentSearches= const [],
+    this.orderStatus = 0,
+    this.recentSearches = const [],
   });
   DashboardState copyWith({
     int? selectedIndex,
@@ -47,9 +47,9 @@ class DashboardState extends Equatable {
     List<Products>? filteredProducts,
     int? selectedShipping,
     bool? copyAddress,
-    int ? selectedCategory,
-    int ? orderStatus,
-List<String> ? recentSearches,
+    int? selectedCategory,
+    int? orderStatus,
+    List<String>? recentSearches,
   }) {
     return DashboardState(
       status: status ?? this.status,
@@ -78,7 +78,7 @@ List<String> ? recentSearches,
     filteredProducts,
     allProducts,
     product,
-    selectedCategory ,
+    selectedCategory,
     orderStatus,
     recentSearches,
   ];

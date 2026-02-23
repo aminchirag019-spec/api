@@ -1,8 +1,11 @@
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
+import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
+import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../Bloc/DashboardBloc/dashboard_bloc.dart';
 import '../Bloc/DashboardBloc/dashboard_state.dart';
@@ -12,71 +15,73 @@ class DeliveryAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.arrow_back_ios_new, size: 16),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        "Delivery address",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+    return WillPopScope(
+      onWillPop: () async{
+        context.go(RouterName.profileScreen.path);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircleBackButton(onTap: () =>  context.go(RouterName.profileScreen.path),),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Delivery address",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 36),
-                ],
-              ),
-
-              SizedBox(height: 25),
-              _addressCard(
-                index: 0,
-                icon: Icons.apartment,
-                title: "My Office",
-                subtitle: "SB Building, street 5, Software Park",
-              ),
-              SizedBox(height: 15),
-              _addressCard(
-                index: 1,
-                icon: Icons.home,
-                title: "My Home",
-                subtitle: "SB Building, street 5, Software Park",
-              ),
-              Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black87,
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child:  Text("Add new address",style: TextStyle(
-                    color: Colors.white
-                  ),),
+                    SizedBox(width: 36),
+                  ],
                 ),
-              ),
 
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 25),
+                _addressCard(
+                  index: 0,
+                  icon: Icons.apartment,
+                  title: "My Office",
+                  subtitle: "SB Building, street 5, Software Park",
+                ),
+                SizedBox(height: 15),
+                _addressCard(
+                  index: 1,
+                  icon: Icons.home,
+                  title: "My Home",
+                  subtitle: "SB Building, street 5, Software Park",
+                ),
+                Spacer(),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black87,
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(30),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child:  Text("Add new address",style: TextStyle(
+                      color: Colors.white
+                    ),),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

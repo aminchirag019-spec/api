@@ -256,9 +256,8 @@ class CartScreen extends StatelessWidget {
                           leftColor: Colors.grey,
                           rightColor: Colors.black,
                         ),
-                        const SizedBox(height: 20),
-                        const Divider(height: 1),
-
+                         SizedBox(height: 20),
+                         Divider(height: 1),
                         const SizedBox(height: 14),
                         _summaryRow(
                           left: "Subtotal",
@@ -282,7 +281,9 @@ class CartScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go(RouterName.paymentCheckoutScreen.path);
+                    },
                     child: const Text(
                       "Proceed to checkout",
                       style: TextStyle(

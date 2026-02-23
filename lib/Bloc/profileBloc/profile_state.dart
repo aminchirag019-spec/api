@@ -1,6 +1,6 @@
 
 import 'package:api_learning/models/models.dart';
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/models.dart';

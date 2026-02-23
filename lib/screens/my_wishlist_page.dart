@@ -1,5 +1,12 @@
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
+import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../Bloc/DashboardBloc/dashboard_state.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -13,93 +20,106 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
+    return WillPopScope(
+      onWillPop: () async {
+        context.go(RouterName.profileScreen.path);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffF5F5F5),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Icon(Icons.menu),
-                    Text(
-                      "My Wishlist",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Icon(Icons.menu),
+                      Text(
+                        "My Wishlist",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    Icon(Icons.notifications_none),
-                  ],
+                      Icon(Icons.notifications_none),
+                    ],
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isAllItems = true;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isAllItems ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: Colors.black),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "All items",
-                            style: TextStyle(
-                              color: isAllItems ? Colors.white : Colors.black,
+                 SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isAllItems = true;
+                            });
+                          },
+                          child: Container(
+                            padding:  EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isAllItems ? Colors.black : Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "All items",
+                              style: TextStyle(
+                                color: isAllItems ? Colors.white : Colors.black,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isAllItems = false;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: !isAllItems ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: Colors.black),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Boards",
-                            style: TextStyle(
-                              color: !isAllItems ? Colors.white : Colors.black,
+                       SizedBox(width: 10),
+                      BlocBuilder<DashboardBloc, DashboardState>(
+                        builder: (context, state) {
+                          return Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isAllItems = false;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: !isAllItems ? Colors.black : Colors
+                                      .white,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: Colors.black),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Boards",
+                                  style: TextStyle(
+                                    color: !isAllItems ? Colors.white : Colors
+                                        .black,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
-                    ),  
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Expanded(child: isAllItems ? _buildGrid() : _buildBoards()),
-            ],
+                SizedBox(height: 20),
+                Expanded(child: isAllItems ? _buildGrid() : _buildBoards()),
+              ],
+            ),
           ),
         ),
       ),

@@ -35,6 +35,7 @@ enum RouterName{
   newCard('/NewCardScreen','NewCardScreen'),
   voucherScreen('/VoucherScreen','VoucherScreen'),
   addressScreen('/AddressScreen','AddressScreen'),
+  collectionAllScreen('/CollectionAllScreen','CollectionAllScreen'),
   showAllProducts('/ShowallProducts','ShowAllProducts');
 
 

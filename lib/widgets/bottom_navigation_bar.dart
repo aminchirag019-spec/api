@@ -1,34 +1,73 @@
-
+import 'package:api_learning/globall/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'filter_drawer.dart';
-
 class AppBottomNavBar extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+  AppBottomNavBar({super.key, required this.navigationShell});
 
-   AppBottomNavBar({super.key, required this.navigationShell});
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navigationShell.currentIndex,
-        onTap: (index) {
-          navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          );
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          child: BottomNavigationBar(
+            currentIndex: navigationShell.currentIndex,
+            onTap: (index) {
+              navigationShell.goBranch(
+                index,
+                initialLocation: index == navigationShell.currentIndex,
+              );
+            },
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.white,
+            elevation: 0,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: const Color(0xffC7C9D1),
+            iconSize: 26,
+            items: const [
+              BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage("assets/images/home_icon.png")),
+                activeIcon: ImageIcon(AssetImage("assets/images/home_icon.png")),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage("assets/images/search_icon.png")),
+                activeIcon: ImageIcon(AssetImage("assets/images/search_icon.png")),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon:  ImageIcon(AssetImage("assets/images/shop_icon.png")),
+                activeIcon:ImageIcon(AssetImage("assets/images/shop_icon.png")),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage("assets/images/profile_icon.png")),
+                activeIcon:ImageIcon(AssetImage("assets/images/profile_icon.png")),
+                label: "",
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
+

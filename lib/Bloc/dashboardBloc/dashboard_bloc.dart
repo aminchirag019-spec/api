@@ -1,7 +1,7 @@
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
 import 'package:api_learning/data/repository.dart';
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/models/get_products.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

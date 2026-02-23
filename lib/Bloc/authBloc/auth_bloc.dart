@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/data/repository.dart';
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/models/otp_model.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/session/shared_preferences.dart';
@@ -14,13 +15,59 @@ import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
-
+  Timer? _otpTimer;
   AuthBloc(this.repository) : super(AuthState()) {
     on<Login>(_requestLogin);
     on<CheckLogin>(_checkLogin);
     on<Logout>(_onLogout);
     on<SendOtp>(_onSendOtp);
     on<VerifyOtp>(_onVerifyOtp);
+    on<StartOtpTimer>(_onStartOtpTimer);
+    on<TickOtpTimer>(_onTickOtpTimer);
+    on<ResendOtp>(_onResendOtp);
+  }
+
+  void _onStartOtpTimer(
+      StartOtpTimer event,
+      Emitter<AuthState> emit,
+      ) {
+    _otpTimer?.cancel();
+
+    emit(state.copyWith(
+      seconds: 10,
+      canResend: false,
+    ));
+
+    _otpTimer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+        add(TickOtpTimer());
+      },
+    );
+  }
+
+  void _onTickOtpTimer(
+      TickOtpTimer event,
+      Emitter<AuthState> emit,
+      ) {
+    if (state.seconds > 1) {
+      emit(state.copyWith(
+        seconds: state.seconds - 1,
+      ));
+    } else {
+      _otpTimer?.cancel();
+      emit(state.copyWith(
+        seconds: 0,
+        canResend: true,
+      ));
+    }
+  }
+
+  void _onResendOtp(
+      ResendOtp event,
+      Emitter<AuthState> emit,
+      ) {
+    add(StartOtpTimer());
   }
 
   void _onSendOtp(SendOtp event,
@@ -39,13 +86,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if(event.otp == "1234") {
       emit(state.copyWith(
-        status: ApiStatus.success,
+        status: ApiStatus.otpAuthenticated,
         otpModel: OtpModel(otp: event.otp)
       ));
     }
     else {
       emit(state.copyWith(
         status: ApiStatus.failure,
+        error: "Invalid Otp"
       ));
     }
     }

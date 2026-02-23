@@ -10,7 +10,7 @@ import '../../Bloc/DashboardBloc/dashboard_event.dart';
 import '../../Bloc/DashboardBloc/dashboard_state.dart';
 import '../../data/api_client.dart';
 import '../../data/repository.dart';
-import '../../globall/utilities.dart';
+import '../../globall/utilities/api_url.dart';
 
 class DummyProductDetails extends StatefulWidget {
    DummyProductDetails({super.key, required this.item});

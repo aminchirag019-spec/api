@@ -22,7 +22,6 @@ class MyOrdersBlocUi extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Row(
@@ -39,7 +38,7 @@ class MyOrdersBlocUi extends StatelessWidget {
                     IconButton(
                       onPressed: () {},
                       icon: ImageIcon(
-                        AssetImage("assets/images/notification.png"),
+                        AssetImage("assets/images/Bell_pin.png"),
                       ),
                     ),
                   ],

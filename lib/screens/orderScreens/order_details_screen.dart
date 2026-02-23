@@ -9,7 +9,7 @@ class OrderDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         context.go(RouterName.orderScreen.path);
         return false;
       },
@@ -17,24 +17,31 @@ class OrderDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                   CircleBackButton(onTap:() =>  context.go(RouterName.orderScreen.path)),
-                     SizedBox(width: 20),
-                     Text(
-                      "Order #1514",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                    CircleBackButton(
+                      onTap: () => context.go(RouterName.orderScreen.path),
+                    ),
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Order #1514",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 44,)
                   ],
                 ),
-                 SizedBox(height: 25),
+                SizedBox(height: 25),
                 Container(
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
@@ -43,16 +50,13 @@ class OrderDetailsScreen extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  [
+                    children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Your order is delivered",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           SizedBox(height: 4),
                           Text(
@@ -64,14 +68,18 @@ class OrderDetailsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      ImageIcon(AssetImage("assets/images/delievery_bag.png"), color: Colors.white, size: 30)
+                      ImageIcon(
+                        AssetImage("assets/images/delievery_bag.png"),
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ],
                   ),
                 ),
 
-                 SizedBox(height: 20),
+                SizedBox(height: 20),
                 infoCard(),
-                 SizedBox(height: 20),
+                SizedBox(height: 20),
                 priceCard(),
                 Spacer(),
                 Row(
@@ -85,7 +93,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {},
-                        child:  Text("Return home"),
+                        child: Text("Return home"),
                       ),
                     ),
                     SizedBox(width: 16),
@@ -101,10 +109,9 @@ class OrderDetailsScreen extends StatelessWidget {
                         onPressed: () {
                           context.go(RouterName.rateProduct.path);
                         },
-                        child:  Text("Rate",
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
+                        child: Text(
+                          "Rate",
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

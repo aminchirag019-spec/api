@@ -1,5 +1,12 @@
+import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
+import 'package:api_learning/screens/dashboardScreen/dashboard.dart';
+import 'package:api_learning/screens/dashboardScreen/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../Bloc/DashboardBloc/dashboard_bloc.dart';
+import '../Bloc/DashboardBloc/dashboard_state.dart';
 
 class FilterDrawer extends StatefulWidget {
   const FilterDrawer({super.key});
@@ -9,8 +16,6 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-
-
   RangeValues priceRange = const RangeValues(10, 80);
   int selectedColorIndex = 0;
   int selectedRating = 5;
@@ -45,7 +50,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       width: MediaQuery.of(context).size.width * 0.72,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -61,30 +66,33 @@ class _FilterDrawerState extends State<FilterDrawer> {
             children: [
               Row(
                 children: [
-                  const Expanded(
+                   Expanded(
                     child: Text(
                       "Filter",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon:  Icon(Icons.tune),
-                  ),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.tune)),
                 ],
               ),
-               Divider(height: 22),
+              Divider(height: 62),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Price
-                       Text(
+                      Text(
                         "Price",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                       SizedBox(height: 10),
+                      SizedBox(height: 10),
 
                       RangeSlider(
                         values: priceRange,
@@ -102,42 +110,61 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           Text("\$${priceRange.end.toInt()}"),
                         ],
                       ),
-                       SizedBox(height: 26),
-                       Text(
+                      SizedBox(height: 26),
+                      Text(
                         "Color",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                       SizedBox(height: 12),
+                      SizedBox(height: 12),
 
-                      Wrap(
-                        spacing: 14,
-                        runSpacing: 14,
-                        children: List.generate(colors.length, (index) {
-                          final isSelected = selectedColorIndex == index;
-                          return GestureDetector(
-                            onTap: () => setState(() => selectedColorIndex = index),
-                            child: Container(
-                              height: 28,
-                              width: 28,
-                              decoration: BoxDecoration(
-                                color: colors[index],
+                      BlocBuilder<DashboardBloc, DashboardState>(
+                        builder: (context, state) {
+                          return Wrap(
+                            spacing: 14,
+                            runSpacing: 14,
+                            children: List.generate(colors.length, (index) {
+                              final isSelected = selectedColorIndex == index;
 
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: isSelected ? Colors.black : Colors.transparent,
-                                  width: 2,
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedColorIndex = index;
+                                  });
+
+                                  context.read<DashboardBloc>().add(
+                                    Selection(index),
+                                  );
+                                },
+                                child: Container(
+                                  height: 28,
+                                  width: 28,
+                                  decoration: BoxDecoration(
+                                    color: colors[index],
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color:
+                                      isSelected ? Colors.black : Colors.transparent,
+                                      width: 2,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            }),
                           );
-                        }),
+                        },
                       ),
-                       SizedBox(height: 26),
-                       Text(
+                      SizedBox(height: 26),
+                      Text(
                         "Star Rating",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                       SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       Wrap(
                         spacing: 10,
@@ -147,11 +174,20 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           final isSelected = selectedRating == rating;
 
                           return GestureDetector(
-                            onTap: () => setState(() => selectedRating = rating),
+                            onTap: () {
+                              context.read<DashboardBloc>().add(
+                                Selection(index),
+                              );
+                            },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 10,
+                              ),
                               decoration: BoxDecoration(
-                                color: isSelected ?  Color(0xFF1F1F1F) : Colors.white,
+                                color: isSelected
+                                    ? Color(0xFF1F1F1F)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(26),
                                 border: Border.all(color: Colors.black12),
                               ),
@@ -161,14 +197,18 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   Icon(
                                     Icons.star,
                                     size: 18,
-                                    color: isSelected ? Colors.white : Colors.black,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
-                                   SizedBox(width: 4),
+                                  SizedBox(width: 4),
                                   Text(
                                     "$rating",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: isSelected ? Colors.white : Colors.black,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                 ],
@@ -178,14 +218,20 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         }),
                       ),
                       SizedBox(height: 26),
-                       Text(
+                      Text(
                         "Category",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 12),
 
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
                           border: Border.all(color: Colors.black12),
@@ -195,14 +241,14 @@ class _FilterDrawerState extends State<FilterDrawer> {
                             dropdownColor: Colors.white,
                             value: selectedCategory,
                             isExpanded: true,
-                            icon:  Icon(Icons.keyboard_arrow_down),
+                            icon: Icon(Icons.keyboard_arrow_down),
                             items: categories.map((e) {
                               return DropdownMenuItem(
                                 value: e,
                                 child: Row(
                                   children: [
-                                     Icon(Icons.checkroom, size: 18),
-                                     SizedBox(width: 10),
+                                    Icon(Icons.checkroom, size: 18),
+                                    SizedBox(width: 10),
                                     Text(e),
                                   ],
                                 ),
@@ -215,12 +261,15 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           ),
                         ),
                       ),
-                       SizedBox(height: 26),
-                       Text(
+                      SizedBox(height: 26),
+                      Text(
                         "Discount",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                       SizedBox(height: 12),
+                      SizedBox(height: 12),
                       Wrap(
                         spacing: 12,
                         runSpacing: 12,
@@ -238,7 +287,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                               });
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(26),
                                 border: Border.all(color: Colors.black26),
@@ -247,10 +299,15 @@ class _FilterDrawerState extends State<FilterDrawer> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(d, style:  TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    d,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                   if (isSelected) ...[
-                                     SizedBox(width: 10),
-                                     Icon(Icons.close, size: 18),
+                                    SizedBox(width: 10),
+                                    Icon(Icons.close, size: 18),
                                   ],
                                 ],
                               ),
@@ -258,7 +315,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           );
                         }).toList(),
                       ),
-                       SizedBox(height: 28),
+                      SizedBox(height: 28),
                     ],
                   ),
                 ),
@@ -269,7 +326,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     child: TextButton(
                       onPressed: () {
                         setState(() {
-                          priceRange =  RangeValues(10, 80);
+                          priceRange = RangeValues(10, 80);
                           selectedColorIndex = 0;
                           selectedRating = 5;
                           selectedCategory = "Crop Tops";
@@ -278,15 +335,20 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       },
                       child: Text(
                         "Reset",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:  Color(0xFF1F1F1F),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+                        backgroundColor: Color(0xFF1F1F1F),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(26),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       onPressed: () {
@@ -294,7 +356,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       },
                       child: Text(
                         "Apply",
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),

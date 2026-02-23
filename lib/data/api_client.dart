@@ -108,11 +108,11 @@ Future<dynamic> apiResponse(http.Response response) async{
 
   switch (response.statusCode) {
     case 200:
-       Fluttertoast.showToast(msg: "API RESPONSE 200");
+       print("200 Success");
        return responseJson ?? {};
 
     case 400:
-      Fluttertoast.showToast(msg: "API ERROR 400");
+      Fluttertoast.showToast(msg: "Invalid Credentials...");
       throw ServerValidationError(message);
 
     case 401:

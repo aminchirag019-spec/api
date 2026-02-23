@@ -16,13 +16,14 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
+          actionsPadding: EdgeInsets.symmetric(horizontal: 10),
           elevation: 0,
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon:  Icon(Icons.menu, color: Colors.black),
           ),
           centerTitle: true,
-          title: const Text(
+          title:  Text(
             "Setting",
             style: TextStyle(
               color: Colors.black,
@@ -35,7 +36,6 @@ class SettingsScreen extends StatelessWidget {
         body: Column(
           children: [
             const SizedBox(height: 10),
-
             settingsTile(
               icon: Icons.language,
               title: "Language",

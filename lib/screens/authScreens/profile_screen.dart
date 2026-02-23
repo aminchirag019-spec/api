@@ -1,7 +1,7 @@
 import 'package:api_learning/Bloc/ProfileBloc/profile_state.dart';
 import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/data/repository.dart';
-import 'package:api_learning/globall/utilities.dart';
+import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/router/router_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,16 +25,13 @@ class ProfileScreen extends StatelessWidget {
           future: repo.profile(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+               Center(child: CircularProgressIndicator());
             }
-            if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
-            }
-            final profile = snapshot.data!;
+            final profile = snapshot.data;
             return SafeArea(
               child: Column(
                 children: [
-                  const SizedBox(height: 70),
+                   SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Row(
@@ -46,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: Color(0xffF3D6D6),
                           ),
-                          child: Image.network(profile.image ?? "")
+                          child: Image.network(profile?.image ?? "")
                         ),
                          SizedBox(width: 14),
                          Expanded(
@@ -54,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                profile.firstName ?? "",
+                                profile?.firstName ?? "",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -62,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                profile.lastName ?? "",
+                                profile?.lastName ?? "",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.grey,
@@ -76,11 +73,10 @@ class ProfileScreen extends StatelessWidget {
                           width: 40,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.grey.shade100,
                           ),
                           child: IconButton(
                             onPressed: () {},
-                            icon: const Icon(Icons.settings, size: 20),
+                            icon:  ImageIcon(AssetImage("assets/images/Setting.png")),
                           ),
                         ),
                       ],
@@ -98,42 +94,46 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           profileTile(
-                            icon: Icons.location_on_outlined,
+                            image: AssetImage("assets/images/Location.png"),
                             title: "Address",
                             onTap: () {
                               context.go(RouterName.addressScreen.path);
                             },
                           ),
                           profileTile(
-                            icon: Icons.credit_card,
+                            image: AssetImage("assets/images/Wallet.png"),
                             title: "Payment method",
                             onTap: () {
                               context.go(RouterName.cardManagementScreen.path);
                             },
                           ),
                           profileTile(
-                            icon: Icons.card_giftcard,
+                           image: AssetImage("assets/images/Ticket.png"),
                             title: "Voucher",
                             onTap: () {
                               context.go(RouterName.voucherScreen.path);
                             },
                           ),
                           profileTile(
-                            icon: Icons.favorite_border,
+                            image: AssetImage("assets/images/heart.png"),
                             title: "My Wishlist",
                             onTap: () {
                               context.go(RouterName.wishlistScreen.path);
                             },
                           ),
                           profileTile(
-                            icon: Icons.star_border,
+                           image: AssetImage("assets/images/Star_icon.png"),
                             title: "Rate this app",
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouterName.rateProduct.path);
+                            },
                           ),
                           profileTile(
-                            icon: Icons.logout,
+                            image: AssetImage("assets/images/Logout.png"),
                             title: "Log out",
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouterName.loginScreen.path);
+                            },
                           ),
                         ],
                       ),
@@ -151,24 +151,29 @@ class ProfileScreen extends StatelessWidget {
 
 
 Widget profileTile({
-  required IconData icon,
+  required ImageProvider image,
   required String title,
   required VoidCallback onTap,
 }) {
-  return Column(
-    children: [
-      ListTile(
-        onTap: onTap,
-        leading: Icon(icon, color: Colors.grey.shade500),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        trailing: Icon(Icons.chevron_right, color: Colors.grey.shade400),
+  return ListTile(
+    onTap: onTap,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+    leading: ImageIcon(
+      image,
+      color: Colors.grey.shade600,
+      size: 22,
+    ),
+    title: Text(
+      title,
+      style: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
       ),
-    ],
+    ),
+    trailing: const Icon(
+      Icons.arrow_forward_ios,
+      size: 16,
+      color: Colors.grey,
+    ),
   );
 }
