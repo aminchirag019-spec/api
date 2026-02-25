@@ -23,17 +23,17 @@ import '../screens/AuthScreens/profile_screen.dart';
 import '../screens/AuthScreens/signup_screen.dart';
 import '../screens/AuthScreens/splash_screen.dart';
 import '../screens/DashboardScreen/dashboard.dart';
-import '../screens/address_screen.dart';
-import '../screens/card_management_screen.dart';
+import '../screens/cardScreens/address_screen.dart';
+import '../screens/cardScreens/card_management_screen.dart';
 import '../screens/discoverScreen/dresses_screen_alll.dart';
 import '../screens/discoverScreen/dummy_product _details.dart';
 import '../screens/my_wishlist_page.dart';
-import '../screens/notification_screen.dart';
+import '../screens/settingScreen/notification_screen.dart';
 import '../screens/orderScreens/order_details_screen.dart';
 import '../screens/orderScreens/rate_product_screen.dart';
 import '../screens/paymentScreens/payment_main_screen.dart';
 import '../screens/dashboardScreen/product_details_screen.dart';
-import '../screens/setting_screen.dart';
+import '../screens/settingScreen/setting_screen.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
 

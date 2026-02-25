@@ -4,12 +4,14 @@ import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../Bloc/Authbloc/auth_bloc.dart';
 import '../../Bloc/Authbloc/auth_event.dart';
 import '../../Bloc/Authbloc/auth_state.dart';
+import '../../session/google_login.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -188,19 +190,32 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 12),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/Google.png"),
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Image(
-                            image: AssetImage("assets/images/Google.png"),
-                          ),
-                        ),
+                GestureDetector(
+                  onTap:() async {
+                    try {
+                      final user = await GoogleAuthHelper.signInWithGoogle();
+                      if (user == null) return;
+                      if (!context.mounted) return;
+                      context.go(RouterName.dashboardScreen.path);
+                    } catch (e) {
+                      debugPrint("Google Registration/Login Error: $e");
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Google Registration failed: $e")),
+                      );
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/Google.png"),
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
                         SizedBox(width: 12),
                         Container(
                           height: 35,
@@ -247,13 +262,12 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
 Widget CoustomTextFormField({
   TextEditingController? controller,
   required String hintText,
   required String lableText,
   Key? key,
-  required FormFieldValidator<String> validator, // ✅ FIX HERE
+  required FormFieldValidator<String> validator,
 }) {
   return TextFormField(
     style: const TextStyle(

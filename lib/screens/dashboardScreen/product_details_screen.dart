@@ -1,3 +1,6 @@
+import 'package:api_learning/Bloc/cartBloc/cart_bloc.dart';
+import 'package:api_learning/Bloc/cartBloc/cart_event.dart';
+import 'package:api_learning/models/get_products.dart';
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +11,12 @@ import 'package:go_router/go_router.dart';
 import '../../Bloc/DashboardBloc/dashboard_bloc.dart';
 import '../../Bloc/DashboardBloc/dashboard_event.dart';
 import '../../Bloc/DashboardBloc/dashboard_state.dart';
+import '../../Bloc/cartBloc/cart_state.dart';
 import '../../data/api_client.dart';
 import '../../data/repository.dart';
 import '../../globall/utilities/api_url.dart';
 import '../../globall/utilities/colors.dart';
+import '../discoverScreen/discover_widget.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int id;
@@ -29,6 +34,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     context.read<DashboardBloc>().add(GetProductDetails(widget.id));
   }
 
+  final ValueNotifier<bool> isFav = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -74,7 +80,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleBackButton(onTap: () => context.go(RouterName.dashboardScreen.path),),
+                                CircleBackButton(
+                                  onTap: () => context.go(
+                                    RouterName.dashboardScreen.path,
+                                  ),
+                                ),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
@@ -91,12 +101,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ),
                                       ],
                                     ),
-                                    child: const Icon(
-                                      Icons.favorite,
-                                      color: Color(0xFFFF6B6B),
-                                      size: 22,
+                                    child: ValueListenableBuilder<bool>(
+                                      valueListenable: isFav,
+                                      builder: (context, value, child) {
+                                        return IconButton(
+                                          onPressed: () {
+                                            isFav.value = !isFav.value;
+                                          },
+                                          icon: Icon(
+                                            value
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: value
+                                                ? Color(0xFFFF6B6B)
+                                                : Colors.grey,
+                                            size: 15,
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  )
+                                  ),
                                 ),
                               ],
                             ),
@@ -117,7 +141,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(18),
-                              child: Image.network(imageUrl, fit: BoxFit.contain),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ],
@@ -148,8 +175,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             itemSize: 22,
                             direction: Axis.horizontal,
                           ),
-                          SizedBox(width: 10,),
-                          Text("(${totalReviews.toString()})")
+                          SizedBox(width: 10),
+                          Text("(${totalReviews.toString()})"),
                         ],
                       ),
                       SizedBox(height: 18),
@@ -213,20 +240,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               children: [
                                 Text(
                                   "${avgRating.toStringAsFixed(1)}",
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                     fontSize: 34,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
-                                SizedBox(width: 10,),
+                                SizedBox(width: 10),
                                 Text("OUT OF 5"),
                                 SizedBox(width: 70),
                                 Column(
                                   children: [
                                     RatingBarIndicator(
                                       rating: avgRating,
-                                      itemBuilder: (context, index) =>
-                                           Icon(Icons.star, color: Color(0xff508A7B)),
+                                      itemBuilder: (context, index) => Icon(
+                                        Icons.star,
+                                        color: Color(0xff508A7B),
+                                      ),
                                       itemCount: 5,
                                       itemSize: 20,
                                       direction: Axis.horizontal,
@@ -236,7 +265,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ],
                             ),
-                             SizedBox(width: 18),
+                            SizedBox(width: 18),
                             Column(
                               children: List.generate(5, (index) {
                                 final star = 5 - index;
@@ -280,7 +309,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                 );
                               }),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -291,40 +320,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             },
           ),
         ),
-        bottomNavigationBar: Container(
-          height: 60,
-          width: double.infinity,
-          child: ElevatedButton(onPressed: () async{
-            context.go(RouterName.cartScreen.path);
-          },style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(),
-            backgroundColor: Color(0xff343434)
-          ),child: Center(child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.shopping_bag,size: 30,color: Colors.white,),
-              SizedBox(width: 10,),
-              Text("Add To Cart",style: TextStyle(color: Colors.white),)
-            ],
-          ),)),
+        bottomNavigationBar: BlocListener<CartBloc, CartState>(
+          listener: (context, state) {
+            if(state.status == ApiStatus.success){
+              context.go(RouterName.cartScreen.path);
+            }
+          },
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async {
+                context.read<CartBloc>().add(AddToCartEvent(
+                  productId: widget.id,
+                  quantity:1
+                ));
+                print("added");
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(),
+                backgroundColor: Color(0xff343434),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_bag, size: 30, color: Colors.white),
+                    SizedBox(width: 10),
+                    Text("Add To Cart", style: TextStyle(color: Colors.white)),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
-
-
-enum ProductSource {api ,manual}
-
-class ProductDetailsArgs {
-  final ProductSource source;
-  final Object product;
-
-  ProductDetailsArgs(
-      this.source,
-      this.product
-      );
-}
-
-

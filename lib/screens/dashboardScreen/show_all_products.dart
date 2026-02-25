@@ -50,10 +50,18 @@ class ShowAllProducts extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 25),
-                    Text(
-                      "All Products",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "All Products",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
+                    SizedBox(width: 40),
                   ],
                 ),
                 SizedBox(height: 10),
@@ -88,9 +96,8 @@ class ShowAllProducts extends StatelessWidget {
                             onTap: () {
                               final id = product.id;
                               context.go(
-                                RouterName.productDetailScreen.path.replaceFirst(
-                                  ':id', id.toString(),
-                                ),
+                                RouterName.productDetailScreen.path
+                                    .replaceFirst(':id', id.toString()),
                               );
                             },
                             child: Container(
@@ -104,7 +111,7 @@ class ShowAllProducts extends StatelessWidget {
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.06),
                                     blurRadius: 8,
-                                    offset: const Offset(0, 4),
+                                    offset:  Offset(0, 4),
                                   ),
                                 ],
                               ),
@@ -135,15 +142,15 @@ class ShowAllProducts extends StatelessWidget {
                                           product.title ?? "",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                          style:  TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                         SizedBox(height: 6),
                                         Text(
                                           "\$ ${product.price}",
-                                          style: const TextStyle(
+                                          style:  TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
                                           ),

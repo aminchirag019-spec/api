@@ -83,6 +83,39 @@ class ApiClient {
 
   }
 
+
+  Future<dynamic> addToCart ({required String baseUrl, required String endpoint,required Map<String,dynamic> body})
+  async {
+    String getUrl = "$baseUrl$endpoint";
+    try {
+      final response = await http.post(Uri.parse(getUrl),
+          headers: {
+            "Content-Type":"application/json",
+          },
+          body: jsonEncode(body)
+      );
+      return await apiResponse(response);
+    }
+    on FetchDataException {
+      throw FetchDataException("NO InterNet");
+    }
+
+  }
+
+  Future<dynamic> allCarts ({required String baseUrl, required String endpoint,})
+  async {
+    String getUrl = "$baseUrl$endpoint";
+    try {
+      final response = await http.get(Uri.parse(getUrl),
+      headers: {
+        "Content-Type":"application/json",
+      },
+      );
+      return await apiResponse(response);
+    } on FetchDataException {
+      throw FetchDataException("NO InterNet");
+    }
+  }
 }
 
 Future<dynamic> apiResponse(http.Response response) async{
@@ -116,8 +149,10 @@ Future<dynamic> apiResponse(http.Response response) async{
       throw ServerValidationError(message);
 
     case 401:
-      Fluttertoast.showToast(msg: "API ERROR 401");
+      print("APi error 401");
       throw UnAuthorizedException(message);
+    case 201:
+      return jsonDecode(response.body);
 
     case 404:
       Fluttertoast.showToast(msg: "API ERROR [404]");

@@ -13,7 +13,7 @@ import '../../models/auth_model.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class   AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
   Timer? _otpTimer;
   AuthBloc(this.repository) : super(AuthState()) {
@@ -27,81 +27,49 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ResendOtp>(_onResendOtp);
   }
 
-  void _onStartOtpTimer(
-      StartOtpTimer event,
-      Emitter<AuthState> emit,
-      ) {
+  void _onStartOtpTimer(StartOtpTimer event, Emitter<AuthState> emit) {
     _otpTimer?.cancel();
 
-    emit(state.copyWith(
-      seconds: 10,
-      canResend: false,
-    ));
+    emit(state.copyWith(seconds: 10, canResend: false));
 
-    _otpTimer = Timer.periodic(
-      const Duration(seconds: 1),
-          (timer) {
-        add(TickOtpTimer());
-      },
-    );
+    _otpTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      add(TickOtpTimer());
+    });
   }
 
-  void _onTickOtpTimer(
-      TickOtpTimer event,
-      Emitter<AuthState> emit,
-      ) {
+  void _onTickOtpTimer(TickOtpTimer event, Emitter<AuthState> emit) {
     if (state.seconds > 1) {
-      emit(state.copyWith(
-        seconds: state.seconds - 1,
-      ));
+      emit(state.copyWith(seconds: state.seconds - 1));
     } else {
       _otpTimer?.cancel();
-      emit(state.copyWith(
-        seconds: 0,
-        canResend: true,
-      ));
+      emit(state.copyWith(seconds: 0, canResend: true));
     }
   }
 
-  void _onResendOtp(
-      ResendOtp event,
-      Emitter<AuthState> emit,
-      ) {
+  void _onResendOtp(ResendOtp event, Emitter<AuthState> emit) {
     add(StartOtpTimer());
   }
 
-  void _onSendOtp(SendOtp event,
-      Emitter<AuthState> emit
-      ) async {
-    emit(state.copyWith(
-      status: ApiStatus.loading
-    ));
+  void _onSendOtp(SendOtp event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: ApiStatus.loading));
   }
 
-  void _onVerifyOtp(
-      VerifyOtp event,
-      Emitter<AuthState> emit
-      ) async{
+  void _onVerifyOtp(VerifyOtp event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: ApiStatus.loading));
 
-    if(event.otp == "1234") {
-      emit(state.copyWith(
-        status: ApiStatus.otpAuthenticated,
-        otpModel: OtpModel(otp: event.otp)
-      ));
+    if (event.otp == "1234") {
+      emit(
+        state.copyWith(
+          status: ApiStatus.otpAuthenticated,
+          otpModel: OtpModel(otp: event.otp),
+        ),
+      );
+    } else {
+      emit(state.copyWith(status: ApiStatus.failure, error: "Invalid Otp"));
     }
-    else {
-      emit(state.copyWith(
-        status: ApiStatus.failure,
-        error: "Invalid Otp"
-      ));
-    }
-    }
-
-
+  }
   void _requestLogin(Login event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: ApiStatus.loading));
-
     try {
       LoginModel loginModel = await repository.login(body: event.body);
       SharedPref.saveLoginModel(loginModel);
@@ -110,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(status: ApiStatus.success, loginModel: loginModel));
     } catch (e, stackTrace) {
       log("LOGIN ERROR: $e");
-        log("STACKTRACE: $stackTrace");
+      log("STACKTRACE: $stackTrace");
       emit(state.copyWith(status: ApiStatus.failure));
     }
   }
@@ -120,10 +88,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     try {
       final token = await SharedPref.getAccessToken();
-
       if (token != null && token.isNotEmpty) {
         final loginModel = await SharedPref.getLoginModel();
-
         emit(state.copyWith(status: ApiStatus.success, loginModel: loginModel));
       } else {
         emit(state.copyWith(status: ApiStatus.failure));

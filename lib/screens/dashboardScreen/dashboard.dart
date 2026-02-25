@@ -15,13 +15,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:developer';
 import '../../Bloc/Authbloc/auth_state.dart';
+import '../../Bloc/cartBloc/cart_bloc.dart';
+import '../../Bloc/cartBloc/cart_event.dart';
+import '../../Bloc/cartBloc/cart_state.dart';
 import '../../globall/utilities/api_url.dart';
 import '../../globall/utilities/colors.dart';
 import '../../widgets/user_drawer.dart';
 
-class Dashboard extends StatelessWidget {
-   Dashboard({super.key});
+class Dashboard extends StatefulWidget {
+  Dashboard({super.key});
 
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,9 +45,10 @@ class Dashboard extends StatelessWidget {
             return false;
           },
           child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             key: drawerKey,
-            appBar:buildGemStoreAppBar(),
+            appBar: buildGemStoreAppBar(
+                "GemStore", context, drawerKey: drawerKey),
             drawer: AppDrawer(),
             extendBody: true,
             body: SafeArea(
@@ -57,7 +66,6 @@ class Dashboard extends StatelessWidget {
                             SizedBox(height: 0),
                             BlocBuilder<DashboardBloc, DashboardState>(
                               builder: (context, state) {
-
                                 return Row(
                                   children: List.generate(4, (index) {
                                     bool selected =
@@ -78,24 +86,24 @@ class Dashboard extends StatelessWidget {
                                               height: 50,
                                               width: 50,
                                               margin:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 15,
-                                                  ),
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                              ),
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 8,
-                                                  ),
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                                vertical: 8,
+                                              ),
                                               decoration: BoxDecoration(
                                                 color: selected
                                                     ? AppColors.brown
                                                     : Color(0xffF3F3F3),
                                                 borderRadius:
-                                                    BorderRadius.circular(30),
+                                                BorderRadius.circular(30),
                                                 border: selected
                                                     ? BoxBorder.all(
-                                                        color: AppColors.white,
-                                                      )
+                                                  color: AppColors.white,
+                                                )
                                                     : null,
                                               ),
                                               child: Image.asset(
@@ -125,7 +133,8 @@ class Dashboard extends StatelessWidget {
                                   width: 340,
                                   child: GestureDetector(
                                     onTap: () {
-                                      context.go(RouterName.collectionScreen.path);
+                                      context.go(
+                                          RouterName.collectionScreen.path);
                                     },
                                     child: Image(
                                       image: AssetImage(
@@ -139,11 +148,11 @@ class Dashboard extends StatelessWidget {
                                     left: 200,
                                     top: 30,
                                     child: Text("Autumn\nCollection\n2021",
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:20
-                                    ),
+                                      style: TextStyle(
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20
+                                      ),
                                     ))
                               ],
                             ),
@@ -231,11 +240,14 @@ class Dashboard extends StatelessWidget {
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       final product =
-                                          state.filteredProducts[index];
+                                      state.filteredProducts[index];
                                       return GestureDetector(
                                         onTap: () {
                                           final id = product.id;
-                                          context.go(RouterName.productDetailScreen.path.replaceFirst(':id', id.toString()));
+                                          context.go(
+                                              RouterName.productDetailScreen
+                                                  .path.replaceFirst(
+                                                  ':id', id.toString()));
                                         },
                                         child: Container(
                                           width: 150,
@@ -266,21 +278,21 @@ class Dashboard extends StatelessWidget {
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      const BorderRadius.vertical(
-                                                        top: Radius.circular(
-                                                          18,
-                                                        ),
-                                                      ),
+                                                  const BorderRadius.vertical(
+                                                    top: Radius.circular(
+                                                      18,
+                                                    ),
+                                                  ),
                                                   child: Image.network(
                                                     (product.images != null &&
-                                                            product
-                                                                .images!
-                                                                .isNotEmpty)
+                                                        product
+                                                            .images!
+                                                            .isNotEmpty)
                                                         ? product.images!.first
                                                         : "https://via.placeholder.com/150",
                                                     fit: BoxFit.cover,
@@ -294,16 +306,16 @@ class Dashboard extends StatelessWidget {
                                                 ),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       product.title ?? "",
                                                       maxLines: 1,
                                                       overflow:
-                                                          TextOverflow.ellipsis,
+                                                      TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                         fontSize: 13,
                                                       ),
                                                     ),
@@ -312,7 +324,7 @@ class Dashboard extends StatelessWidget {
                                                       "\$ ${product.price}",
                                                       style: const TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold,
+                                                        FontWeight.bold,
                                                         fontSize: 14,
                                                       ),
                                                     ),
@@ -344,9 +356,9 @@ class Dashboard extends StatelessWidget {
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: const [
                                         Text(
                                           "| NEW COLLECTION",
@@ -422,8 +434,7 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {
-                                  },
+                                  onTap: () async {},
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(
@@ -457,9 +468,9 @@ class Dashboard extends StatelessWidget {
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "White fashion hoodie",
@@ -497,8 +508,7 @@ class Dashboard extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {
-                                  },
+                                  onTap: () async {},
                                   child: Text(
                                     "Show all",
                                     style: TextStyle(
@@ -522,9 +532,9 @@ class Dashboard extends StatelessWidget {
                                   Expanded(
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "| Sale up to 40%",
@@ -595,86 +605,95 @@ class Dashboard extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("| Summer Collection 2021",
-                                      style: TextStyle(
-                                        color: Color(0xff777E90),
-                                        fontSize: 13,
-                                      ),
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Text("Most Sexy\n& fabulous\ndesign",style: TextStyle(
-                                        color: Color(0xff353945),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600
-                                      ),)
-                                    ],
-                                  )),
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text("| Summer Collection 2021",
+                                            style: TextStyle(
+                                              color: Color(0xff777E90),
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Text("Most Sexy\n& fabulous\ndesign",
+                                            style: TextStyle(
+                                                color: Color(0xff353945),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600
+                                            ),)
+                                        ],
+                                      )),
                                   SizedBox(
-                                    child: Image.asset("assets/images/summer_collection_image.png"),
+                                    child: Image.asset(
+                                        "assets/images/summer_collection_image.png"),
                                   )
                                 ],
                               ),
                             ),
                             SizedBox(height: 10,),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(18),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 8,
-                                color: Colors.black12,
-                                offset: Offset(0, 3),
+                            Container(
+                              height: 200,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(18),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 8,
+                                    color: Colors.black12,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              // LEFT IMA
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
-                                child: Image.asset(
-                                  "assets/images/T-shirt_image.png",
-                                  width: 120,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
+                              child: Row(
+                                children: [
+                                  // LEFT IMA
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(14),
+                                    child: Image.asset(
+                                      "assets/images/T-shirt_image.png",
+                                      width: 120,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .center,
+                                      children: const [
+                                        Text(
+                                          "Nike Sportswear Club",
+                                          style: TextStyle(fontSize: 16,
+                                              fontWeight: FontWeight.w700),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          "Men's T-Shirt",
+                                          style: TextStyle(
+                                              fontSize: 13, color: Colors.grey),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "₹999",
+                                          style: TextStyle(fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      "Nike Sportswear Club",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 6),
-                                    Text(
-                                      "Men's T-Shirt",
-                                      style: TextStyle(fontSize: 13, color: Colors.grey),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      "₹999",
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                        ],
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -687,48 +706,61 @@ class Dashboard extends StatelessWidget {
       },
     );
   }
-   PreferredSizeWidget buildGemStoreAppBar() {
-     return PreferredSize(
-       preferredSize: const Size.fromHeight(80),
-       child: Container(
-         padding: const EdgeInsets.symmetric(horizontal: 16),
-         decoration: const BoxDecoration(
-           color: AppColors.white
-         ),
-         child: SafeArea(
-           child: Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children: [
-               IconButton(
-                 onPressed: () {
-                   drawerKey.currentState?.openDrawer();
-                 },
-                 icon:  ImageIcon(
-                   AssetImage("assets/images/drawer.png")
-                 ),
-               ),
-               Text(
-                 "GemStore",
-                 style: TextStyle(
-                   fontSize: 20,
-                   fontWeight: FontWeight.w600,
-                   color: Colors.black,
-                 ),
-               ),
-               SizedBox(
-                 height: 50,
-                 width: 50,
-                 child: IconButton(
-                   onPressed: () {},
-                   icon:  ImageIcon(
-                     AssetImage("assets/images/Bell_pin.png")
-                   ),
-                 ),
-               ),
-             ],
-           ),
-         ),
-       ),
-     );
-   }
+}
+
+
+PreferredSizeWidget buildGemStoreAppBar(String text, BuildContext context,
+    {required GlobalKey<ScaffoldState> drawerKey}) {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(80),
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: const BoxDecoration(
+          color: AppColors.white
+      ),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                drawerKey.currentState?.openDrawer();
+              },
+              icon: ImageIcon(
+                  AssetImage("assets/images/drawer.png")
+              ),
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: BlocListener<CartBloc, CartState>(
+                listener: (context, state) {
+                  if(state.status == ApiStatus.success) {
+                    context.go(RouterName.cartScreen.path);
+                  }
+                },
+                child: IconButton(
+                  onPressed: () {
+                    context.read<CartBloc>().add(
+                        FetchCarts());
+                  },
+                  icon: const ImageIcon(
+                    AssetImage("assets/images/Filled.png"),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

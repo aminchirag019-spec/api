@@ -1,12 +1,9 @@
-import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
-import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/router/router_class.dart';
+import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/screens/discoverScreen/discover_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
-
-import '../Bloc/DashboardBloc/dashboard_state.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -18,108 +15,80 @@ class WishlistScreen extends StatefulWidget {
 class _WishlistScreenState extends State<WishlistScreen> {
   bool isAllItems = true;
 
+  List<bool> likedList = List.generate(6, (index) => false);
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        context.go(RouterName.profileScreen.path);
-        return false;
+      onWillPop: () async{
+       context.go(RouterName.profileScreen.path);
+       return false;
       },
       child: Scaffold(
-        backgroundColor: const Color(0xffF5F5F5),
+        backgroundColor:  Color(0xffF5F5F5),
+        appBar: buildGemStoreAppBar("My Wishlist",drawerKey:GlobalKey(),context),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(Icons.menu),
-                      Text(
-                        "My Wishlist",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Icon(Icons.notifications_none),
-                    ],
-                  ),
-                ),
-
-                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isAllItems = true;
-                            });
-                          },
-                          child: Container(
-                            padding:  EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              color: isAllItems ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "All items",
-                              style: TextStyle(
-                                color: isAllItems ? Colors.white : Colors.black,
-                              ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() => isAllItems = true);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: isAllItems ? Colors.black : Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: Colors.black),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "All items",
+                            style: TextStyle(
+                              color:
+                              isAllItems ? Colors.white : Colors.black,
                             ),
                           ),
                         ),
                       ),
-                       SizedBox(width: 10),
-                      BlocBuilder<DashboardBloc, DashboardState>(
-                        builder: (context, state) {
-                          return Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isAllItems = false;
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: !isAllItems ? Colors.black : Colors
-                                      .white,
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: Colors.black),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Boards",
-                                  style: TextStyle(
-                                    color: !isAllItems ? Colors.white : Colors
-                                        .black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
+                    ),
+                     SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() => isAllItems = false);
                         },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: !isAllItems ? Colors.black : Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: Colors.black),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Boards",
+                            style: TextStyle(
+                              color:
+                              !isAllItems ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Expanded(child: isAllItems ? _buildGrid() : _buildBoards()),
-              ],
-            ),
+              ),
+               SizedBox(height: 20),
+              Expanded(
+                child: isAllItems ? _buildGrid() : _buildBoards(),
+              ),
+            ],
           ),
         ),
       ),
@@ -130,7 +99,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GridView.builder(
-        itemCount: 4,
+        itemCount: 6,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 16,
@@ -138,7 +107,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
           childAspectRatio: 0.65,
         ),
         itemBuilder: (context, index) {
-          final item = itemModel[index];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -147,33 +115,56 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         image: DecorationImage(
-                          image: AssetImage(item.image),
-                          fit: BoxFit.fitHeight,
+                          image: AssetImage(
+                              "assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png"),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     Positioned(
                       top: 10,
                       right: 10,
-                      child: CircleAvatar(
-                        radius: 14,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                          size: 16,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            likedList[index] = !likedList[index];
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 14,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.favorite,
+                            size: 18,
+                            color: likedList[index]
+                                ? const Color(0xffFF6E6E)
+                                : Colors.grey.shade400,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 8),
-              Text(item.title, style: TextStyle(fontSize: 12)),
-              Text(item.price, style: TextStyle(fontWeight: FontWeight.w600)),
+               SizedBox(height: 8),
+               Text(
+                "Women's Top",
+                style: TextStyle(fontSize: 12),
+              ),
+               Text(
+                "\$120",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              RatingBarIndicator(
+                rating:3,
+                itemBuilder: (context, index) =>
+                    Icon(Icons.star, color: Color(0xff508A7B)),
+                itemCount: 5,
+                itemSize: 18,
+                direction: Axis.horizontal,
+              ),
             ],
           );
         },
@@ -184,48 +175,131 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget _buildBoards() {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      children: [
-        _boardItem("Going out outfits", "36 items"),
-        SizedBox(height: 20),
-        _boardItem("Office Fashion", "20 items"),
+      children:  [
+        CategoryCard(
+          title: "Going out outfits",
+          itemCount: "36 items",
+        ),
+        SizedBox(height: 24),
+        CategoryCard(
+          title: "Office Fashion",
+          itemCount: "20+ items",
+        ),
+        SizedBox(height: 24),
+        CategoryCard(
+          title: "Office Fashion",
+          itemCount: "20+ items",
+        ),
       ],
     );
   }
+}
 
-  Widget _boardItem(String title, String count) {
+class CategoryCard extends StatelessWidget {
+  final String title;
+  final String itemCount;
+
+  const CategoryCard({
+    super.key,
+    required this.title,
+    required this.itemCount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 120,
-          child: Row(
-            children: List.generate(4, (index) {
-              final item = itemModel[index];
-              return Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(right: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: AssetImage(item.image),
-                      fit: BoxFit.fitHeight,
-                    ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            height: 170,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Image.asset(
+                    "assets/images/board_item_1.png",
+                    fit: BoxFit.cover,
                   ),
                 ),
-              );
-            }),
+                 SizedBox(width: 4),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/board_item_2.png",
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                             SizedBox(width: 4),
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/board_item_1.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                       SizedBox(height: 4),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/board_item_2.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                             SizedBox(width: 4),
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/board_item_1.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
-            Icon(Icons.arrow_forward_ios, size: 14),
+            Text(
+              title,
+              style:  TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+             Icon(Icons.arrow_forward_ios, size: 16),
           ],
         ),
-        Text(count, style: TextStyle(color: Colors.grey)),
+
+         SizedBox(height: 6),
+
+        Text(
+          itemCount,
+          style: TextStyle(
+            color: Colors.grey.shade600,
+            fontSize: 14,
+          ),
+        ),
+
+         SizedBox(height: 20),
+        Divider(color: Colors.grey.shade300),
       ],
     );
   }

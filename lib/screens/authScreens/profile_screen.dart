@@ -1,3 +1,4 @@
+import 'package:api_learning/Bloc/Authbloc/auth_event.dart';
 import 'package:api_learning/Bloc/ProfileBloc/profile_state.dart';
 import 'package:api_learning/data/api_client.dart';
 import 'package:api_learning/data/repository.dart';
@@ -7,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../Bloc/Authbloc/auth_bloc.dart';
+import '../../Bloc/Authbloc/auth_state.dart';
 import '../../models/models.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -25,28 +29,28 @@ class ProfileScreen extends StatelessWidget {
           future: repo.profile(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-               Center(child: CircularProgressIndicator());
+              Center(child: CircularProgressIndicator());
             }
             final profile = snapshot.data;
             return SafeArea(
               child: Column(
                 children: [
-                   SizedBox(height: 20),
+                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Row(
                       children: [
                         Container(
-                          height: 60,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xffF3D6D6),
-                          ),
-                          child: Image.network(profile?.image ?? "")
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xffF3D6D6),
+                            ),
+                            child: Image.network(profile?.image ?? "")
                         ),
-                         SizedBox(width: 14),
-                         Expanded(
+                        SizedBox(width: 14),
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -76,7 +80,8 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           child: IconButton(
                             onPressed: () {},
-                            icon:  ImageIcon(AssetImage("assets/images/Setting.png")),
+                            icon: ImageIcon(
+                                AssetImage("assets/images/Setting.png")),
                           ),
                         ),
                       ],
@@ -108,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                             },
                           ),
                           profileTile(
-                           image: AssetImage("assets/images/Ticket.png"),
+                            image: AssetImage("assets/images/Ticket.png"),
                             title: "Voucher",
                             onTap: () {
                               context.go(RouterName.voucherScreen.path);
@@ -122,17 +127,23 @@ class ProfileScreen extends StatelessWidget {
                             },
                           ),
                           profileTile(
-                           image: AssetImage("assets/images/Star_icon.png"),
+                            image: AssetImage("assets/images/Star_icon.png"),
                             title: "Rate this app",
                             onTap: () {
                               context.go(RouterName.rateProduct.path);
                             },
                           ),
-                          profileTile(
-                            image: AssetImage("assets/images/Logout.png"),
-                            title: "Log out",
-                            onTap: () {
-                              context.go(RouterName.loginScreen.path);
+                          BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, state) {
+                              return profileTile(
+                                image: AssetImage("assets/images/Logout.png"),
+                                title: "Log out",
+                                onTap: ()async {
+                                  context.read<AuthBloc>().add(Logout());
+                                  print("Logout");
+                                  context.go(RouterName.loginScreen.path);
+                                },
+                              );
                             },
                           ),
                         ],
@@ -148,7 +159,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
 
 Widget profileTile({
   required ImageProvider image,

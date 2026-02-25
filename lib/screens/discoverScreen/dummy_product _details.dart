@@ -11,6 +11,7 @@ import '../../Bloc/DashboardBloc/dashboard_state.dart';
 import '../../data/api_client.dart';
 import '../../data/repository.dart';
 import '../../globall/utilities/api_url.dart';
+import '../paymentScreens/shipping_screen.dart';
 
 class DummyProductDetails extends StatefulWidget {
    DummyProductDetails({super.key, required this.item});
@@ -20,12 +21,12 @@ class DummyProductDetails extends StatefulWidget {
 }
 
 class _DummyProductDetailsState extends State<DummyProductDetails> {
-
+  final ValueNotifier<bool> isFav = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.go(RouterName.searchScreen.path);
+        context.go(RouterName.showAllDresses.path);
         return false;
       },
       child: Scaffold(
@@ -41,7 +42,7 @@ class _DummyProductDetailsState extends State<DummyProductDetails> {
                 return Center(child: Text("Error"));
               }
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -55,59 +56,39 @@ class _DummyProductDetailsState extends State<DummyProductDetails> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              CircleBackButton(onTap: () => context.go(RouterName.showAllDresses.path),),
                               GestureDetector(
-                                onTap: () {
-                                  context.go(RouterName.dashboardScreen.path);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.12),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Icon(
-                                      Icons.arrow_back_ios_new,
-                                      size: 20,
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 32,
+                                    width: 32,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 12,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  context.go(RouterName.dashboardScreen.path);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.12),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 0),
-                                    child: Icon(
-                                      Icons.heart_broken_sharp,
-                                      size: 20,
+                                    child: ValueListenableBuilder<bool>(
+                                      valueListenable: isFav,
+                                      builder: (context, value, child) {
+                                        return IconButton(
+                                          onPressed: () {
+                                            isFav.value = !isFav.value;
+                                          },
+                                          icon: Icon(
+                                            value ? Icons.favorite : Icons.favorite_border,
+                                            color: value ?  Color(0xFFFF6B6B) : Colors.grey,
+                                            size: 15,
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ),
-                                ),
+                                  )
                               ),
                             ],
                           ),
@@ -125,15 +106,20 @@ class _DummyProductDetailsState extends State<DummyProductDetails> {
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.06),
                                 blurRadius: 10,
-                                offset: Offset(0, 6),
+                                offset: const Offset(0, 6),
                               ),
                             ],
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(18),
-                            child: Image.asset(widget.item.image, fit: BoxFit.contain),
+                            child: Image.asset(
+                              widget.item.image,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                     SizedBox(height: 18),
@@ -175,7 +161,8 @@ class _DummyProductDetailsState extends State<DummyProductDetails> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    SizedBox(height: 22),
+                    Text("This elegant evening dress is designed to make a statement. Crafted from premium-quality fabric, it features a flattering silhouette that enhances your natural curves. The soft, flowing material ensures comfort while the refined detailing adds a touch of sophistication. Perfect for parties, weddings, and special occasions.")
+                   , SizedBox(height: 22),
                     Text(
                       "Top Review",
                       style: TextStyle(

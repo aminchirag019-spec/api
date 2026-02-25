@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 import 'package:api_learning/data/api_client.dart';
+import 'package:api_learning/models/add_to_cart.dart' hide Products;
+import 'package:api_learning/models/get_all_carts.dart' hide Products;
 import 'package:api_learning/models/get_product_details.dart';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities/api_url.dart';
@@ -67,4 +69,41 @@ class AuthRepository {
       return Products.fromJson(response);
     }
 
-}
+      Future<AddToCart> addToCart({
+        required int userId,
+        required int productId,
+        required int quantity,
+      }) async {
+        final response = await ApiClient().addToCart(
+          baseUrl: ApiBaseUrl.baseUrl,
+          endpoint: ApiEndpoints.addToCart,
+          body: {
+            "userId": userId,
+            "products": [
+              {
+                "id": productId,
+                "quantity": quantity,
+              }
+            ]
+          },
+        );
+        return AddToCart.fromJson(response);
+      }
+
+
+
+      Future<AllCarts> allCarts()async{
+    try {
+      final response = await ApiClient().allCarts(
+          baseUrl: ApiBaseUrl.baseUrl,
+          endpoint: ApiEndpoints.allCarts
+      );
+      print("RAW RESPONSE: $response");
+
+      return AllCarts.fromJson(response);
+    } catch (e) {
+      print("PARSE ERROR: $e");
+      rethrow;
+    }
+      }
+    }

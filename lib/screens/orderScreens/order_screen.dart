@@ -1,14 +1,24 @@
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_bloc.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_event.dart';
 import 'package:api_learning/Bloc/DashboardBloc/dashboard_state.dart';
+import 'package:api_learning/globall/utilities/colors.dart';
+import 'package:api_learning/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../router/router_class.dart';
+import '../dashboardScreen/dashboard.dart';
 
-class MyOrdersBlocUi extends StatelessWidget {
-  const MyOrdersBlocUi({super.key});
+class MyOrdersBlocUi extends StatefulWidget {
+   MyOrdersBlocUi({super.key});
+
+  @override
+  State<MyOrdersBlocUi> createState() => _MyOrdersBlocUiState();
+}
+
+class _MyOrdersBlocUiState extends State<MyOrdersBlocUi> {
+  final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,32 +28,12 @@ class MyOrdersBlocUi extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        backgroundColor: Color(0xffF6F6F6),
+        key: drawerKey,
+        backgroundColor: AppColors.white,
+        appBar:buildGemStoreAppBar("My orders",drawerKey: drawerKey,context),
         body: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: ImageIcon(AssetImage("assets/images/drawer.png")),
-                    ),
-                    Text(
-                      "My Orders",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: ImageIcon(
-                        AssetImage("assets/images/Bell_pin.png"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 10),
               BlocBuilder<DashboardBloc, DashboardState>(
                 builder: (context, state) {

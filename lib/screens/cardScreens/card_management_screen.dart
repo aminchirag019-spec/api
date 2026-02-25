@@ -4,7 +4,7 @@ import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../router/router_class.dart';
+import '../../router/router_class.dart';
 
 
 class CardManagementScreen extends StatelessWidget {

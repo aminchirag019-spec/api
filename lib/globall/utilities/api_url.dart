@@ -7,6 +7,8 @@ class ApiEndpoints {
   static const getProfile = '/auth/me';
   static const getProducts = '/products';
   static String getProductDetails(int id) => '/products/$id';
+  static const addToCart = '/carts/add';
+  static const allCarts = '/carts';
 }
 
 class ApiBaseUrl {
