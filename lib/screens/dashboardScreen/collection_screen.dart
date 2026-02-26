@@ -65,18 +65,18 @@ class CollectionScreen extends StatelessWidget {
                     children: [
                       Expanded(child: Column(
                         children: [
-                          SizedBox(height: 25,),
+                          SizedBox(height: 30,),
                           Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png")),
-                          SizedBox(height: 10,),
+                          SizedBox(height: 15,),
                           Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png")),
                         ],
                       )),
-                      SizedBox(width: 10,),
+                      SizedBox(width: 8,),
                       Expanded(child: Column(
                         children: [
-                          Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png"),height: 200,),
+                          Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png"),height: 220,),
                           SizedBox(height: 12,),
-                          Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png")),
+                          Image(image: AssetImage("assets/images/277a304a44849c4e605ccf87ec37092bf51698d0.png"),height: 220,),
                           SizedBox(height: 15,),
                           Align(
                             alignment: Alignment.centerRight,

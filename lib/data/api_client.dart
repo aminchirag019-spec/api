@@ -132,6 +132,26 @@ class ApiClient {
       throw FetchDataException("not deleted");
     }
   }
+
+  Future<dynamic> addUser ({
+    required String baseUrl,
+    required String endpoint,
+    required Map<String,dynamic> body
+}) async {
+    String getUrl = "$baseUrl$endpoint";
+    try {
+      final response = await http.post(Uri.parse(getUrl),
+      headers: {
+        "Content-Type":"application/json",
+      },
+      body: jsonEncode(body)
+      );
+      return await apiResponse(response);
+    } catch (e) {
+      throw FetchDataException("user not added");
+    }
+  }
+
  }
 
 Future<dynamic> apiResponse(http.Response response) async{

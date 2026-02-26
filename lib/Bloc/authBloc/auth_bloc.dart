@@ -1,20 +1,17 @@
+
+
 import 'dart:async';
 import 'dart:developer';
-import 'package:api_learning/data/api_client.dart';
-import 'package:api_learning/models/models.dart';
-import 'package:api_learning/data/repository.dart';
-import 'package:api_learning/globall/utilities/api_url.dart';
-import 'package:api_learning/models/otp_model.dart';
-import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
-import 'package:api_learning/session/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/repository.dart';
+import '../../globall/utilities/api_url.dart';
 import '../../models/auth_model.dart';
-import '../cartBloc/cart_bloc.dart';
+import '../../models/otp_model.dart';
+import '../../session/shared_preferences.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-class   AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
   Timer? _otpTimer;
   AuthBloc(this.repository) : super(AuthState()) {
@@ -26,6 +23,30 @@ class   AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<StartOtpTimer>(_onStartOtpTimer);
     on<TickOtpTimer>(_onTickOtpTimer);
     on<ResendOtp>(_onResendOtp);
+  on<AddUser>(_onSignup);
+  }
+
+  void _onSignup (
+      AddUser event,
+      Emitter<AuthState>emit
+      ) async {
+    emit(state.copyWith(status: ApiStatus.loading));
+    print("event fired");
+    try {
+      final user= await repository.addUser(
+          firstName: event.firstName,
+          lastName: event.lastName,
+          email: event.email);
+      print("Registered User:");
+      print("ID: ${user.id}");
+      print("First Name: ${user.firstName}");
+      print("Last Name: ${user.lastName}");
+      print("Email: ${user.email}");
+      emit(state.copyWith(status: ApiStatus.success));
+    } catch (e) {
+      print(e);
+      emit(state.copyWith(status: ApiStatus.failure));
+    }
   }
 
   void _onStartOtpTimer(StartOtpTimer event, Emitter<AuthState> emit) {

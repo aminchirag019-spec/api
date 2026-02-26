@@ -4,6 +4,7 @@ enum ApiStatus {initial , loading , success , failure,otpSent,otpAuthenticated}
 
 class ApiEndpoints {
   static const login = '/auth/login';
+  static const signUp ='/users/add';
   static const getProfile = '/auth/me';
   static const getProducts = '/products';
   static String getProductDetails(int id) => '/products/$id';

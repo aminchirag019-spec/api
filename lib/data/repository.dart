@@ -7,6 +7,7 @@ import 'package:api_learning/models/get_all_carts.dart' hide Products;
 import 'package:api_learning/models/get_product_details.dart';
 import 'package:api_learning/models/models.dart';
 import 'package:api_learning/globall/utilities/api_url.dart';
+import 'package:api_learning/models/signup_model.dart';
 import 'package:api_learning/screens/DashboardScreen/dashboard.dart';
 import 'package:api_learning/session/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,6 +112,30 @@ class AuthRepository {
       print("RAW RESPONSE: $response");
 
       return DeleteCart.fromJson(response);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+  Future<Signup> addUser({
+    required String firstName,
+    required String lastName,
+    required String email,
+  }) async {
+    try {
+
+      final response = await ApiClient().addUser(
+        baseUrl: ApiBaseUrl.baseUrl,
+        endpoint: ApiEndpoints.signUp,
+        body: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+        },
+      );
+
+      return Signup.fromJson(response);
+
     } catch (e) {
       print(e);
       rethrow;

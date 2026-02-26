@@ -16,7 +16,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.brown
+      statusBarColor: Colors.brown
   ));
   runApp(const MyApp());
 }

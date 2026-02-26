@@ -1,3 +1,4 @@
+import 'package:api_learning/Bloc/Authbloc/auth_event.dart';
 import 'package:api_learning/router/router_class.dart';
 import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import '../../globall/utilities/api_url.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
-
 
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -24,16 +24,18 @@ class SignupScreen extends StatelessWidget {
     }
     return null;
   }
+
   @override
   Widget build(BuildContext context) {
-    final nameController = TextEditingController();
+    final firstNameController = TextEditingController();
+    final lastNameController = TextEditingController();
     final emailController = TextEditingController();
     final passController = TextEditingController();
     final confirmPassController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         context.go(RouterName.loginScreen.path);
         return false;
       },
@@ -49,7 +51,9 @@ class SignupScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CircleBackButton(onTap: () => context.go(RouterName.loginScreen.path),),
+                      CircleBackButton(
+                        onTap: () => context.go(RouterName.loginScreen.path),
+                      ),
                     ],
                   ),
                   SizedBox(height: 35),
@@ -59,77 +63,105 @@ class SignupScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 6),
                   SizedBox(height: 45),
-                 Form(
-                     key: formKey,
-                     child: Column(
-                   children: [
-                     _UnderlineTextField(
-                         controller: nameController,
-                         hint: "Enter your name",
-                         isPassword: false,
-                     ),
-                     SizedBox(height: 30),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        _UnderlineTextField(
+                          controller: firstNameController,
+                          hint: "Enter FirstName",
+                          isPassword: false,
+                        ),
+                        SizedBox(height: 30),
 
-                     _UnderlineTextField(
-                         controller: emailController,
-                         hint: "Email address",
-                         isPassword: false,
-                       validator: validateEmail,
-                     ),
-                     SizedBox(height: 30),
+                        _UnderlineTextField(
+                          controller: lastNameController,
+                          hint: "Enter LastName",
+                          isPassword: false,
+                        ),
+                        SizedBox(height: 30),
 
-                     _UnderlineTextField(
-                       controller: passController,
-                       hint: "Password",
-                       isPassword: true,
-                       validator: validatePassword
-                     ),
-                     SizedBox(height: 30),
+                        _UnderlineTextField(
+                          controller: emailController,
+                          hint: "Email address",
+                          isPassword: false,
+                          validator: validateEmail,
+                        ),
+                        SizedBox(height: 30),
 
-                     _UnderlineTextField(
-                       controller: confirmPassController,
-                       hint: "Confirm password",
-                       isPassword: true,
-                     ),
-                   ],
-                 )),
+                        _UnderlineTextField(
+                          controller: passController,
+                          hint: "Password",
+                          isPassword: true,
+                          validator: validatePassword,
+                        ),
+                        SizedBox(height: 30),
+
+                        _UnderlineTextField(
+                          controller: confirmPassController,
+                          hint: "Confirm password",
+                          isPassword: true,
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 50),
                   Center(
-                    child: BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        final isLoading = state.status == ApiStatus.loading;
-
-                        return SizedBox(
-                          width: 150,
-                          height: 48,
-                          child: ElevatedButton(
-                            onPressed: isLoading
-                                ? null
-                                : () {
-                              if (formKey.currentState!.validate()) return;
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff2D201C),
-                            ),
-                            child: isLoading
-                                ?  SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                                :  Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        );
+                    child: BlocListener<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        if(state.status == ApiStatus.success) {
+                          context.go(RouterName.dashboardScreen.path);
+                        }
                       },
+                      child: BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          final isLoading = state.status == ApiStatus.loading;
+                          return SizedBox(
+                            width: 150,
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: isLoading
+                                  ? null
+                                  : () {
+                                      if (!formKey.currentState!.validate())
+                                        return;
+                                      print("button pressed");
+                                      context.read<AuthBloc>().add(
+                                        AddUser(
+                                          firstName: firstNameController.text,
+                                          lastName: lastNameController.text,
+                                          email: emailController.text,
+                                        ),
+                                      );
+                                      lastNameController.clear();
+                                      firstNameController.clear();
+                                      passController.clear();
+                                      confirmPassController.clear();
+                                      emailController.clear();
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xff2D201C),
+                              ),
+                              child: isLoading
+                                  ? SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Sign Up",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 30),
@@ -223,7 +255,7 @@ Widget _UnderlineTextField({
   required TextEditingController controller,
   required String hint,
   required bool isPassword,
-   FormFieldValidator<String>? validator,
+  FormFieldValidator<String>? validator,
 }) {
   return TextFormField(
     validator: validator,
