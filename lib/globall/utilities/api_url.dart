@@ -9,6 +9,7 @@ class ApiEndpoints {
   static String getProductDetails(int id) => '/products/$id';
   static const addToCart = '/carts/add';
   static const allCarts = '/carts';
+  static const deleteCart = '/carts';
 }
 
 class ApiBaseUrl {

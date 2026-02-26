@@ -130,13 +130,14 @@ class LoginScreen extends StatelessWidget {
                           ? null
                           : () {
                         if (!_formkey.currentState!.validate()) return;
-
                         context.read<AuthBloc>().add(
                           Login({
                             'username': usernameController.text.trim(),
                             'password': emailController.text.trim(), // ✅ fixed
                           }),
+
                         );
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff2D201C),

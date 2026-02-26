@@ -323,7 +323,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         bottomNavigationBar: BlocListener<CartBloc, CartState>(
           listener: (context, state) {
             if(state.status == ApiStatus.success){
-              context.go(RouterName.cartScreen.path);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Added to cart"),));
             }
           },
           child: Container(
@@ -335,6 +335,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   productId: widget.id,
                   quantity:1
                 ));
+                context.go(RouterName.cartScreen.path);
                 print("added");
               },
               style: ElevatedButton.styleFrom(

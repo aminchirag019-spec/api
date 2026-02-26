@@ -8,12 +8,45 @@ import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/add_to_cart.dart';
+import '../../session/shared_preferences.dart';
 class CartBloc extends Bloc<CartEvent, CartState> {
   final AuthRepository repository;
 
   CartBloc(this.repository) : super(CartState()) {
     on<AddToCartEvent>(_onAddToCart);
     on<FetchCarts>(_onAllCarts);
+    on<DeleteCartEvent>(_onDeleteCart);
+    on<LoadUserCartEvent>(_onLoadCartEvent);
+  }
+
+  Future<void> _onLoadCartEvent (
+      LoadUserCartEvent event,
+      Emitter<CartState> emit
+      ) async{
+    emit(state.copyWith(userId: event.userId,cart: event.cartItems));
+  }
+
+
+  Future<void> _onDeleteCart (
+      DeleteCartEvent event,
+      Emitter<CartState>emit
+      ) async {
+    print("Event recieved for deleteCart");
+    emit(state.copyWith(status: ApiStatus.loading));
+
+    try {
+      final response = await repository.deleteCart(event.id);
+
+      emit(state.copyWith(
+        status:ApiStatus.success,
+        deleteCart: response,
+        cart: []
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ApiStatus.failure
+      ));
+    }
   }
 
   Future<void> _onAllCarts (
@@ -49,7 +82,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     try {
       final response = await repository.addToCart(
-        userId: 1,
+        userId: state.userId,
         productId: event.productId,
         quantity: event.quantity,
       );
@@ -58,6 +91,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
       final updatedCart = List<AddToCart>.from(state.cart)
         ..add(response);
+      await SharedPref.saveCart(state.userId, updatedCart);
+
 
       emit(
         state.copyWith(

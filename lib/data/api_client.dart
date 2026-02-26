@@ -116,7 +116,23 @@ class ApiClient {
       throw FetchDataException("NO InterNet");
     }
   }
-}
+
+
+  Future<dynamic> deleteCart ({required String baseUrl, required String endpoint})
+  async {
+    String getUrl = "$baseUrl$endpoint";
+    try {
+      final response = await http.delete(Uri.parse(getUrl),
+      headers: {
+        "Content-Type":"application/json",
+      }
+      );
+      return await apiResponse(response);
+    } catch (e) {
+      throw FetchDataException("not deleted");
+    }
+  }
+ }
 
 Future<dynamic> apiResponse(http.Response response) async{
   dynamic responseJson;

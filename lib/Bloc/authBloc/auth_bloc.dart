@@ -10,6 +10,7 @@ import 'package:api_learning/session/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/auth_model.dart';
+import '../cartBloc/cart_bloc.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 

@@ -1,3 +1,4 @@
+import 'package:api_learning/Bloc/cartBloc/cart_event.dart';
 import 'package:api_learning/globall/utilities/api_url.dart';
 import 'package:api_learning/models/add_to_cart.dart';
 import 'package:api_learning/screens/paymentScreens/shipping_screen.dart';
@@ -30,8 +31,9 @@ class CartScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleBackButton(onTap: () =>
-                        context.go(RouterName.dashboardScreen.path),),
+                    CircleBackButton(
+                      onTap: () => context.go(RouterName.dashboardScreen.path),
+                    ),
                     SizedBox(width: 25),
                     Expanded(
                       child: Center(
@@ -44,14 +46,42 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 40,)
+                    SizedBox(width: 40),
                   ],
                 ),
                 SizedBox(height: 10),
                 BlocBuilder<CartBloc, CartState>(
                   builder: (context, state) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Remove Entire cart",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<CartBloc>().add(
+                              DeleteCartEvent(id: 1),
+                            );
+                          },
+                          child: ImageIcon(
+                            AssetImage("assets/images/delete.png"),
+                            size: 17,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                BlocBuilder<CartBloc, CartState>(
+                  builder: (context, state) {
                     if (state.status == ApiStatus.loading) {
-                      return Center(child: CircularProgressIndicator(),);
+                      return Center(child: CircularProgressIndicator());
                     }
                     if (state.cart.isEmpty) {
                       return const Center(child: Text("Cart is empty"));
@@ -85,20 +115,20 @@ class CartScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ClipRRect(
-                                      borderRadius: BorderRadius.circular(14),
-                                      child: Image.network(
-                                        product.thumbnail.toString(),
-                                        height: 85,
-                                        width: 70,
-                                        fit: BoxFit.cover,
-                                      )
+                                    borderRadius: BorderRadius.circular(14),
+                                    child: Image.network(
+                                      product.thumbnail.toString(),
+                                      height: 85,
+                                      width: 70,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
 
                                   SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
@@ -164,55 +194,73 @@ class CartScreen extends StatelessWidget {
                                                     color: Colors.grey.shade300,
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.circular(18),
+                                                      BorderRadius.circular(18),
                                                 ),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                          18,
-                                                        ),
-                                                        onTap: () {},
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons.remove,
-                                                            size: 15,
-                                                            color: Colors.grey,
+                                                child: BlocBuilder<CartBloc, CartState>(
+                                                  builder: (context, state) {
+                                                    return Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: InkWell(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  18,
+                                                                ),
+                                                            onTap: () {
+                                                              context
+                                                                  .read<
+                                                                    CartBloc
+                                                                  >()
+                                                                  .add(
+                                                                    DeleteCartEvent(
+                                                                      id: 1,
+                                                                    ),
+                                                                  );
+                                                            },
+                                                            child: Center(
+                                                              child: Icon(
+                                                                Icons.remove,
+                                                                size: 15,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Center(
-                                                        child: Text(
-                                                          "1",
-                                                          style: const TextStyle(
-                                                            fontWeight:
-                                                            FontWeight.w600,
-                                                            color: Colors.grey,
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              "1",
+                                                              style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                          18,
-                                                        ),
-                                                        onTap: () {},
-                                                        child: const Center(
-                                                          child: Icon(
-                                                            Icons.add,
-                                                            size: 15,
-                                                            color: Colors.grey,
+                                                        Expanded(
+                                                          child: InkWell(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  18,
+                                                                ),
+                                                            onTap: () {},
+                                                            child: const Center(
+                                                              child: Icon(
+                                                                Icons.add,
+                                                                size: 15,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                      ],
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                             ),
@@ -230,89 +278,99 @@ class CartScreen extends StatelessWidget {
                     );
                   },
                 ),
-                Container(
-                  height: 180,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: BlocBuilder<CartBloc, CartState>(
-                      builder: (context, state) {
+                BlocBuilder<CartBloc,CartState>(
+                  builder: (context, state) {
+                    if(state.cart.isEmpty) {
+                     null;
+                    }
+                     return Column(
+                       children: [
+                       Container(
+                       height: 180,
+                       child: Padding(
+                         padding: const EdgeInsets.symmetric(vertical: 10),
+                         child: BlocBuilder<CartBloc, CartState>(
+                           builder: (context, state) {
+                             if (state.cart.isEmpty) {
+                               return const SizedBox();
+                             }
 
-                        if (state.cart.isEmpty) {
-                          return const SizedBox();
-                        }
+                             final products = state.cart
+                                 .expand((cartItem) => cartItem.products ?? [])
+                                 .toList();
 
-                        final products = state.cart
-                            .expand((cartItem) => cartItem.products ?? [])
-                            .toList();
+                             final total = products.fold<double>(
+                               0.0,
+                                   (sum, item) => sum + (item.total ?? 0.0),
+                             );
 
-                        final total = products.fold<double>(
-                          0.0,
-                              (sum, item) => sum + (item.total ?? 0.0),
-                        );
+                             return Column(
+                               children: [
+                                 const SizedBox(height: 10),
 
-                        return Column(
-                          children: [
-                            const SizedBox(height: 10),
+                                 _summaryRow(
+                                   left: "Product price",
+                                   right: "\$${total.toStringAsFixed(2)}",
+                                   leftColor: Colors.grey,
+                                   rightColor: Colors.black,
+                                 ),
 
-                            _summaryRow(
-                              left: "Product price",
-                              right: "\$${total.toStringAsFixed(2)}",
-                              leftColor: Colors.grey,
-                              rightColor: Colors.black,
-                            ),
+                                 const SizedBox(height: 20),
+                                 const Divider(height: 1),
+                                 const SizedBox(height: 15),
 
-                            const SizedBox(height: 20),
-                            const Divider(height: 1),
-                            const SizedBox(height: 15),
+                                 _summaryRow(
+                                   left: "Shipping",
+                                   right: "Freeship",
+                                   leftColor: Colors.grey,
+                                   rightColor: Colors.black,
+                                 ),
 
-                            _summaryRow(
-                              left: "Shipping",
-                              right: "Freeship",
-                              leftColor: Colors.grey,
-                              rightColor: Colors.black,
-                            ),
+                                 const SizedBox(height: 20),
+                                 const Divider(height: 1),
+                                 const SizedBox(height: 14),
 
-                            const SizedBox(height: 20),
-                            const Divider(height: 1),
-                            const SizedBox(height: 14),
-
-                            _summaryRow(
-                              left: "Subtotal",
-                              right: "\$${total.toStringAsFixed(2)}",
-                              leftColor: Colors.black,
-                              rightColor: Colors.black,
-                              isBold: true,
-                              fontSize: 18,
-                            ),
-                          ],
-                        );
-                      },
+                                 _summaryRow(
+                                   left: "Subtotal",
+                                   right: "\$${total.toStringAsFixed(2)}",
+                                   leftColor: Colors.black,
+                                   rightColor: Colors.black,
+                                   isBold: true,
+                                   fontSize: 18,
+                                 ),
+                               ],
+                             );
+                           },
+                         ),
+                       ),
+                     ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF2C2C2C),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        onPressed: () {
+                          context.go(RouterName.paymentCheckoutScreen.path);
+                        },
+                        child: const Text(
+                          "Proceed to checkout",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     )
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2C2C2C),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    onPressed: () {
-                      context.go(RouterName.paymentCheckoutScreen.path);
-                    },
-                    child: const Text(
-                      "Proceed to checkout",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                       ],
+                     );
+                },)
+
               ],
             ),
           ),
@@ -321,7 +379,6 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
 
 Widget _summaryRow({
   required String left,

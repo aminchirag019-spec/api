@@ -58,7 +58,6 @@ class LoginModel {
       image: image ?? this.image,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'accessToken': accessToken,
